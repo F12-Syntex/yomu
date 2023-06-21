@@ -1,0 +1,338 @@
+/* width and height of the scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 15px 
+}
+
+/* color of the scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 10px 0px 0px 10px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
+/* color of the scrollbar track */
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* when hovering over scrollbar */
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.content-search{
+  width: 100%;
+  height: 100%;
+  padding: 2% 0%;
+  overflow: hidden;
+}
+
+.content-search input{
+  width: 30%; /* 100% - padding ( 5% )*/
+  height: 50%;
+  border: none;
+  border-radius: 15px;
+  padding: 1% 2%;
+
+  font-size: 16px;
+  background-color: rgba(255, 255, 255, 0);
+  color: white;
+  outline: none;
+  transition: all 0.2s ease-in-out; /* Add a transition for smooth animation */
+  margin-bottom: 5%;
+  margin-left: 10px;
+
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  text-shadow: 1px 1px #000000;
+  border: 2px solid gray;
+
+  overflow: scroll;
+}
+
+#search-input-img{
+  background-image: url("../../assets/search/search.svg");
+  height: 100%;
+  width: 40px;
+
+  background-size: 100% 100%;
+  background-position: left;
+  background-repeat: no-repeat;
+  image-rendering: -webkit-optimize-contrast; /* Safari/Chrome */
+  color: white;
+}
+
+#search-results{
+  display: flex;
+  flex-direction: row;
+  margin-left: 20px;
+  height: 40px;
+
+}
+
+/* Add hover effects */
+.content-search input:hover {
+  background-color: rgba(0, 0, 0, 0.15);
+  transform: scale(1.01);
+
+  overflow: scroll;
+}
+
+/* Add focus effects */
+.content-search input:focus {
+  background-color: rgba(0, 0, 0, 0.15);
+  transform: scale(1.015);
+  border: 2.5px solid white;
+}
+
+#search-options {
+  width: 16.5%;
+  height: 50px;
+  border: none;
+  border-radius: 15px;
+  padding: 0 10px;
+  font-size: 16px;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: white;
+  outline: none;
+  transition: all 0.2s ease-in-out; /* Add a transition for smooth animation */
+  margin: 20px;   
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+/* Add hover effects */
+#search-options:hover {
+  background-color: rgba(0, 0, 0, 0.15);
+  transform: scale(1.03);
+  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.3); /* Add a shadow effect */
+  border: 1px solid gray;
+}
+
+/* Add focus effects */
+#search-options:focus {
+  background-color: rgba(0, 0, 0, 0.15);
+  transform: scale(1.05);
+  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.3); /* Add a shadow effect */
+  border: 1px solid white;
+  border-radius: 15px 15px 0px 0px;
+}
+
+#search-options option {
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.3); /* Add a shadow effect */
+  border: 1px solid white;
+  border-radius: 0px; /* Add rounded corners */
+  height: 300px;
+}
+
+.search-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 50px;
+  background: transparent;
+  height: 70vh;
+  max-height: 70vh;
+  padding: 60px 60px;
+  overflow-y: scroll; /* Add this line */
+
+  margin-top: 20px;
+}
+
+/* Define the fade-in animation */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Define the fade-out animation */
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Apply the fade-in animation to each grid item */
+.search-grid > * {
+  opacity: 0;
+  animation: fade-in 1s ease forwards;
+}
+
+/* Trigger the fade-in animation when the grid item is scrolled into view */
+.search-grid > *:not(:last-child) {
+  animation-delay: calc(0.5s * (var(--index) + 1));
+}
+
+/* Show items that are within the visible portion of the search grid */
+.search-grid > *.visible {
+  opacity: 1;
+}
+
+.search-grid > *.fading {
+  opacity: calc(1 - var(--fade));
+}
+
+.search-grid > *.fading.visible {
+  --fade: calc((var(--overflow) - var(--threshold)) / var(--threshold));
+}
+
+.search-grid > *.fading.overflow {
+  --fade: 1;
+}
+
+.grid-item {
+  /* ... */
+  --overflow: 0;
+  --threshold: 50%;
+}
+
+.hbox1{
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: left;
+  margin-top: 10px;
+}
+
+
+/* Apply the fade-out animation to the overflowing item */
+.search-grid > *.overflow {
+  animation-name: fade-out;
+  animation-duration: 1s;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+}
+
+.grid-item {
+  background-color: rgba(0, 0, 0, 0.3);
+  font-size: 30px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 35vh;
+  border-radius: 15px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2), inset 0px 0px 15px rgba(0, 0, 0, 0.2);
+  filter: brightness(50%);
+  transition: all 0.3s ease-in-out; /* Add a transition for smooth animation */
+  overflow: hidden;
+  position: relative;
+
+  background-position: left;
+  background-repeat: no-repeat;
+  image-rendering: -webkit-optimize-contrast; /* Safari/Chrome */
+  background-size: cover;
+
+  border: solid 2px rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+}
+
+.grid-item:hover .grid-item-details{
+  display: block;
+}
+
+
+.grid-item:hover {
+  transform: scale(1.05);
+  filter: brightness(100%);
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 1), inset 0px 0px 15px rgba(0, 0, 0, 1);
+  border: solid 3px rgba(255, 255, 255, 1);
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.grid-item-details-buttons{
+  border-top: solid 2px rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 100%;
+  height: 20%;
+  position: absolute;
+  bottom: -40%;
+  display: flex; /* hide by default */
+  animation-name: slide-up;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+
+  font-family: Arial;
+  font-size: 32px;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px black;
+  text-align: center;
+  line-height: 1.5;
+  color: white;
+  justify-content: center; /* add this */
+  align-items: center; /* add this */
+}
+
+.grid-item-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  text-align: left;
+}
+
+.grid-item-subtitle {
+  font-size: 20px;
+  color: orange;
+  text-align: left;
+}
+
+.grid-item-container{
+  margin: 0px;
+}
+
+.grid-item-details {
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 1), inset 0px 0px 15px rgba(0, 0, 0, 1);
+  border-left: solid 3px white;
+  background-color: rgba(0, 0, 0, 0.8);
+
+  height: 100%;
+  width: 50%;
+
+
+  position: absolute;
+  display: flex; /* hide by default */
+  animation-name: slide-up;
+  animation-duration: 0.25s;
+  animation-fill-mode: forwards;
+
+  font-family: Arial;
+  font-size: 32px;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px black;
+  text-align: left;
+  line-height: 1.5;
+  color: rgb(255, 255, 255, 1);
+  justify-content: left; /* add this */
+  align-items: left; /* add this */
+
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+  text-overflow: ellipsis;
+
+  padding: 10px;
+}
+
+.grid-item:not(:hover) .grid-item-details {
+  bottom: 0;
+  opacity: 0;
+  display: block;
+  animation-name: slide-up-down;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+}
+
+
+@keyframes slide-up {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(calc(50% - 22px));
+  }
+}

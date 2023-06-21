@@ -1,0 +1,124 @@
+@import url(global/theme.css);
+
+:root {
+  --height: 35px;
+  --button-width: 50px;
+}
+
+#titlebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  background-color: rgba(255, 255, 255, 0);
+  color: white;
+  -webkit-app-region: drag;
+  display: flex;
+}
+
+#title {
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  font-size: 14px;
+}
+
+#controls {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: rows;
+}
+
+.directional-buttons {
+  position: absolute;
+  height: 100%;
+  display: flex;
+  flex-direction: rows;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  padding: 0 10px;
+  align-items: center;
+  width: var(--button-width);
+
+  -webkit-app-region: none;
+  height: 100%;
+
+  background-size: 20px auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  image-rendering: -webkit-optimize-contrast; /* Safari/Chrome */
+}
+
+button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+button:active {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+#content{
+  height: 100%;
+  display: flex;
+}
+
+#minimize {
+  background-image: url("../assets/titlebar/icons8-subtract-64.png");
+}
+
+#maximize {
+  background-image: url("../assets/titlebar/icons8-full-screen-96.png");
+}
+#close {
+  background-image: url("../assets/titlebar/icons8-close-64.png");
+}
+
+#close:hover {
+  background-color: rgba(255, 0, 0, 0.1);
+  background-image: url("../assets/titlebar/icons8-close-64.png");
+}
+
+/* CSS styles for the SVG */
+.directional-buttons{
+  left: 10px;
+  top: 5px;
+}
+
+#back {
+  background-image: url("../assets/titlebar/arrow-left-inactive.svg");
+  width: 30px;
+  transition: all 0.2s ease-in-out; /* Add a transition for smooth animation */
+}
+
+#front {
+  background-image: url("../assets/titlebar/arrow-right-inactive.svg");
+  width: 30px;
+  transition: all 0.2s ease-in-out; /* Add a transition for smooth animation */
+}
+
+#back:hover{
+  background-color: rgba(255, 255, 255, 0);
+  background-image: url("../assets/titlebar/arrow-left-active.svg");
+  cursor: pointer;
+  background-size: 20px auto;
+  transform: scale(1.1);
+  transition: all 0.2s ease-in-out; /* Add a transition for smooth animation */
+}
+
+#front:hover {
+  background-color: rgba(255, 255, 255, 0);
+  background-image: url("../assets/titlebar/arrow-right-active.svg");
+  cursor: pointer;
+  background-size: 20px auto;
+  transform: scale(1.1);
+  transition: all 0.2s ease-in-out; /* Add a transition for smooth animation */
+}
