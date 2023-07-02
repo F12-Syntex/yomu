@@ -159,3 +159,330 @@ export default function hot() {
   } else {
     console.error('Could not find mangadetails-pane element');
   }
+
+    for (let i = 0; i < episodeCount; i++) {
+
+    const relation = document.createElement('div');
+    relation.className = 'content-episodes-item';
+    //relation.style.backgroundImage = "url('" + streamingEpisodes[i].thumbnail + "')";
+
+    const textContainer = document.createElement('div');
+    textContainer.className = 'content-episodes-item-text-container';
+
+    const relationTitle = document.createElement('a');
+    relationTitle.className = 'content-episodes-item-title';
+    //relationTitle.innerHTML = streamingEpisodes[i].title;
+    relationTitle.innerHTML = 'Episode ' + (i + 1);
+    textContainer.appendChild(relationTitle);
+
+    console.log("appended episode " + i + " to container");
+
+    //streamingEpisodes[i].title.split("Episode ")[1].split(" ")[0]
+
+    relation.addEventListener('click', () => {
+      const url = `https://animeflix.live/watch/${anime.title.romaji.replace(/[^\w\s]/gi, "").replace(/\s+/g, "-").toLowerCase()}-episode-${i}/`;
+      console.log(url); 
+      State.updateState(<Player url={url}/>);
+    });
+    
+    
+
+    //streamingEpisodes[i].title.split("Episode ")[1].split(" ")[0]
+
+    // const relationImage = document.createElement('img');
+    // relationImage.className = 'content-episodes-item-image';
+    // relationImage.src = streamingEpisodes[i].thumbnail;
+    // relationImage.alt = 'relation cover';
+    // relation.appendChild(relationImage);
+
+    // const textContainer = document.createElement('div');
+    // textContainer.className = 'content-episodes-item-text-container';
+
+    // const relationTitle = document.createElement('h4');
+    // relationTitle.className = 'content-episodes-item-title';
+    // relationTitle.innerHTML = streamingEpisodes[i].title;
+    // textContainer.appendChild(relationTitle);
+
+    // relation.appendChild(textContainer);
+
+    relation.appendChild(textContainer);
+    container.appendChild(relation);
+    
+  }
+
+  episodes.appendChild(container);
+
+}
+
+
+import * as titleBar from '../components/TitleBar';
+import '../stylings/content/player.css';
+
+export default function Player(props: { url: string }) {
+  let amountOfTries = 2;
+
+  function handleLoad() {
+    if (--amountOfTries === 0) {
+      titleBar.handleBack();
+    }
+  }
+
+  return (
+    <>
+      <iframe src={props.url} allowFullScreen onLoad={handleLoad}></iframe>
+    </>
+  );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+import { shell } from 'electron';
+import React, { useEffect, useState } from 'react';
+import '../stylings/content/anilist.css';
+import http from 'http';
+import axios from 'axios';
+
+async function loadUserData1() {
+
+  const endpoint = 'callback';
+  const port = '5175';
+  const redirectUri = "http://localhost:" + port + "/" + endpoint;
+  const clientId = '13194';
+  const clientSecret = 'FJk5txBuV96oBr04x0vwFF9rOTBd7JHnfY4e7M3R';
+  
+  const authoriseUrl = `https://anilist.co/api/v2/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
+
+  const server = http.createServer((req, res) => {
+    res.statusCode = 200;
+
+    res.setHeader('Content-Type', 'text/plain');
+
+    const code = req.url?.split('code=')[1];
+    console.log(code);
+
+    if(code === undefined || code === ''){
+      res.end(req.url);
+
+    const options = {
+      url: 'https://anilist.co/api/v2/oauth/token',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      data: {
+        'grant_type': 'authorization_code',
+        'client_id': clientId,
+        'client_secret': clientSecret,
+        'redirect_uri': redirectUri, // http://example.com/callback
+        'code': code, // The Authorization Code received previously
+      }
+    };
+    
+    axios(options)
+      .then(response => {
+        console.log(response.data.access_token);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+
+      return;
+    };
+
+    res.end('Done! You can go back to the app now.');
+    window.open(redirectUri + "&content=" + code, '_blank');
+
+
+
+  });
+
+  server.listen(port, () => {
+    console.log(`Server listening at http://localhost:${port}`);
+  });
+
+  shell.openExternal(authoriseUrl);
+
+  
+}
+
+async function loadUserData(id: string) {
+  const clientId = '13194';
+  const clientSecret = 'FJk5txBuV96oBr04x0vwFF9rOTBd7JHnfY4e7M3R';
+
+  // Step 1: Redirect the user to the AniList authorization page in a new window
+  const endpoint = 'callback';
+  const port = '5175';
+  const redirectUri = "http://localhost:" + port + "/" + endpoint;
+  const authorizeUrl = `https://anilist.co/api/v2/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code`;
+  window.open(authorizeUrl);
+
+  // Step 2: After the user grants permission, they will be redirected back to your website with a code parameter in the URL
+  // This step is handled by the AniList API and happens automatically in the background
+
+  // Step 3: Exchange the authorization code for an access token
+  const tokenUrl = 'https://anilist.co/api/v2/oauth/token';
+  const response = await axios.post(tokenUrl, {
+    grant_type: 'authorization_code',
+    client_id: clientId,
+    client_secret: clientSecret,
+    redirect_uri: redirectUri,
+    code: id,
+  });
+
+  return response.data.access_token;
+}
+
+
+
+
+
+
+export default function aniList() {
+  const [authKey, setAuthKey] = useState('');
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setAuthKey(event.target.value);
+  };
+
+  const handleSaveClick = () => { 
+    console.log('Saving auth key...');
+    loadUserData(authKey);
+  };
+
+  //syntexplayzhentai@gmail.com
+  useEffect(() => {
+    //shell.openExternal("https://anilist.co/api/v2/oauth/authorize?client_id=13194&redirect_uri=https://anilist.co/api/v2/oauth/pin&response_type=code");
+  }, []);
+
+  return (
+    <div className='authKeyInput'>
+      <h1>Input AuthKey</h1>
+      <textarea id='input' placeholder='AuthKey' value={authKey} onChange={handleInputChange}></textarea>
+      <button onClick={handleSaveClick}>Submit</button>
+    </div>
+  );
+}
+
+
+
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
+const https = require('https');
+
+const fileDir = path.join(os.homedir(), 'Yomu');
+const filePath = path.join(fileDir, 'auth_code.txt');
+
+const hostname = 'localhost';
+const port = 3023;
+
+const url: string = `http://${hostname}:${port}`;
+const client_secret: string = 'FJk5txBuV96oBr04x0vwFF9rOTBd7JHnfY4e7M3R';
+// const client_id: string = '13194';
+
+let authCode: string = '';
+
+export function authCodeUrl(){
+  const redirect_uri = `${url}/callback`;
+  const uri = `https://anilist.co/api/v2/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code`;
+  return uri;
+}
+
+export function accountConnected() {
+    try{
+        if (!fs.existsSync(filePath)) {
+            return false;
+        }
+      const authCode = fs.readFileSync(filePath, 'utf8');
+      return authCode.length > 10;
+    }catch(err){
+        console.error(err);
+        return false;
+    }
+}
+
+ async function getSessionKey() {
+    if(authCode == ''){
+      return await retrieveAuthCode().then((code) => {
+        return code;
+      });
+    }
+    return authCode;
+}
+
+export function retrieveAuthCode(): Promise<string | undefined> {
+
+  if(!accountConnected()){
+    return new Promise((reject) => {reject('No account connected')});
+  }
+
+  const code = fs.readFileSync(filePath, 'utf8');
+
+  const options = {
+    hostname: 'anilist.co',
+    path: '/api/v2/oauth/token',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    }
+  };
+
+  const postData = JSON.stringify({
+    'grant_type': 'authorization_code',
+    'client_id': `${client_id}`,
+    'client_secret': `${client_secret}`,
+    'redirect_uri': `${url}/callback`,
+    'code': code,
+  });
+
+  return new Promise<string | undefined>((resolve, reject) => {
+  const request = https.request(options, (res) => {
+        console.log(`statusCode: ${res.statusCode}`);
+
+        let data: string = '';
+        res.on('data', chunk => {
+            data += chunk;
+        });
+
+        res.on('end', () => {
+            const body = JSON.parse(data);
+            resolve(body.access_token);
+        });
+    });
+
+    request.on('error', (error: any) => {
+        console.error(error);
+        reject(error);
+    });
+
+    request.write(postData);
+    request.end();
+});
+}
+
+
+function saveAuthKey(code: string) {
+    if (!fs.existsSync(fileDir)) {
+      fs.mkdirSync(fileDir);
+    }
+  
+    if (!fs.existsSync(filePath)) {
+      fs.writeFileSync(filePath, '');
+    }
+  
+    fs.writeFile(filePath, code, (err: any) => {
+      if (err) throw err;
+      console.log('Code saved to file');
+    });
+  }

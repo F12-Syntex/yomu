@@ -23,7 +23,7 @@ function handleClose() {
 }
 
 
-function handleBack() {
+export function handleBack() {
 
   const indexBefore = actions.list.currentIndex;
 
@@ -37,7 +37,8 @@ function handleBack() {
   State.updateState(state, false);
 
 }
-function handleNext() {
+
+export function handleNext() {
   const indexBefore = actions.list.currentIndex;
 
   actions.list.goForward();

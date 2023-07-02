@@ -13,19 +13,24 @@
     flex: 1;
     margin: 10px;
     overflow: hidden;
+
+    height: 92vh;
 }
 
 .content-description{
     border-radius: 10px;
     /* background-color: pink;  */
     display: flex;
-    flex: 2;
+    flex: 1;
     padding: 10px;
     margin: 10px;
     flex-direction: column;
     align-items: left;
     justify-content: left;
     overflow-y: scroll;
+
+    height: 25vh;
+    max-height: 25vh;
 }
 
 .content-description h1{
@@ -50,7 +55,7 @@
 
 .content-details-image{
     width: auto; /* set the width of the image */
-    height: 40%; /* maintain aspect ratio */
+    height: 400px; /* maintain aspect ratio */
     border: 2px solid white;
     border-radius: 10px;	
     overflow: hidden;
@@ -108,6 +113,8 @@
     padding: 10px;
     margin: 10px;
     flex-direction: column;
+
+    overflow-y: scroll;
 }
 
 .content-episodes-and-relations{
@@ -122,6 +129,20 @@
     
 }
 
+.content-relations-item-container{
+    flex: 4;
+    background-color: bisque;
+    grid-template-columns: repeat(2, 1fr); /* added */
+    gap: 10px; /* added */
+    display: grid; /* changed from flex */
+
+    height: 250px;
+    overflow: auto;
+
+    padding: 20px;
+ 
+}
+
 .content-relations {
   margin: 10px;
   border-radius: 10px;
@@ -129,20 +150,6 @@
   
   flex-wrap: nowrap; /* change this */
   border: 2px solid gray;
-}
-
-.content-relations-item-container{
-    flex: 4;
-    /* background-color: bisque; */
-    grid-template-columns: repeat(2, 1fr); /* added */
-    gap: 10px; /* added */
-    display: grid; /* changed from flex */
-
-    height: 200px;
-    overflow: auto;
-
-    padding: 20px;
- 
 }
 
 .content-relations-item {
@@ -187,7 +194,7 @@
 .content-episodes-item-container{
   /* background-color: red; */
   width: auto;
-  height: 230px;
+  height: 60vh;
 
   grid-template-columns: repeat(4, 1fr); /* added */
   gap: 10px; /* added */

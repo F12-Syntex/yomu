@@ -4,8 +4,7 @@ import * as actions from '../core/Actions.ts';
 
 let root: any = undefined;
 
-
-export function updateState(newElement: { type: any; props: any; } | null, addElement: boolean = true) {
+export function updateState(newElement: { type: any; props: any; } | null, addElement: boolean = true, errorMessage: string = '') {
 
   if(addElement){
     actions.list.add(newElement);
@@ -36,4 +35,8 @@ export function updateState(newElement: { type: any; props: any; } | null, addEl
   }
 
   root.render(element);
+
+  if(errorMessage !== '') {
+    alert(errorMessage);
+  }
 }

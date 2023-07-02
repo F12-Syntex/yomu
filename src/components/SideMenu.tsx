@@ -1,64 +1,10 @@
+import AniList from '../content-components/AniList.tsx';
 import Empty from '../content-components/Empty.tsx';
 import Hot from '../content-components/Hot.tsx';
-import MangaDetails from '../content-components/MangaDetails.tsx';
-import { MangaEntry } from '../content-source/mangakakalot.ts';
+import Search from '../content-components/Search.tsx';
 import * as State from '../core/State.ts';
 
 import '../stylings/content/sidemenu.css';
-
-
-export function toggle(button: HTMLElement): void {
-  const buttons = document.querySelectorAll('.sidemenu-button');
-
-  console.log(button);
-  
-  for (let i = 0; i < buttons.length; i++) {
-    const currentButton = buttons[i];
-    if (currentButton === button) {
-      continue;
-    }
-
-    currentButton.classList.remove('active-button');
-    currentButton.classList.add('inactive-button');
-
-    const selector = currentButton.querySelector('#' + currentButton.id + '-selector');
-    selector?.classList.remove('sidemenu-button-selector-active');
-    selector?.classList.add('sidemenu-button-selector-inactive');
-
-    const img = currentButton.querySelector('#' + currentButton.id + '-img');
-    img?.classList.remove(img?.id + '-active');
-    img?.classList.add(img?.id +  '-inactive');
-  }
-
-  if (!button.classList.contains('active-button')) {
-
-      button.classList.remove('inactive-button');
-      button.classList.add('active-button');
-
-      const selector = button.querySelector('#' + button.id + '-selector');
-      selector?.classList.remove('sidemenu-button-selector-inactive');
-      selector?.classList.add('sidemenu-button-selector-active');
-
-      const img = button.querySelector('#' + button.id + '-img');
-      img?.classList.remove(img?.id + '-inactive');
-      img?.classList.add(img?.id +  '-active');
-
-  } 
-  /*else { 
-
-      button.classList.remove('active-button');
-      button.classList.add('inactive-button');
-
-      const selector = button.querySelector('#' + button.id + '-selector');
-      selector?.classList.remove('sidemenu-button-selector-active');
-      selector?.classList.add('sidemenu-button-selector-inactive');
-
-      const img = button.querySelector('#' + button.id + '-img');
-      img?.classList.remove(img?.id + '-active');
-      img?.classList.add(img?.id +  '-inactive');
-  }*/
-
-}
 
 function SideMenu() {  
 
@@ -102,32 +48,32 @@ function SideMenu() {
     const button = document.getElementById('sidemenu-search') as HTMLInputElement;
     if(button.classList.contains('active-button')) return;
 
-    // console.log(button);
-    // State.updateState(<Search/>);
+    console.log(button);
+    State.updateState(<Search/>);
 
-    const animeId : number = 1535; // Enen no Shouboutai
-    const alt : string = 'Enen no Shouboutai';
-    const img : string = 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1535-lawCwhzhi96X.jpg';
+    // const animeId : number = 1535; // Enen no Shouboutai
+    // const alt : string = 'Enen no Shouboutai';
+    // const img : string = 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1535-lawCwhzhi96X.jpg';
 
-    const queryEntry: MangaEntry = {
-      manga: {
-        id: animeId,
-        alt: alt,
-        img: img,
-      },
-    };
+    // const queryEntry: MangaEntry = {
+    //   manga: {
+    //     id: animeId,
+    //     alt: alt,
+    //     img: img,
+    //   },
+    // };
 
-    const state = <MangaDetails entry={queryEntry}/>;
+    // const state = <MangaDetails entry={queryEntry}/>;
 
-    State.updateState(state);
+    // State.updateState(state);
   }
 
-  function downloads() : void {
-    const button = document.getElementById('sidemenu-downloads') as HTMLInputElement;
+  function anilist() : void {
+    const button = document.getElementById('sidemenu-anilist') as HTMLInputElement;
     if(button.classList.contains('active-button')) return;
 
     console.log(button);
-    State.updateState(<Empty text="downloads"/>);
+    State.updateState(<AniList/>);
   }
 
   function settings() : void {
@@ -153,6 +99,10 @@ function SideMenu() {
   return (
     <>
       <div id='sidemenu-container' className='sidemenu-container'>
+          <div className='sidemenu-button' id='sidemenu-anilist' onClick={anilist}>
+            <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-anilist-selector'></div>
+            <div className='sidemenu-button-img sidemenu-anilist-img-inactive' id='sidemenu-anilist-img'></div>
+          </div>
           <div className='sidemenu-button' id='sidemenu-search' onClick={search}>
             <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-search-selector'></div>
             <div className='sidemenu-button-img sidemenu-search-img-inactive' id='sidemenu-search-img'></div>
@@ -160,10 +110,6 @@ function SideMenu() {
           <div className='sidemenu-button' id='sidemenu-hot' onClick={hot}>
             <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-hot-selector'></div>
             <div className='sidemenu-button-img sidemenu-hot-img-inactive' id='sidemenu-hot-img'></div>
-          </div>
-          <div className='sidemenu-button' id='sidemenu-downloads' onClick={downloads}>
-            <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-downloads-selector'></div>
-            <div className='sidemenu-button-img sidemenu-downloads-img-inactive' id='sidemenu-downloads-img'></div>
           </div>
           <div className='sidemenu-button' id='sidemenu-settings' onClick={settings}>
             <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-settings-selector'></div>

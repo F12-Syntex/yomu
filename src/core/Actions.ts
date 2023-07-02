@@ -6,7 +6,7 @@ class DynamicArray {
   constructor() {
     this.array = [];
     this.maxSize = 50;
-    this.currentIndex = 0;
+    this.currentIndex = -1;
   }
 
   add(value: any) {
@@ -14,7 +14,9 @@ class DynamicArray {
       this.array.shift();
     }
 
-    this.array.splice(++this.currentIndex);
+    this.currentIndex++;
+
+    this.array.splice(this.currentIndex);
     this.array.splice(this.currentIndex, 0, value);
   }
   

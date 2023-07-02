@@ -1,7 +1,6 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'node:path';
 
-
 // The built directory structure
 //
 // ├─┬─┬ dist
@@ -22,6 +21,26 @@ const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL']
 //   os.homedir(),
 //   'AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\cjpalhdlnbpafiamejdnhcphjbkeiagm\\1.50.0_0'
 // )
+
+//load the background script
+import { spawn } from 'child_process';
+
+// Spawn a new child process to run the Node.js script
+const childProcess = spawn('node', ['electron/backend.js']);
+
+// Listen for output from the child process
+childProcess.stdout.on('data', (data) => {
+  console.log(`stdout: ${data}`);
+});
+
+childProcess.stderr.on('data', (data) => {
+  console.error(`stderr: ${data}`);
+});
+
+// Listen for the child process to exit
+childProcess.on('close', (code) => {
+  console.log(`child process exited with code ${code}`);
+});
 
 function createWindow() {
   win = new BrowserWindow({
@@ -103,7 +122,7 @@ export function openWindow(url: string) {
   // Show the new window when it's ready to be displayed
   win.once('ready-to-show', () => {
     //win.webContents.session.loadExtension("C:\\Users\\synte\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\gighmmpiobklfepjocnamgkkbiglidom\\5.7.0_0");
-    win.show();
+    //win.show();
   });
 }
 
@@ -115,4 +134,10 @@ app.on('window-all-closed', () => {
 app.whenReady().then(async () => {
   createWindow()
   //openWindow("https://animeflix.live/watch/one-piece-episode-1065/");
+
+  //const client_id = "13194";
+  //const redirect_uri = "http://localhost:3023/callback";
+
+  //const uri = `https://anilist.co/api/v2/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code`;
+  //shell.openExternal(uri)
 })

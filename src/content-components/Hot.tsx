@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
-import * as mangastream from '../content-source/mangakakalot.ts';
-import * as sideMenu from '../components/SideMenu.tsx';
+import * as sideMenu from '../utils/SideMenu.ts';
 import * as searchPane from '../content-components/Search.tsx';
+import * as aniflix from '../content-source/animeflix.ts';
+
 import '../stylings/content/search.css';
 
 function startLoadingAnimation() {
@@ -28,12 +29,12 @@ function search() {
 
     startLoadingAnimation();
 
-    //call a js function asyncronously outside of this file
-    mangastream.fetchRecent().then((entries) => {
-      console.log(entries);
+    aniflix.getTrendingAnime().then((entries) => {
+      searchGrid.innerHTML = '';
       searchPane.loadEntries(searchGrid, entries);
-      
-    })
+    });
+
+
 }
 
 export default function hot() {  

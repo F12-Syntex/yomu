@@ -2,31 +2,31 @@ import React from 'react';
 
 import * as animeflix from '../content-source/animeflix.ts';
 import * as State from '../core/State.ts';
-import * as sideMenu from '../components/SideMenu.tsx';
+import * as sideMenuUtils from '../utils/SideMenu.ts';
 
 import '../stylings/content/search.css';
 import MangaDetails from './MangaDetails.tsx';
 import { MangaEntry } from '../content-source/mangakakalot.ts';
 
 function addMetaInfo(details: HTMLElement, titleText: string){
-          // add a title to the details section
+      // add a title to the details section
 
-          const hbox = document.createElement('div');
-          hbox.setAttribute('class', 'hbox1');
+      const hbox = document.createElement('div');
+      hbox.setAttribute('class', 'hbox1');
 
-          const container = document.createElement('div');
-          container.setAttribute('class', 'grid-item-container');
+      const container = document.createElement('div');
+      container.setAttribute('class', 'grid-item-container');
 
-          const title = document.createElement('div');
-          title.setAttribute('class', 'grid-item-title');
-          title.textContent = titleText; // set text content directly
-          container.appendChild(title);
+      const title = document.createElement('div');
+      title.setAttribute('class', 'grid-item-title');
+      title.textContent = titleText; // set text content directly
+      container.appendChild(title);
 
-          console.log(">> " + titleText);
+      console.log(">> " + titleText);
 
-          hbox.appendChild(container);
+      hbox.appendChild(container);
 
-          details.appendChild(hbox);
+      details.appendChild(hbox);
 }
 
 function startLoadingAnimation() {
@@ -75,19 +75,7 @@ function search(event: React.KeyboardEvent<HTMLInputElement>) {
   }
 }
 
-export async function loadEntries(searchGrid: Element, entries: { 
-  id: number;
-  title: {
-    romaji: string;
-    english: string;
-    native: string;
-  };
-  description: string;
-  coverImage: {
-    extraLarge: string;
-    color: string;
-  }
-}[]) {
+export async function loadEntries(searchGrid: Element, entries: animeflix.AnimeQuery[]) {
 
   for (let i = 0; i < entries.length; i++) {
     if (searchGrid !== null) {
@@ -108,7 +96,19 @@ export async function loadEntries(searchGrid: Element, entries: {
 
       const img = document.createElement('div');
       img.setAttribute('class', 'grid-item'); // add the class attribute
-      img.style.backgroundImage = `url(${mangaEntry.coverImage.extraLarge})`;
+      
+      // Create a new Image object
+      const actualImg = new Image();
+      
+      // Set the source of the actual image to the mangaEntry cover image
+      actualImg.src = mangaEntry.coverImage.extraLarge;
+      
+      // Add an event listener to handle the load event of the actual image
+      actualImg.addEventListener('load', () => {
+        // When the actual image has finished loading, update the background image of the div
+        img.style.backgroundImage = `url(${actualImg.src})`;
+        img.style.backgroundSize = '20vw 35vh';
+      });
 
       // create a details section for the grid item and add it to the image
       const details = document.createElement('div');
@@ -147,12 +147,9 @@ export async function loadEntries(searchGrid: Element, entries: {
 
 }
 
-
-
-
 export default function SearchMenu() {  
 
-  sideMenu.toggle(document.getElementById('sidemenu-search')!);
+  sideMenuUtils.toggle(document.getElementById('sidemenu-search')!);
 
   const items = document.querySelectorAll('.grid-item');
   items.forEach(item => {

@@ -1,0 +1,145 @@
+/* .authKeyInput {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+
+  width: fit-content;
+  height: fit-content;
+}
+
+h1{
+  color: white;
+}
+
+.authKeyInput h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #969696;
+  text-align: center;
+}
+
+#input{
+  height: 200px;
+  width: 500px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: none;
+  color: #333;
+  border: solid 1px #ccc;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 1.2em;
+  color: white;
+}
+
+.authKeyInput button {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1.2em;
+  cursor: pointer;
+
+  height: 100%;
+  width: 100%;
+  border: white solid 1px;
+}
+
+.authKeyInput button:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+} */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 15px 
+}
+
+/* color of the scrollbar track */
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.10);
+  border-radius: 10px;
+}
+
+.anilist-container{
+  width: 100%;
+  height: 100%;
+  /* background-image: url('../../assets/search/loading.gif'); */
+/* 
+  background-repeat: no-repeat;
+  background-position: center;
+
+  background-size: 300px; */
+}
+
+h1 {
+  color: white;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.anilist-grid-item {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  margin-right: 20px; 
+}
+.anilist-grid-item > * {
+  flex: 0 0 auto;
+  margin-right: 10px; 
+}
+
+.anilist-item {
+  width: 30%;
+  height: 240px;
+  margin: 10px 0px 10px 20px;
+  background-color: rgb(255, 255, 255, 0.1);
+  transition: transform 0.2s;
+  border-radius: 10px;
+
+  border: solid 1px rgba(255, 255, 255, 0.1);
+
+  display: flex;
+  flex-direction: rows;
+  overflow: hidden;
+}
+
+.anilist-item:hover{
+  transform: scale(1.05);
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+#anilist-item-img{
+  width: 50%;
+}
+
+.anilist-item-info {
+  align-items: left;
+  text-align: left;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding: 10px;
+  overflow: hidden;
+}
+
+#anilist-item-title{
+  margin: 0;
+  padding: 0px 10px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+  font-size: medium;
+}
+
+
+

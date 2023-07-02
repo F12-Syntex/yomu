@@ -1,5 +1,5 @@
 import '../stylings/content/empty.css';
-import * as sideMenu from '../components/SideMenu.tsx';
+import * as sideMenu from '../utils/SideMenu.ts';
 
 export default function empty(props: {text: string}) {  
 

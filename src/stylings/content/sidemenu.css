@@ -92,31 +92,31 @@
 
 /* SEARCH BUTTON */
 .sidemenu-search-img-active {
-  background-image: url("../../assets/sidemenu/house-fill-active.svg");
+  background-image: url("../../assets/sidemenu/search-active.svg");
 }
 .sidemenu-search-img-inactive {
-  background-image: url("../../assets/sidemenu/house-fill-inactive.svg");
+  background-image: url("../../assets/sidemenu/search-inactive.svg");
 }
 #sidemenu-search:hover > #sidemenu-search-selector:not(.sidemenu-button-selector-active) {
   background-color: rgb(121, 120, 120);
 }
 #sidemenu-search:hover > #sidemenu-search-img{
-  background-image: url("../../assets/sidemenu/house-fill-active.svg");
+  background-image: url("../../assets/sidemenu/search-active.svg");
 }
 
 
 /* DOWNLOADS BUTTON */
-.sidemenu-downloads-img-active {
-  background-image: url("../../assets/sidemenu/cloud-arrow-down-fill-active.svg");
+.sidemenu-anilist-img-active {
+  background-image: url("../../assets/sidemenu/house-fill-active.svg");
 }
-.sidemenu-downloads-img-inactive {
-  background-image: url("../../assets/sidemenu/cloud-arrow-down-fill-inactive.svg");
+.sidemenu-anilist-img-inactive {
+  background-image: url("../../assets/sidemenu/house-fill-inactive.svg");
 }
-#sidemenu-downloads:hover > #sidemenu-downloads-selector:not(.sidemenu-button-selector-active) {
+#sidemenu-anilist:hover > #sidemenu-anilist-selector:not(.sidemenu-button-selector-active) {
   background-color: rgb(121, 120, 120);
 }
-#sidemenu-downloads:hover > #sidemenu-downloads-img{
-  background-image: url("../../assets/sidemenu/cloud-arrow-down-fill-active.svg");
+#sidemenu-anilist:hover > #sidemenu-anilist-img{
+  background-image: url("../../assets/sidemenu/house-fill-active.svg");
 }
 
 /* SETTINGS BUTTON */

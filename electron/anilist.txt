@@ -1,0 +1,114 @@
+// CommonJS syntax
+module.exports = {}
+
+
+import * as fs from 'fs';
+import * as os from 'os';
+import * as path from 'path';
+import * as https from 'https';
+
+let fileDir = path.join(os.homedir(), 'Yomu');
+let filePath = path.join(fileDir, 'auth_code.txt');
+
+let hostname = 'localhost';
+let port = `3023`;
+
+let url = `http://${hostname}:${port}`;
+let client_secret = 'FJk5txBuV96oBr04x0vwFF9rOTBd7JHnfY4e7M3R';
+let clientId = '13194';
+
+let authCode = '';
+
+export function authCodeUrl(){
+  let redirect_uri = `${url}/callback`;
+  let uri = `https://anilist.co/api/v2/oauth/authorize?client_id=${clientId}&redirect_uri=${redirect_uri}&response_type=code`;
+  return uri;
+}
+
+export function accountConnected() {
+    try{
+        if (!fs.existsSync(filePath)) {
+            return false;
+        }
+        let authCode = fs.readFileSync(filePath, 'utf8');
+      return authCode.length > 10;
+    }catch(err){
+        console.error(err);
+        return false;
+    }
+}
+
+export async function getSessionKey() {
+    if(authCode == ''){
+      return await retrieveAuthCode().then((code) => {
+        return code;
+      });
+    }
+    return authCode;
+}
+
+function retrieveAuthCode(){
+
+  if(!accountConnected()){
+    return new Promise((reject) => {reject('No account connected')});
+  }
+
+  const code = fs.readFileSync(filePath, 'utf8');
+
+  const options = {
+    hostname: 'anilist.co',
+    path: '/api/v2/oauth/token',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    }
+  };
+
+  const postData = JSON.stringify({
+    'grant_type': 'authorization_code',
+    'client_id': `${clientId}`,
+    'client_secret': `${client_secret}`,
+    'redirect_uri': `${url}/callback`,
+    'code': code,
+  });
+
+  return new Promise<string | undefined>((resolve, reject) => {
+    const request = https.request(options, (res) => {
+        console.log(`statusCode: ${res.statusCode}`);
+
+        let data = '';
+        res.on('data', chunk => {
+            data += chunk;
+        });
+
+        res.on('end', () => {
+            const body = JSON.parse(data);
+            resolve(body.access_token);
+        });
+    });
+
+    request.on('error', (error) => {
+        console.error(error);
+        reject(error);
+    });
+
+    request.write(postData);
+    request.end();
+  });
+}
+
+export function saveAuthKey(code) {
+    if (!fs.existsSync(fileDir)) {
+      fs.mkdirSync(fileDir);
+    }
+  
+    if (!fs.existsSync(filePath)) {
+      fs.writeFileSync(filePath, '');
+    }
+  
+    fs.writeFile(filePath, code, (err) => {
+      if (err) throw err;
+      console.log('Code saved to file');
+    });
+  }
