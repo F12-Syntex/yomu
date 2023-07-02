@@ -57,7 +57,8 @@ pnpm run dev
 
 - [ ] [] Background selector (settings)
 - [ ] [] Dark / light mode toggle (settings)
-- [ ] [] Yomu version 1.3
+- [ ] [] Create binary release for Windows 10
+- [x] [02.07.2023] Yomu version 1.3
   - Finished & polished profile page
   - Performance improvements & bug fixes
 - [x] [02.07.2023] Improve responsive sidemenu using react-icons
