@@ -1,81 +1,79 @@
-import AniList from '../content-components/AniList.tsx';
-import Empty from '../content-components/Empty.tsx';
-import Hot from '../content-components/Hot.tsx';
-import Search from '../content-components/Search.tsx';
-import * as State from '../core/State.ts';
-
-import React, { useState } from 'react';
+import AniList from '../content-components/AniList.tsx'
+import Empty from '../content-components/Empty.tsx'
+import Hot from '../content-components/Hot.tsx'
+import Search from '../content-components/Search.tsx'
+import * as State from '../core/State.ts'
 
 // import icons
-import { BsFillHouseFill } from 'react-icons/bs';
-import { BsSearch } from 'react-icons/bs';
-import { BsFire } from 'react-icons/bs';
-import { BsGearFill } from 'react-icons/bs';
+import { BsFillHouseFill } from 'react-icons/bs'
+import { BsSearch } from 'react-icons/bs'
+import { BsFire } from 'react-icons/bs'
+import { BsGearFill } from 'react-icons/bs'
 
-import '../stylings/content/sidemenu.css';
+import '../stylings/content/sidemenu.css'
 
 function SideMenu() {
   // page renderer functions
   function search(button: HTMLElement): void {
-    if (button.classList.contains('active-button')) return;
+    if (button.classList.contains('active-button')) return
 
-    console.log(button);
-    State.updateState(<Search />);
+    console.log(button)
+    State.updateState(<Search />)
   }
 
   function anilist(button: HTMLElement): void {
-    if (button.classList.contains('active-button')) return;
+    if (button.classList.contains('active-button')) return
 
-    console.log(button);
-    State.updateState(<AniList />);
+    console.log(button)
+    State.updateState(<AniList />)
   }
 
   function settings(button: HTMLElement): void {
-    if (button.classList.contains('active-button')) return;
+    if (button.classList.contains('active-button')) return
 
-    console.log(button);
-    State.updateState(<Empty text="settings" />);
+    console.log(button)
+    State.updateState(<Empty text="settings" />)
   }
 
   function hot(button: HTMLElement): void {
-    if (button.classList.contains('active-button')) return;
+    if (button.classList.contains('active-button')) return
 
-    console.log(button);
-    State.updateState(<Hot />);
+    console.log(button)
+    State.updateState(<Hot />)
   }
 
   // handle button clicks
   const handleButtonClick = (buttonID: string) => {
     // get the button by ID
-    const button = document.getElementById(buttonID) as HTMLInputElement;
+    const button = document.getElementById(buttonID) as HTMLInputElement
 
     // Call the appropriate function
     switch (buttonID) {
       case 'anilist':
-        anilist(button);
-        break;
+        anilist(button)
+        break
       case 'search':
-        search(button);
-        break;
+        search(button)
+        break
       case 'hot':
-        hot(button);
-        break;
+        hot(button)
+        break
       case 'settings':
-        settings(button);
-        break;
+        settings(button)
+        break
       default:
-        break;
+        break
     }
 
     // Remove the active class from all buttons
-    const buttons = document.querySelectorAll('.button-container');
+    const buttons = document.querySelectorAll('.button-container')
     buttons.forEach((button) => {
-      button.classList.remove('active-button');
-    });
+      button.classList.remove('active-button')
+    })
 
     // Add the active class to the clicked button
-    button.classList.add('active-button');
-  };
+    button.classList.add('active-button')
+  }
 
   return (
     <>
@@ -114,7 +112,7 @@ function SideMenu() {
         </div>
       </div>
     </>
-  );
+  )
 }
 
-export default SideMenu;
+export default SideMenu

@@ -1,132 +1,132 @@
-import axios from 'axios';
-import { useEffect } from 'react';
-import * as State from '../core/State.ts';
+import axios from 'axios'
+import { useEffect } from 'react'
+import * as State from '../core/State.ts'
 
-import { shell } from 'electron';
-import Search from './Search.tsx';
+import { shell } from 'electron'
+import Search from './Search.tsx'
 
-const endpoint = 'callback';
-const port = `3023`;
-const redirectUri = 'http://localhost:' + port + '/' + endpoint;
-const authKeyUri = 'http://localhost:' + port + '/authenticate';
-const connectedUri = 'http://localhost:' + port + '/isConnected';
-const planningUri = 'http://localhost:' + port + '/getPlanningList';
-const watchingUri = 'http://localhost:' + port + '/getCurrentWatchingList';
-const clientId = '13194';
+const endpoint = 'callback'
+const port = `3023`
+const redirectUri = 'http://localhost:' + port + '/' + endpoint
+const authKeyUri = 'http://localhost:' + port + '/authenticate'
+const connectedUri = 'http://localhost:' + port + '/isConnected'
+// const planningUri = 'http://localhost:' + port + '/getPlanningList';
+const watchingUri = 'http://localhost:' + port + '/getCurrentWatchingList'
+const clientId = '13194'
 
-const authoriseUrl = `https://anilist.co/api/v2/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
+const authoriseUrl = `https://anilist.co/api/v2/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`
 
-import { MangaEntry } from '../content-source/mangakakalot.ts';
-import MangaDetails from './MangaDetails.tsx';
+import { MangaEntry } from '../content-source/mangakakalot.ts'
+import MangaDetails from './MangaDetails.tsx'
 
-import '../stylings/content/anilist.css';
+import '../stylings/content/anilist.css'
 
 async function loadUserData() {
-  const loaded: boolean = await accountConnected();
+  const loaded: boolean = await accountConnected()
 
   if (!loaded) {
-    shell.openExternal(authoriseUrl);
-    State.updateState(<Search />);
-    return;
+    shell.openExternal(authoriseUrl)
+    State.updateState(<Search />)
+    return
   }
 
-  await axios.get(authKeyUri);
+  await axios.get(authKeyUri)
 
-  console.log('connected');
+  console.log('connected')
 
   // const watchingGrid = document.querySelector('.anilist-watching');
   // const planningGrid = document.querySelector('.anilist-planning');
 
-  const response = await axios.get(watchingUri);
-  const arr: any[] = response.data.data.MediaListCollection.lists[0].entries;
+  const response = await axios.get(watchingUri)
+  const arr: any[] = response.data.data.MediaListCollection.lists[0].entries
 
   // const response1 = await axios.get(planningUri);
   // const arr1: any[] = response1.data.data.MediaListCollection.lists[0].entries;
 
-  loadItems(arr);
+  loadItems(arr)
   // loadItems(arr1, ".anilist-planning");
 }
 
 function loadItems(ids: any[]) {
   ids.forEach((data) => {
-    const entry = data.media;
+    const entry = data.media
 
     // Create child element with class 'profile-anime-entry'
-    const animeEntryElement = document.createElement('div');
-    animeEntryElement.classList.add('profile-anime-entry');
+    const animeEntryElement = document.createElement('div')
+    animeEntryElement.classList.add('profile-anime-entry')
 
     // Create child element with class 'profile-anime-entry-header'
-    const animeEntryHeaderElement = document.createElement('div');
-    animeEntryHeaderElement.classList.add('profile-anime-entry-header');
+    const animeEntryHeaderElement = document.createElement('div')
+    animeEntryHeaderElement.classList.add('profile-anime-entry-header')
 
     // Create child element with class 'profile-anime-entry-content'
-    const animeEntryContentElement = document.createElement('div');
-    animeEntryContentElement.classList.add('profile-anime-entry-content');
+    const animeEntryContentElement = document.createElement('div')
+    animeEntryContentElement.classList.add('profile-anime-entry-content')
 
     // Create h1 element with id 'profile-anime-entry-title'
-    const titleElement = document.createElement('h1');
-    titleElement.setAttribute('id', 'profile-anime-entry-title');
-    titleElement.textContent = entry.title.romaji;
+    const titleElement = document.createElement('h1')
+    titleElement.setAttribute('id', 'profile-anime-entry-title')
+    titleElement.textContent = entry.title.romaji
 
     // Create h1 element with id 'profile-anime-entry-details'
-    const detailsElement = document.createElement('h1');
-    detailsElement.setAttribute('id', 'profile-anime-entry-details');
-    detailsElement.textContent = 'CONTINUE FROM EPISODE 4';
+    const detailsElement = document.createElement('h1')
+    detailsElement.setAttribute('id', 'profile-anime-entry-details')
+    detailsElement.textContent = 'CONTINUE FROM EPISODE 4'
 
     // Append child elements to their respective parents
-    animeEntryContentElement.appendChild(titleElement);
-    animeEntryContentElement.appendChild(detailsElement);
-    animeEntryElement.appendChild(animeEntryHeaderElement);
-    animeEntryElement.appendChild(animeEntryContentElement);
+    animeEntryContentElement.appendChild(titleElement)
+    animeEntryContentElement.appendChild(detailsElement)
+    animeEntryElement.appendChild(animeEntryHeaderElement)
+    animeEntryElement.appendChild(animeEntryContentElement)
 
-    animeEntryHeaderElement.style.backgroundImage = `url(${entry.coverImage.extraLarge})`;
+    animeEntryHeaderElement.style.backgroundImage = `url(${entry.coverImage.extraLarge})`
 
     // Append the parent element to the desired container in your HTML document
     const containerElement = document.querySelector(
       '.profile-video-pane-currently-watching'
-    );
-    containerElement?.appendChild(animeEntryElement);
+    )
+    containerElement?.appendChild(animeEntryElement)
 
     // Add mouseover event listener to animeEntryElement
     animeEntryElement.addEventListener('mouseover', function () {
       //animeEntryHeaderElement.style.opacity = '0.8';
-    });
+    })
 
     // Add mouseout event listener to animeEntryElement
     animeEntryElement.addEventListener('mouseout', function () {
       //animeEntryHeaderElement.style.opacity = '1';
-    });
+    })
 
     if (containerElement === null) {
-      return;
+      return
     }
 
-    containerElement.appendChild(animeEntryElement);
+    containerElement.appendChild(animeEntryElement)
 
     animeEntryElement.addEventListener('click', () => {
       const queryEntry: MangaEntry = {
         manga: {
           id: entry.id,
           alt: entry.title.romaji,
-          img: entry.coverImage.extraLarge,
-        },
-      };
+          img: entry.coverImage.extraLarge
+        }
+      }
 
-      const state = <MangaDetails entry={queryEntry} />;
+      const state = <MangaDetails entry={queryEntry} />
 
-      State.updateState(state);
-    });
-  });
+      State.updateState(state)
+    })
+  })
 }
 
 async function accountConnected() {
   try {
-    const response = await axios.get(connectedUri);
-    console.log(response.data);
-    return response.data;
+    const response = await axios.get(connectedUri)
+    console.log(response.data)
+    return response.data
   } catch (error) {
-    console.error(error);
-    return false;
+    console.error(error)
+    return false
   }
 }
 
@@ -134,9 +134,9 @@ export default function aniList() {
   // //syntexplayzhentai@gmail.com
   useEffect(() => {
     //shell.openExternal("https://anilist.co/api/v2/oauth/authorize?client_id=13194&redirect_uri=https://anilist.co/api/v2/oauth/pin&response_type=code");
-    console.log('useEffect');
-    loadUserData();
-  });
+    console.log('useEffect')
+    loadUserData()
+  })
 
   return (
     // <div className='authKeyInput'>
@@ -291,5 +291,5 @@ export default function aniList() {
         </div>
       </div>
     </>
-  );
+  )
 }
