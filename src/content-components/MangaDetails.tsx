@@ -1,148 +1,146 @@
-import { useEffect } from 'react';
-import * as aniflix from '../content-source/animeflix.ts';
-import * as mangakalot from '../content-source/mangakakalot.ts';
-import * as State from '../core/State.ts';
+import { useEffect } from 'react'
+import * as aniflix from '../content-source/animeflix.ts'
+import * as mangakalot from '../content-source/mangakakalot.ts'
+import * as State from '../core/State.ts'
 
-import '../stylings/content/manga-details.css';
-import Player from './Player.tsx';
+import '../stylings/content/manga-details.css'
+import Player from './Player.tsx'
 
 type MangaDetailsProps = {
-  entry?: mangakalot.MangaEntry;
-  anime?: aniflix.Anime;
-};
+  entry?: mangakalot.MangaEntry
+  anime?: aniflix.Anime
+}
 
 async function load(aniData: Promise<aniflix.Anime>) {
-  const anime = await aniData;
-  run(anime);
+  const anime = await aniData
+  run(anime)
 }
 
 async function run(aniData: aniflix.Anime) {
-  const anime = aniData;
+  const anime = aniData
 
-  const root = document.querySelector(':root');
+  const root = document.querySelector(':root')
 
   if (root == null) {
-    console.log('root is null');
-    return;
+    console.log('root is null')
+    return
   }
 
-  const pseudoElement = document.createElement('div');
-  pseudoElement.style.content = '""';
-  pseudoElement.style.position = 'absolute';
-  pseudoElement.style.top = '0';
-  pseudoElement.style.left = '0';
-  pseudoElement.style.width = '100%';
-  pseudoElement.style.height = '100%';
-  pseudoElement.style.zIndex = '-1';
-  pseudoElement.style.filter = 'blur(0px) brightness(5%)';
-  pseudoElement.style.backgroundImage = "url('" + anime.bannerImage + "')";
-  pseudoElement.style.backgroundSize = 'cover';
-  pseudoElement.style.backgroundPosition = 'center';
-  pseudoElement.style.backgroundRepeat = 'no-repeat';
-  pseudoElement.style.imageRendering = '-webkit-optimize-contrast';
-  root.appendChild(pseudoElement);
+  const pseudoElement = document.createElement('div')
+  pseudoElement.style.content = '""'
+  pseudoElement.style.position = 'absolute'
+  pseudoElement.style.top = '0'
+  pseudoElement.style.left = '0'
+  pseudoElement.style.width = '100%'
+  pseudoElement.style.height = '100%'
+  pseudoElement.style.zIndex = '-1'
+  pseudoElement.style.filter = 'blur(0px) brightness(5%)'
+  pseudoElement.style.backgroundImage = "url('" + anime.bannerImage + "')"
+  pseudoElement.style.backgroundSize = 'cover'
+  pseudoElement.style.backgroundPosition = 'center'
+  pseudoElement.style.backgroundRepeat = 'no-repeat'
+  pseudoElement.style.imageRendering = '-webkit-optimize-contrast'
+  root.appendChild(pseudoElement)
 
   const cover = document.getElementById(
     'mangadetails-cover'
-  )! as HTMLImageElement;
-  cover.src = anime.coverImage.extraLarge;
+  )! as HTMLImageElement
+  cover.src = anime.coverImage.extraLarge
 
-  const title = document.getElementById('mangadetails-title')!;
-  title.innerHTML = anime.title.romaji;
+  const title = document.getElementById('mangadetails-title')!
+  title.innerHTML = anime.title.romaji
 
-  const description = document.getElementById('mangadetails-description')!;
-  description.innerHTML = anime.description;
+  const description = document.getElementById('mangadetails-description')!
+  description.innerHTML = anime.description
 
-  const format = document.getElementById('content-details-info-format-data')!;
-  format.innerHTML = anime.format;
+  const format = document.getElementById('content-details-info-format-data')!
+  format.innerHTML = anime.format
 
-  const episodes = document.getElementById(
-    'content-details-info-episode-data'
-  )!;
+  const episodes = document.getElementById('content-details-info-episode-data')!
 
-  console.log(anime.status);
+  console.log(anime.status)
   if (anime.status === 'RELEASING') {
-    episodes.innerHTML = 'airing';
+    episodes.innerHTML = 'airing'
   } else {
-    episodes.innerHTML = anime.episodes.toString();
+    episodes.innerHTML = anime.episodes.toString()
   }
 
   const episode_duration = document.getElementById(
     'content-details-info-episode-duration-data'
-  )!;
-  episode_duration.innerHTML = anime.duration.toString() + ' minutes';
+  )!
+  episode_duration.innerHTML = anime.duration.toString() + ' minutes'
 
-  const status = document.getElementById('content-details-info-status-data')!;
-  status.innerHTML = anime.status;
+  const status = document.getElementById('content-details-info-status-data')!
+  status.innerHTML = anime.status
 
   const average_score = document.getElementById(
     'content-details-info-average-score-data'
-  )!;
-  average_score.innerHTML = anime.averageScore.toString() + '%';
+  )!
+  average_score.innerHTML = anime.averageScore.toString() + '%'
 
-  const studios = document.getElementById('content-details-info-studios-data')!;
-  studios.innerHTML = anime.studios.nodes[0].name;
+  const studios = document.getElementById('content-details-info-studios-data')!
+  studios.innerHTML = anime.studios.nodes[0].name
 
-  const genres = document.getElementById('content-details-info-genres-data')!;
-  genres.innerHTML = anime.genres.toString().split(',').join(', ');
+  const genres = document.getElementById('content-details-info-genres-data')!
+  genres.innerHTML = anime.genres.toString().split(',').join(', ')
 
   //addRelations(anime);
-  addEpisodes(anime);
+  addEpisodes(anime)
 }
 
 function addEpisodes(anime: aniflix.Anime) {
   const streamingEpisodes: {
-    title: string;
-    thumbnail: string;
-    url: string;
-    site: string;
-  }[] = anime.streamingEpisodes;
-  const episodes = document.querySelector('.content-episodes')!;
+    title: string
+    thumbnail: string
+    url: string
+    site: string
+  }[] = anime.streamingEpisodes
+  const episodes = document.querySelector('.content-episodes')!
 
-  console.log(streamingEpisodes);
+  console.log(streamingEpisodes)
 
-  const container = document.createElement('div');
-  container.className = 'content-episodes-item-container';
+  const container = document.createElement('div')
+  container.className = 'content-episodes-item-container'
 
-  let episodeCount: number = 0;
+  let episodeCount = 0
 
   if (anime.episodes == undefined && anime.nextAiringEpisode != undefined) {
-    episodeCount = anime.nextAiringEpisode?.episode;
+    episodeCount = anime.nextAiringEpisode?.episode
   } else {
-    episodeCount = anime.episodes;
+    episodeCount = anime.episodes
   }
 
   for (let i = 0; i < episodeCount; i++) {
-    const relation = document.createElement('div');
-    relation.className = 'content-episodes-item';
+    const relation = document.createElement('div')
+    relation.className = 'content-episodes-item'
 
-    const textContainer = document.createElement('div');
-    textContainer.className = 'content-episodes-item-text-container';
+    const textContainer = document.createElement('div')
+    textContainer.className = 'content-episodes-item-text-container'
 
-    const relationTitle = document.createElement('a');
-    relationTitle.className = 'content-episodes-item-title';
+    const relationTitle = document.createElement('a')
+    relationTitle.className = 'content-episodes-item-title'
 
-    const episodeNumber = (i + 1).toString();
+    const episodeNumber = (i + 1).toString()
 
     // Check if episode exists in streamingEpisodes
     const streamingEpisode = streamingEpisodes.find(
       (ep) =>
         (ep.title + 'Episode 1').split('Episode ')[1].split(' ')[0] ==
         (i + 1).toString()
-    );
+    )
 
     if (streamingEpisode) {
-      relation.style.backgroundImage = `url('${streamingEpisode.thumbnail}')`;
-      relationTitle.innerHTML = streamingEpisode.title;
+      relation.style.backgroundImage = `url('${streamingEpisode.thumbnail}')`
+      relationTitle.innerHTML = streamingEpisode.title
     } else {
-      relationTitle.innerHTML = 'Episode ' + episodeNumber;
-      relation.style.backgroundImage = `url('${anime.bannerImage}')`;
-      relation.style.backgroundSize = `auto 100%`;
+      relationTitle.innerHTML = 'Episode ' + episodeNumber
+      relation.style.backgroundImage = `url('${anime.bannerImage}')`
+      relation.style.backgroundSize = `auto 100%`
     }
 
-    textContainer.appendChild(relationTitle);
+    textContainer.appendChild(relationTitle)
 
-    console.log('appended episode ' + episodeNumber + ' to container');
+    console.log('appended episode ' + episodeNumber + ' to container')
 
     relation.addEventListener('click', () => {
       // const aniListUrl = "https://anilist.co/" + anime.format + "/" + anime.id;
@@ -153,21 +151,21 @@ function addEpisodes(anime: aniflix.Anime) {
       //   return;
       // }
 
-      aniflix.updateEpisodeForUser(anime, episodeNumber);
+      aniflix.updateEpisodeForUser(anime, episodeNumber)
 
       const url = `https://animeflix.live/watch/${anime.title.romaji
         .replace(/[^\w\s]/gi, '')
         .replace(/\s+/g, '-')
-        .toLowerCase()}-episode-${episodeNumber}/`;
-      console.log(url);
-      State.updateState(<Player url={url} />);
-    });
+        .toLowerCase()}-episode-${episodeNumber}/`
+      console.log(url)
+      State.updateState(<Player url={url} />)
+    })
 
-    relation.appendChild(textContainer);
-    container.appendChild(relation);
+    relation.appendChild(textContainer)
+    container.appendChild(relation)
   }
 
-  episodes.appendChild(container);
+  episodes.appendChild(container)
 }
 
 // function addRelations(anime : aniflix.Anime){
@@ -219,36 +217,36 @@ function addEpisodes(anime: aniflix.Anime) {
 // }
 
 async function getMangaDetails(id: number) {
-  const response: Promise<aniflix.Anime> = aniflix.getAnimeById({ id: id });
+  const response: Promise<aniflix.Anime> = aniflix.getAnimeById({ id: id })
 
-  const anime = await response;
+  const anime = await response
 
-  return anime;
+  return anime
 }
 
 export default function MangaDetails(props: MangaDetailsProps) {
-  console.log('running manga details');
+  console.log('running manga details')
 
-  const entry = props.entry;
-  const anime = props.anime;
+  const entry = props.entry
+  const anime = props.anime
 
   if (anime?.id == undefined) {
-    console.log('loading anime from entry [not in effect]');
+    console.log('loading anime from entry [not in effect]')
     useEffect(() => {
-      console.log('loading anime from entry');
+      console.log('loading anime from entry')
       if (entry == undefined) {
-        return;
+        return
       }
-      console.log('loading anime');
-      const data = entry.manga;
-      const promisedAnime = getMangaDetails(data.id);
-      load(promisedAnime);
-    }, []);
+      console.log('loading anime')
+      const data = entry.manga
+      const promisedAnime = getMangaDetails(data.id)
+      load(promisedAnime)
+    }, [])
   } else {
     //useEffect(() => {
     //document.querySelector('.content-relations')!.childNodes.forEach((node) => { node.remove(); });
-    console.log('running anime');
-    run(anime);
+    console.log('running anime')
+    run(anime)
     //}, []);
   }
 
@@ -332,5 +330,5 @@ export default function MangaDetails(props: MangaDetailsProps) {
         </div>
       }
     </>
-  );
+  )
 }

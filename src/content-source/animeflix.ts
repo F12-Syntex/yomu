@@ -1,74 +1,74 @@
-import axios from "axios";
+import axios from 'axios'
 
 export type Anime = {
-  id: number;
+  id: number
   title: {
-    romaji: string;
-    english: string;
-    native: string;
-  };
-  description: string;
+    romaji: string
+    english: string
+    native: string
+  }
+  description: string
   coverImage: {
-    extraLarge: string;
-    color: string;
-  };
-  bannerImage: string;
-  status: string;
-  season: string;
-  episodes: number;
-  duration: number;
-  averageScore: number;
-  genres: string[];
-  synonyms: string[];
-  format: string;
-  source: string;
+    extraLarge: string
+    color: string
+  }
+  bannerImage: string
+  status: string
+  season: string
+  episodes: number
+  duration: number
+  averageScore: number
+  genres: string[]
+  synonyms: string[]
+  format: string
+  source: string
   studios: {
     nodes: {
-      name: string;
-    }[];
-  };
+      name: string
+    }[]
+  }
   staff: {
     edges: {
-      role: string;
+      role: string
       node: {
         name: {
-          full: string;
-        };
-      };
-    }[];
-  };
+          full: string
+        }
+      }
+    }[]
+  }
   relations: {
     edges: {
-      relationType: string;
-      node: Anime;
-    }[];
-  };
+      relationType: string
+      node: Anime
+    }[]
+  }
   streamingEpisodes: {
-    title: string;
-    thumbnail: string;
-    url: string;
-    site: string;
-  }[];
+    title: string
+    thumbnail: string
+    url: string
+    site: string
+  }[]
   nextAiringEpisode?: {
-    airingAt: number;
-    timeUntilAiring: number;
-    episode: number;
-  };
-};
+    airingAt: number
+    timeUntilAiring: number
+    episode: number
+  }
+}
 
 export type AnimeQuery = {
-  id: number;
+  id: number
   title: {
-    romaji: string;
-    english: string;
-    native: string;
-  };
-  description: string;
+    romaji: string
+    english: string
+    native: string
+  }
+  description: string
   coverImage: {
-    extraLarge: string;
-    color: string;
-  };
-};
+    extraLarge: string
+    color: string
+  }
+}
 
 /*
   This function will update the episode for the user in the database
@@ -76,28 +76,31 @@ export type AnimeQuery = {
   @param episode: number - the episode the user is on
 */
 export function updateEpisodeForUser(props: Anime, episode: string) {
-  const port = `3023`;
-  const authKeyUri = "http://localhost:" + port + "/authenticate";
+  const port = `3023`
+  const authKeyUri = 'http://localhost:' + port + '/authenticate'
 
   // Get authentication key from server
-  axios.get(authKeyUri)
-    .then(response => {
-      const authKey = response.data;
-      const uri = "http://localhost:" + port + `/updateEpisodeForUser?animeId=${props.id}&episode=${episode}&authkey=${authKey}`;
-      axios.get(uri);
+  axios
+    .get(authKeyUri)
+    .then((response) => {
+      const authKey = response.data
+      const uri =
+        'http://localhost:' +
+        port +
+        `/updateEpisodeForUser?animeId=${props.id}&episode=${episode}&authkey=${authKey}`
+      axios.get(uri)
     })
-    .catch(error => {
-      console.error(error);
-    });
+    .catch((error) => {
+      console.error(error)
+    })
 }
-
 
 export async function getTrendingAnime(): Promise<AnimeQuery[]> {
   const response = await fetch('https://graphql.anilist.co', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      Accept: 'application/json'
     },
     body: JSON.stringify({
       query: `
@@ -127,26 +130,24 @@ export async function getTrendingAnime(): Promise<AnimeQuery[]> {
         }
       `
     })
-  });
+  })
 
-  const data = await response.json();
+  const data = await response.json()
 
   return data.data.Page.media.map((anime: any) => ({
     id: anime.id,
     title: anime.title,
     description: anime.description,
     coverImage: anime.coverImage
-  }));
+  }))
 }
-
-
 
 export async function search(query: string): Promise<AnimeQuery[]> {
   const response = await fetch('https://graphql.anilist.co', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      Accept: 'application/json'
     },
     body: JSON.stringify({
       query: `
@@ -170,18 +171,20 @@ export async function search(query: string): Promise<AnimeQuery[]> {
       `,
       variables: { search: query }
     })
-  });
+  })
 
-  const data = await response.json();
+  const data = await response.json()
 
-  return data.data.Page.media;
+  return data.data.Page.media
 }
-export async function getAnimeById(variables: Record<string, any>): Promise<Anime> {
+export async function getAnimeById(
+  variables: Record<string, any>
+): Promise<Anime> {
   const response = await fetch('https://graphql.anilist.co', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      Accept: 'application/json'
     },
     body: JSON.stringify({
       query: `
@@ -282,26 +285,26 @@ export async function getAnimeById(variables: Record<string, any>): Promise<Anim
       `,
       variables: variables
     })
-  });
+  })
 
-  const data = await response.json();
+  const data = await response.json()
 
   //console.log(data);
 
-  return data.data.Media;
+  return data.data.Media
 }
 
 interface UserData {
-  id: number;
-  name: string;
-  email: string;
+  id: number
+  name: string
+  email: string
   avatar: {
-    medium: string;
-  };
+    medium: string
+  }
 }
 
-export async function getUserData(authKey : string): Promise<UserData> {
-  const url = 'https://graphql.anilist.co';
+export async function getUserData(authKey: string): Promise<UserData> {
+  const url = 'https://graphql.anilist.co'
   const query = `
     query {
       Viewer {
@@ -313,23 +316,23 @@ export async function getUserData(authKey : string): Promise<UserData> {
         }
       }
     }
-  `;
-  const variables = {};
+  `
+  const variables = {}
 
   const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${authKey}`
+      Authorization: `Bearer ${authKey}`
     },
     body: JSON.stringify({ query, variables })
-  });
+  })
 
-  const data = await response.json();
+  const data = await response.json()
 
   if (response.ok) {
-    return data.data.Viewer;
+    return data.data.Viewer
   } else {
-    throw new Error(data.errors[0].message);
+    throw new Error(data.errors[0].message)
   }
 }

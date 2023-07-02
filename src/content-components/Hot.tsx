@@ -1,58 +1,58 @@
-import { useEffect } from 'react';
-import * as searchPane from '../content-components/Search.tsx';
-import * as aniflix from '../content-source/animeflix.ts';
+import { useEffect } from 'react'
+import * as searchPane from '../content-components/Search.tsx'
+import * as aniflix from '../content-source/animeflix.ts'
 
-import '../stylings/content/search.css';
+import '../stylings/content/search.css'
 
 function startLoadingAnimation() {
-  const searchGrid = document.querySelector('.search-grid');
+  const searchGrid = document.querySelector('.search-grid')
 
   if (searchGrid === null) {
-    return;
+    return
   }
 
-  searchGrid.innerHTML = '';
+  searchGrid.innerHTML = ''
 
-  const loading = document.createElement('div');
-  loading.setAttribute('class', 'loading');
-  searchGrid.appendChild(loading);
+  const loading = document.createElement('div')
+  loading.setAttribute('class', 'loading')
+  searchGrid.appendChild(loading)
 }
 
 function search() {
-  const searchGrid = document.querySelector('.search-grid');
+  const searchGrid = document.querySelector('.search-grid')
 
   if (searchGrid === null) {
-    return;
+    return
   }
 
-  startLoadingAnimation();
+  startLoadingAnimation()
 
   aniflix.getTrendingAnime().then((entries) => {
-    searchGrid.innerHTML = '';
-    searchPane.loadEntries(searchGrid, entries);
-  });
+    searchGrid.innerHTML = ''
+    searchPane.loadEntries(searchGrid, entries)
+  })
 }
 
 export default function hot() {
-  const items = document.querySelectorAll('.grid-item');
+  const items = document.querySelectorAll('.grid-item')
   items.forEach((item) => {
     if (item.scrollHeight > item.clientHeight) {
-      const overflowThreshold = item.clientHeight * 0.5; // set threshold to 50%
+      const overflowThreshold = item.clientHeight * 0.5 // set threshold to 50%
       item.addEventListener('scroll', () => {
         if (item.scrollTop > overflowThreshold) {
-          item.classList.add('fading');
-          item.classList.remove('visible');
+          item.classList.add('fading')
+          item.classList.remove('visible')
         } else {
-          item.classList.remove('fading');
-          item.classList.add('visible');
+          item.classList.remove('fading')
+          item.classList.add('visible')
         }
-      });
+      })
     }
-  });
+  })
 
   useEffect(() => {
-    search();
-  }, []);
+    search()
+  }, [])
 
   return (
     <>
@@ -60,5 +60,5 @@ export default function hot() {
         <div className="search-grid"></div>
       </div>
     </>
-  );
+  )
 }

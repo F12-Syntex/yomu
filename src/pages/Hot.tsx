@@ -1,3 +1,3 @@
 export default function Hot() {
-  return <div></div>;
+  return <div></div>
 }

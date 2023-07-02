@@ -1,3 +1,3 @@
 export default function AniList() {
-  return <div></div>;
+  return <div></div>
 }

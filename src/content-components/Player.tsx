@@ -1,12 +1,12 @@
-import * as titleBar from '../components/TitleBar';
-import '../stylings/content/player.css';
+import * as titleBar from '../components/TitleBar'
+import '../stylings/content/player.css'
 
 export default function Player(props: { url: string }) {
-  let amountOfTries = 2;
+  let amountOfTries = 2
 
   function handleLoad() {
     if (--amountOfTries === 0) {
-      titleBar.handleBack();
+      titleBar.handleBack()
     }
   }
 
@@ -14,5 +14,5 @@ export default function Player(props: { url: string }) {
     <>
       <iframe src={props.url} allowFullScreen onLoad={handleLoad}></iframe>
     </>
-  );
+  )
 }
