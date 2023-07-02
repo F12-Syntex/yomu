@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import './stylings/global/index.css';
 
 // ! TODO ALL THIS ROUTING... STUFF IS BROKEN
 // ! THIS MAY NEED TO BE REMOVED AND ADDED TO EACH SUBPAGE (HOME, SEARCH, HOT) RESPECTIVELY, TO CONSTRUCT THE PAGES AND ROUTE THEM FROM HERE
@@ -13,6 +12,9 @@ import Search from './pages/Search.tsx';
 import Hot from './pages/Hot.tsx';
 import AniList from './pages/AniList.tsx';
 import Settings from './pages/Settings.tsx';
+
+// * ensure to import CSS after all components to avoid rendering issues
+import './stylings/global/index.css';
 
 // make router
 const router = createBrowserRouter([
