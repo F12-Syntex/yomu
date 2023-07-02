@@ -77,9 +77,7 @@ pnpm run dev
   - Splash screen (indication) while page loads
 - More...
 
-<hr>
 <h2>🙏 Attributions</h2>
-<hr>
 <ul>
     <li><a href="">In progress...</a></li>
 </ul>
