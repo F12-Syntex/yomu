@@ -1,5 +1,6 @@
 export function toggle(button: HTMLElement): void {
-    const buttons = document.querySelectorAll('.sidemenu-button');
+  // ! Stupid code, I hope it dies in mediocrity. I will extinguish its flame for all eternity.
+  /*     const buttons = document.querySelectorAll('.sidemenu-button');
   
     console.log(button);
     
@@ -34,8 +35,11 @@ export function toggle(button: HTMLElement): void {
         img?.classList.remove(img?.id + '-inactive');
         img?.classList.add(img?.id +  '-active');
   
-    } 
-    /*else { 
+    }  
+    
+    
+    */
+  /*else { 
   
         button.classList.remove('active-button');
         button.classList.add('inactive-button');
@@ -48,5 +52,4 @@ export function toggle(button: HTMLElement): void {
         img?.classList.remove(img?.id + '-active');
         img?.classList.add(img?.id +  '-inactive');
     }*/
-  
-  }
+}

@@ -7,17 +7,16 @@ import './stylings/global/index.css';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-  <div className="grid">
-    <div className='titlebar'>
-      <TitleBar/>
+    <div className="grid">
+      <div className="titlebar">
+        <TitleBar />t
+      </div>
+      <div className="sidemenu">
+        <SideMenu />
+      </div>
+      <div className="content" id="content-source"></div>
     </div>
-    <div className='sidemenu'>
-      <SideMenu/>
-    </div>
-    <div className='content' id='content-source'></div>
-  </div>
+  </React.StrictMode>
+);
 
-  </React.StrictMode>,
-)
-
-postMessage({ payload: 'removeLoading' }, '*')
+postMessage({ payload: 'removeLoading' }, '*');

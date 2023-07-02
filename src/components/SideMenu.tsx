@@ -4,6 +4,8 @@ import Hot from '../content-components/Hot.tsx';
 import Search from '../content-components/Search.tsx';
 import * as State from '../core/State.ts';
 
+import React, { useState } from 'react';
+
 // import icons
 import { BsFillHouseFill } from 'react-icons/bs';
 import { BsSearch } from 'react-icons/bs';
@@ -13,107 +15,100 @@ import { BsGearFill } from 'react-icons/bs';
 import '../stylings/content/sidemenu.css';
 
 function SideMenu() {
-  //<div className='sidemenu-button' id='sidemenu-recent' onClick={recent}></div>
-
-  /*
-  let root: any = undefined;
-
-  function updateContent(newElement: { type: any; props: any; } | null) {
-    // Get the content element by its class name
-    const contentElement = document.querySelector('.content');
-
-    if(contentElement === null) {
-      return;
-    }
-
-    if(newElement === null) {
-      // Remove all children of the content element
-      while (contentElement.firstChild) {
-        contentElement.removeChild(contentElement.firstChild);
-      }
-      return;
-    }
-  
-    // Create a new HTML element from the passed-in parameter
-    const element = React.createElement(newElement.type, newElement.props);
-
-    const rootElement = document.getElementById('content-source')!;
-
-    if(root === undefined) {
-      root = createRoot(rootElement);
-    }
-
-    root.render(element);
-  }
-  */
-
-  function search(): void {
-    const button = document.getElementById('search') as HTMLInputElement;
+  // page renderer functions
+  function search(button: HTMLElement): void {
     if (button.classList.contains('active-button')) return;
 
     console.log(button);
     State.updateState(<Search />);
-
-    // const animeId : number = 1535; // Enen no Shouboutai
-    // const alt : string = 'Enen no Shouboutai';
-    // const img : string = 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1535-lawCwhzhi96X.jpg';
-
-    // const queryEntry: MangaEntry = {
-    //   manga: {
-    //     id: animeId,
-    //     alt: alt,
-    //     img: img,
-    //   },
-    // };
-
-    // const state = <MangaDetails entry={queryEntry}/>;
-
-    // State.updateState(state);
   }
 
-  function anilist(): void {
-    const button = document.getElementById('anilist') as HTMLInputElement;
+  function anilist(button: HTMLElement): void {
     if (button.classList.contains('active-button')) return;
 
     console.log(button);
     State.updateState(<AniList />);
   }
 
-  function settings(): void {
-    const button = document.getElementById('settings') as HTMLInputElement;
+  function settings(button: HTMLElement): void {
     if (button.classList.contains('active-button')) return;
 
     console.log(button);
     State.updateState(<Empty text="settings" />);
-
-    // Open a new window with a specific size and position
-    //windowMaker.openWindow("https://gotaku1.com/streaming.php?id=MTkzNDcw&title=Blue+Lock+Episode+1");
   }
 
-  function hot(): void {
-    const button = document.getElementById('hot') as HTMLInputElement;
+  function hot(button: HTMLElement): void {
     if (button.classList.contains('active-button')) return;
 
     console.log(button);
     State.updateState(<Hot />);
   }
 
+  // handle button clicks
+  const handleButtonClick = (buttonID: string) => {
+    // get the button by ID
+    const button = document.getElementById(buttonID) as HTMLInputElement;
+
+    // Call the appropriate function
+    switch (buttonID) {
+      case 'anilist':
+        anilist(button);
+        break;
+      case 'search':
+        search(button);
+        break;
+      case 'hot':
+        hot(button);
+        break;
+      case 'settings':
+        settings(button);
+        break;
+      default:
+        break;
+    }
+
+    // Remove the active class from all buttons
+    const buttons = document.querySelectorAll('.button-container');
+    buttons.forEach((button) => {
+      button.classList.remove('active-button');
+    });
+
+    // Add the active class to the clicked button
+    button.classList.add('active-button');
+  };
+
   return (
     <>
       <div className="sidemenu-container">
-        <div className="button-container" id="anilist" onClick={anilist}>
+        <div
+          className="button-container"
+          id="anilist"
+          onClick={() => handleButtonClick('anilist')}
+        >
           <div className="vanity-rectangle-of-deviously-obtuse-proportions"></div>
           <BsFillHouseFill className="icon"></BsFillHouseFill>
         </div>
-        <div className="button-container" id="search" onClick={search}>
+        <div
+          className="button-container"
+          id="search"
+          onClick={() => handleButtonClick('search')}
+        >
           <div className="vanity-rectangle-of-deviously-obtuse-proportions"></div>
           <BsSearch className="icon"></BsSearch>
         </div>
-        <div className="button-container" id="hot" onClick={hot}>
+        <div
+          className="button-container"
+          id="hot"
+          onClick={() => handleButtonClick('hot')}
+        >
           <div className="vanity-rectangle-of-deviously-obtuse-proportions"></div>
           <BsFire className="icon"></BsFire>
         </div>
-        <div className="button-container" id="settings" onClick={settings}>
+        <div
+          className="button-container"
+          id="settings"
+          onClick={() => handleButtonClick('settings')}
+        >
           <div className="vanity-rectangle-of-deviously-obtuse-proportions"></div>
           <BsGearFill className="icon"></BsGearFill>
         </div>
