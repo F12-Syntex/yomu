@@ -4,10 +4,15 @@ import Hot from '../content-components/Hot.tsx';
 import Search from '../content-components/Search.tsx';
 import * as State from '../core/State.ts';
 
+// import icons
+import { BsFillHouseFill } from 'react-icons/bs';
+import { BsSearch } from 'react-icons/bs';
+import { BsFire } from 'react-icons/bs';
+import { BsGearFill } from 'react-icons/bs';
+
 import '../stylings/content/sidemenu.css';
 
-function SideMenu() {  
-
+function SideMenu() {
   //<div className='sidemenu-button' id='sidemenu-recent' onClick={recent}></div>
 
   /*
@@ -41,15 +46,13 @@ function SideMenu() {
     root.render(element);
   }
   */
-  
 
-  
-  function search() : void {
-    const button = document.getElementById('sidemenu-search') as HTMLInputElement;
-    if(button.classList.contains('active-button')) return;
+  function search(): void {
+    const button = document.getElementById('search') as HTMLInputElement;
+    if (button.classList.contains('active-button')) return;
 
     console.log(button);
-    State.updateState(<Search/>);
+    State.updateState(<Search />);
 
     // const animeId : number = 1535; // Enen no Shouboutai
     // const alt : string = 'Enen no Shouboutai';
@@ -68,57 +71,55 @@ function SideMenu() {
     // State.updateState(state);
   }
 
-  function anilist() : void {
-    const button = document.getElementById('sidemenu-anilist') as HTMLInputElement;
-    if(button.classList.contains('active-button')) return;
+  function anilist(): void {
+    const button = document.getElementById('anilist') as HTMLInputElement;
+    if (button.classList.contains('active-button')) return;
 
     console.log(button);
-    State.updateState(<AniList/>);
+    State.updateState(<AniList />);
   }
 
-  function settings() : void {
-    const button = document.getElementById('sidemenu-settings') as HTMLInputElement;
-    if(button.classList.contains('active-button')) return;
+  function settings(): void {
+    const button = document.getElementById('settings') as HTMLInputElement;
+    if (button.classList.contains('active-button')) return;
 
     console.log(button);
-    State.updateState(<Empty text="settings"/>);
+    State.updateState(<Empty text="settings" />);
 
     // Open a new window with a specific size and position
     //windowMaker.openWindow("https://gotaku1.com/streaming.php?id=MTkzNDcw&title=Blue+Lock+Episode+1");
-
   }
 
-  function hot() : void {
-    const button = document.getElementById('sidemenu-hot') as HTMLInputElement;
-    if(button.classList.contains('active-button')) return;
+  function hot(): void {
+    const button = document.getElementById('hot') as HTMLInputElement;
+    if (button.classList.contains('active-button')) return;
 
     console.log(button);
-    State.updateState(<Hot/>);
+    State.updateState(<Hot />);
   }
-  
+
   return (
     <>
-      <div id='sidemenu-container' className='sidemenu-container'>
-          <div className='sidemenu-button' id='sidemenu-anilist' onClick={anilist}>
-            <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-anilist-selector'></div>
-            <div className='sidemenu-button-img sidemenu-anilist-img-inactive' id='sidemenu-anilist-img'></div>
-          </div>
-          <div className='sidemenu-button' id='sidemenu-search' onClick={search}>
-            <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-search-selector'></div>
-            <div className='sidemenu-button-img sidemenu-search-img-inactive' id='sidemenu-search-img'></div>
-          </div>
-          <div className='sidemenu-button' id='sidemenu-hot' onClick={hot}>
-            <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-hot-selector'></div>
-            <div className='sidemenu-button-img sidemenu-hot-img-inactive' id='sidemenu-hot-img'></div>
-          </div>
-          <div className='sidemenu-button' id='sidemenu-settings' onClick={settings}>
-            <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-settings-selector'></div>
-            <div className='sidemenu-button-img sidemenu-settings-img-inactive' id='sidemenu-settings-img'></div>
-          </div>
-      </div>  
+      <div className="sidemenu-container">
+        <div className="button-container" id="anilist" onClick={anilist}>
+          <div className="vanity-rectangle-of-deviously-obtuse-proportions"></div>
+          <BsFillHouseFill className="icon"></BsFillHouseFill>
+        </div>
+        <div className="button-container" id="search" onClick={search}>
+          <div className="vanity-rectangle-of-deviously-obtuse-proportions"></div>
+          <BsSearch className="icon"></BsSearch>
+        </div>
+        <div className="button-container" id="hot" onClick={hot}>
+          <div className="vanity-rectangle-of-deviously-obtuse-proportions"></div>
+          <BsFire className="icon"></BsFire>
+        </div>
+        <div className="button-container" id="settings" onClick={settings}>
+          <div className="vanity-rectangle-of-deviously-obtuse-proportions"></div>
+          <BsGearFill className="icon"></BsGearFill>
+        </div>
+      </div>
     </>
   );
 }
-
 
 export default SideMenu;
