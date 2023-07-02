@@ -56,12 +56,12 @@
 /* WHEN A BUTTON IS ACTIVE */
 .active-button {
   background-color: rgba(255, 255, 255, 0);
+  opacity: 0.7;
 }
 
 .iactive-button {
   background-color: rgba(255, 255, 255, 0);
 }
-
 
 /* WHEN A BUTTON IS BEING HOVERED ON */
 
