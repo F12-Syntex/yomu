@@ -19,6 +19,7 @@ const axios = require('axios');
 
 const SourceTextModule = require('vm');
 const { noDeprecation } = require('process');
+const { Console } = require('console');
 
 
 
@@ -66,6 +67,10 @@ app.get('/callback', (req, res) => {
 
 });
 
+
+app.get('/getStats', (req, res) => {
+});
+
 app.get('/isConnected', (req, res) => { 
   if(fs.existsSync(AUTH_KEY)) {
     res.end("true");
@@ -109,6 +114,99 @@ app.get('/updateEpisodeForUser', (req, res) => {
   });
 
 });
+
+app.get('/getStatistics', (req, res) => {
+  const authKey = req.query.authkey;
+  const userIdentification = userId; 
+
+  const query = `
+  query {
+    Viewer {
+      avatar{
+        large
+      },
+      bannerImage,
+      statistics {
+        anime {
+          count
+          meanScore
+          standardDeviation
+          minutesWatched
+          episodesWatched
+          chaptersRead
+          volumesRead
+          formats(limit: 10) {
+            format
+            count
+          }
+          statuses(limit: 10) {
+            status
+            count
+          }
+          scores(limit: 10) {
+            score
+            count
+          }
+          lengths(limit: 10) {
+            length
+            count
+          }
+          genres(limit: 10) {
+            genre
+            count
+          }
+          tags(limit: 10) {
+            tag {
+              name
+              description
+            }
+            count
+          }
+          countries(limit: 10) {
+            country
+            count
+          }
+          voiceActors(limit: 10) {
+            voiceActor {
+              id
+              name {
+                full
+                native
+              }
+            }
+            count
+          }
+          staff(limit: 10) {
+            staff {
+              id
+              name {
+                full
+                native
+              }
+            }
+            count
+          }
+          studios(limit: 10) {
+            studio {
+              id
+              name
+            }
+            count
+          }
+        }
+      }
+    }
+  }
+`;
+
+  const response = anilistQuery(query);
+  response.then(data => {
+    res.end(JSON.stringify(data));
+  });
+
+});
+
+
 
 app.get('/getCurrentWatchingList', (req, res) => {
   const query = `

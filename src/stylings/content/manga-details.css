@@ -73,7 +73,7 @@
 
 .content-details-info{
     border-radius: 10px;
-    background-color: rgb(255, 255, 255, 0.05); 
+    background-color: rgb(255, 255, 255, 0.07); 
     display: flex;
     flex: 1;
     flex-direction: column;
@@ -96,7 +96,7 @@
     font-size: 1em;
 }
 
-.content-details-container{
+.content-details{
     border-radius: 10px;
     /* background-color: rgb(23, 85, 66);  */
     display: flex;

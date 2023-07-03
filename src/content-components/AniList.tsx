@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import * as sideMenuUtils from '../utils/SideMenu.ts';
 import * as State from '../core/State.ts';
+import * as animeflix from '../content-source/animeflix.ts';
 
 import { shell } from 'electron';
 import Search from './Search.tsx';
@@ -13,6 +14,7 @@ const authKeyUri = "http://localhost:" + port + "/authenticate";
 const connectedUri = "http://localhost:" + port + "/isConnected";
 const planningUri = "http://localhost:" + port + "/getPlanningList";
 const watchingUri = "http://localhost:" + port + "/getCurrentWatchingList";
+const statsUri = "http://localhost:" + port + "/getStatistics";
 const clientId = '13194';
 
 const authoriseUrl = `https://anilist.co/api/v2/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
@@ -57,8 +59,14 @@ async function loadUserData() {
   const response = await axios.get(watchingUri);
   const arr: any[] = response.data.data.MediaListCollection.lists[0].entries;
 
+  console.log("retrieved response from " + watchingUri);
+
   const response1 = await axios.get(planningUri);
   const arr1: any[] = response1.data.data.MediaListCollection.lists[0].entries;
+
+  console.log("retrieved response from " + planningUri);
+
+  await getStats();
 
   loadItems(arr, "profile-video-pane-currently-watching");
   loadItems(arr1, "profile-video-pane-currently-planning");
@@ -123,6 +131,53 @@ async function loadUserData() {
   
 }
 
+
+async function getStats(){
+
+  const stats = await animeflix.getUserStatistics();
+  const animeStats = stats.data.Viewer.statistics.anime;
+
+  const animeWatched = animeStats.count;
+  const meanScore = animeStats.meanScore;
+  const standardDeviation = animeStats.standardDeviation;
+  const minutesWatched = animeStats.minutesWatched;
+  const episodesWatched = animeStats.episodesWatched;
+  const chaptersRead = animeStats.chaptersRead;
+  const genres: any[] = animeStats.genres;
+  const studios: any[] = animeStats.studios;
+  const tags: any[]  = animeStats.tags;
+  const voiceActors: any[] = animeStats.voiceActors;
+
+  //profile-info-total-anime-value profile-info-minutes-watched-value
+  document.getElementById('profile-info-total-anime-value')!.innerHTML = animeWatched;
+  document.getElementById('profile-info-minutes-watched-value')!.innerHTML = minutesWatched;
+
+  document.getElementById('profile-info-watched-episodes-value')!.innerHTML = episodesWatched;
+  document.getElementById('profile-info-genres-explored-value')!.innerHTML = genres.length+"";
+
+  document.getElementById('profile-info-mean-score-value')!.innerHTML = meanScore;
+  document.getElementById('profile-info-standard-deviation-value')!.innerHTML = standardDeviation;
+  document.getElementById('profile-info-chapters-read-value')!.innerHTML = chaptersRead;
+  document.getElementById('profile-info-studios-value')!.innerHTML = studios.length+"";
+
+  document.getElementById('profile-info-best-genre-value')!.innerHTML = String(genres[0].genre.genre).toLowerCase();
+  document.getElementById('profile-info-favourite-voice-actor-value')!.innerHTML = String(voiceActors[0].voiceActor.name.full).toLowerCase();
+  document.getElementById('profile-info-favourite-tag-value')!.innerHTML = String(tags[0].tag.name).toLowerCase();
+  document.getElementById('profile-info-favourite-studio-value')!.innerHTML = String(studios[0].studio.name);
+
+
+  //profile-banner-img
+  //profile-banner
+
+  console.log(stats);
+
+  document.getElementById('profile-avatar')!.style.backgroundImage = 'url(' + stats.data.Viewer.avatar.large + ')';
+  document.getElementById('profile-banner')!.style.backgroundImage = 'url(' + stats.data.Viewer.bannerImage+ ')';
+
+
+  //profile-info
+
+}
 
 function loadItems(ids: any[], container: string) {
 
@@ -250,8 +305,8 @@ export default function aniList() {
     <>
      <div className='profile-page-container' id='profile-page-container'>
       <div className='profile-page' id='profile-page'>
-          <div className='profile-banner'>
-            <div className='profile-banner-img'>
+          <div className='profile-banner' id='profile-banner'>
+            <div className='profile-banner-img' id='profile-avatar'>
                 <h1 id='profile-banner-img-username'>
                   Syntex
                 </h1>
@@ -262,20 +317,20 @@ export default function aniList() {
               <div className='profile-stats-left'>
                 <div className='profile-stats-left-darkborder'>
                   <div className='profile-stats-total-anime'>
-                    <h1 id='profile-stats-text-value'>32</h1>
-                    <h1 id='profile-stats-text-parent'>Total anime</h1>
+                    <h1 className='profile-stats-text-value' id='profile-info-mean-score-value'>32</h1>
+                    <h1 className='profile-stats-text-parent'>Mean score</h1>
                   </div>
                   <div className='profile-stats-total-anime'>
-                    <h1 id='profile-stats-text-value'>32</h1>
-                    <h1 id='profile-stats-text-parent'>Total anime</h1>
+                    <h1 className='profile-stats-text-value'  id='profile-info-standard-deviation-value'>32</h1>
+                    <h1 className='profile-stats-text-parent'>Standard deviation</h1>
                   </div>
                   <div className='profile-stats-total-anime'>
-                    <h1 id='profile-stats-text-value'>32</h1>
-                    <h1 id='profile-stats-text-parent'>Total anime</h1>
+                    <h1 className='profile-stats-text-value'  id='profile-info-chapters-read-value'>32</h1>
+                    <h1 className='profile-stats-text-parent'>Chapters read</h1>
                   </div>
                   <div className='profile-stats-total-anime'>
-                    <h1 id='profile-stats-text-value'>32</h1>
-                    <h1 id='profile-stats-text-parent'>Total anime</h1>
+                    <h1 className='profile-stats-text-value'  id='profile-info-studios-value'>32</h1>
+                    <h1 className='profile-stats-text-parent'>Studios</h1>
                   </div>
                 </div>
                 <div className='profile-icon-stats'>
@@ -285,8 +340,8 @@ export default function aniList() {
                         <path d="M2.5 13.5A.5.5 0 0 1 3 13h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zM13.991 3l.024.001a1.46 1.46 0 0 1 .538.143.757.757 0 0 1 .302.254c.067.1.145.277.145.602v5.991l-.001.024a1.464 1.464 0 0 1-.143.538.758.758 0 0 1-.254.302c-.1.067-.277.145-.602.145H2.009l-.024-.001a1.464 1.464 0 0 1-.538-.143.758.758 0 0 1-.302-.254C1.078 10.502 1 10.325 1 10V4.009l.001-.024a1.46 1.46 0 0 1 .143-.538.758.758 0 0 1 .254-.302C1.498 3.078 1.675 3 2 3h11.991zM14 2H2C0 2 0 4 0 4v6c0 2 2 2 2 2h12c2 0 2-2 2-2V4c0-2-2-2-2-2z"/>
                       </svg>
                       <div className='watch-time-stats'>
-                        <h1 id='profile-stats-text-value-icon'>32</h1>
-                        <h1 id='profile-stats-text-parent-icon'>Hours planned</h1>
+                        <h1 className='profile-stats-text-value-icon' id='profile-info-total-anime-value'>32</h1>
+                        <h1 className='profile-stats-text-parent-icon'>Watched anime</h1>
                       </div>
                     </div>
                     <div className='profile-icon-component'>
@@ -295,8 +350,8 @@ export default function aniList() {
                         <path d="M2 1.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1h-11a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1-.5-.5zm2.5.5v1a3.5 3.5 0 0 0 1.989 3.158c.533.256 1.011.791 1.011 1.491v.702s.18.149.5.149.5-.15.5-.15v-.7c0-.701.478-1.236 1.011-1.492A3.5 3.5 0 0 0 11.5 3V2h-7z"/>
                       </svg>
                       <div className='watch-time-stats'>
-                        <h1 id='profile-stats-text-value-icon'>32</h1>
-                        <h1 id='profile-stats-text-parent-icon'>Hours planned</h1>
+                        <h1 className='profile-stats-text-value-icon' id='profile-info-minutes-watched-value'>32</h1>
+                        <h1 className='profile-stats-text-parent-icon'>Minutes watched</h1>
                       </div>
                     </div>
                 </div>
@@ -304,20 +359,20 @@ export default function aniList() {
               <div className='profile-stats-right'>
                 <div className='profile-stats-right-darkborder'>
                   <div className='profile-stats-total-anime'>
-                    <h1 id='profile-stats-text-value'>32</h1>
-                    <h1 id='profile-stats-text-parent'>Total anime</h1>
+                    <h1 className='profile-stats-text-value2' id='profile-info-best-genre-value'>32</h1>
+                    <h1 className='profile-stats-text-parent'>Fav genre</h1>
                   </div>
                   <div className='profile-stats-total-anime'>
-                    <h1 id='profile-stats-text-value'>32</h1>
-                    <h1 id='profile-stats-text-parent'>Total anime</h1>
+                    <h1 className='profile-stats-text-value2' id='profile-info-favourite-voice-actor-value'>32</h1>
+                    <h1 className='profile-stats-text-parent'>Fav va</h1>
                   </div>
                   <div className='profile-stats-total-anime'>
-                    <h1 id='profile-stats-text-value'>32</h1>
-                    <h1 id='profile-stats-text-parent'>Total anime</h1>
+                    <h1 className='profile-stats-text-value2' id='profile-info-favourite-tag-value'>32</h1>
+                    <h1 className='profile-stats-text-parent'>Fav tag</h1>
                   </div>
                   <div className='profile-stats-total-anime'>
-                    <h1 id='profile-stats-text-value'>32</h1>
-                    <h1 id='profile-stats-text-parent'>Total anime</h1>
+                    <h1 className='profile-stats-text-value2' id='profile-info-favourite-studio-value'>32</h1>
+                    <h1 className='profile-stats-text-parent'>Fav studio</h1>
                   </div>
                 </div>
                 <div className='profile-icon-stats'>
@@ -329,8 +384,8 @@ export default function aniList() {
                           <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
                         </svg>
                         <div className='watch-time-stats'>
-                          <h1 id='profile-stats-text-value-icon'>32</h1>
-                          <h1 id='profile-stats-text-parent-icon'>Hours watched</h1>
+                          <h1 className='profile-stats-text-value-icon' id='profile-info-watched-episodes-value'>32</h1>
+                          <h1 className='profile-stats-text-parent-icon'>Episodes watched</h1>
                         </div>
                       </div>
                       <div className='profile-icon-component'>
@@ -340,8 +395,8 @@ export default function aniList() {
                           <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1v5.086z"/>
                         </svg>
                         <div className='watch-time-stats'>
-                          <h1 id='profile-stats-text-value-icon'>32</h1>
-                          <h1 id='profile-stats-text-parent-icon'>Hours watched</h1>
+                          <h1 className='profile-stats-text-value-icon' id='profile-info-genres-explored-value'>32</h1>
+                          <h1 className='profile-stats-text-parent-icon'>Genres explored</h1>
                         </div>
                       </div>
                   </div>

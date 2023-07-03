@@ -1,4 +1,5 @@
 import axios from "axios";
+import { json } from "express";
 
 export type Anime = {
   id: number;
@@ -56,6 +57,103 @@ export type Anime = {
   };
 };
 
+export type AnimeFormat = {
+  format: string;
+  count: number;
+}
+
+export type AnimeStatus = {
+  status: string;
+  count: number;
+}
+
+export type AnimeLength= {
+  length: string;
+  count: number;
+}
+
+export type AnimeGenre = {
+  genre: string;
+  count: number;
+}
+
+export type AnimeTag = {
+  tag: {
+    name: string;
+    description: string;
+  };
+  count: number;
+}
+
+export type AnimeCountry = {
+  country: string;
+  count: number;
+}
+
+export type VoiceActor = {
+  voiceActor: {
+    id: number;
+    name: {
+      full: string;
+      native: string;
+    };
+  };
+  count: number;
+}
+
+export type Staff = {
+  staff: {
+    id: number;
+    name: {
+      full: string;
+      native: string;
+    };
+  };
+  count: number;
+}
+
+export type Studio = {
+  studio: {
+    id: number;
+    name: string;
+  };
+  count: number;
+}
+
+export type AnimeStatistics = {
+  count: number;
+  meanScore: number;
+  standardDeviation: number;
+  minutesWatched: number;
+  episodesWatched: number;
+  chaptersRead: number;
+  volumesRead: number;
+  formats: AnimeFormat[];
+  statuses: AnimeStatus[];
+  scores: any[]; // Since the "scores" field is empty in the provided JSON, its type is not clear.
+  lengths: AnimeLength[];
+  genres: AnimeGenre[];
+  tags: AnimeTag[];
+  countries: AnimeCountry[];
+  voiceActors: VoiceActor[];
+  staff: Staff[];
+  studios: Studio[];
+}
+
+export type UserStatistics = {
+  anime: AnimeStatistics;
+}
+
+export type UserDataType = {
+  data: {
+    User: {
+      statistics: UserStatistics;
+    };
+  };
+}
+
+
+
 export type AnimeQuery = {
   id: number;
   title: {
@@ -91,6 +189,21 @@ export function updateEpisodeForUser(props: Anime, episode: string) {
     });
 }
 
+export async function getUserStatistics(){
+  const port = `3023`;
+  const authKeyUri = "http://localhost:" + port + "/authenticate";
+
+  // Get authentication key from server
+
+  const key = await axios.get(authKeyUri);
+  const authKey = key.data;
+
+  console.log("authkey: " + authKey);
+  const uri = "http://localhost:" + port + `/getStatistics?&authkey=${authKey}`;
+  
+  const data = await axios.get(uri);
+  return data.data;
+}
 
 export async function getTrendingAnime(): Promise<AnimeQuery[]> {
   const response = await fetch('https://graphql.anilist.co', {
