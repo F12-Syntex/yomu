@@ -23,6 +23,16 @@
     overflow-x: hidden;
 }
 
+.profile-page-container{
+    width: 100%;
+    height: 90vh;
+
+    background-image: url('../../assets/search/loading.gif');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto 25%;
+}
+
 .profile-banner {
     background-color: blue;
     width: 100%;
@@ -213,25 +223,59 @@
 
 .profile-video-pane-currently-watching-container{
     width: 100%;
-    height: 40vh;
 
     display: flex;
     flex-direction: column;
     padding: 10px;
 }
 
-.profile-video-pane-currently-watching-container > h1{
+.profile-video-pane-currently-watching-container-header{
+    width: 95%;
+    height: 35px;
+
+    margin: 10px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+
+}
+
+#profile-header-label{
     color: white;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     margin-top: 0;
 }
 
-.profile-video-pane-currently-watching{
+.profile-video-pane-anime-grid {
+  width: 100%;
+  height: 375px;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  overflow: hidden;
+  grid-gap: 10px;
+  transition: overflow 0.3s ease-in-out;
+}
+
+.profile-expand-collapse-pane{
+
+    margin-top: 10px;
+
+    height: 25px;
     width: 100%;
 
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    grid-gap: 10px;
+    display: flex;
+    flex-direction: rows;
+    justify-content: center;
+    align-items: baseline;
+
+    font-size: 8px;
+    color: gray;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .profile-anime-entry:hover,
@@ -279,4 +323,39 @@
     font-size: 1em;
     text-align: left;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.svg-home-small {
+    width: 20px;
+    height: 20px;
+    fill: rgba(255, 255, 255, 0.5);
+    margin-left: 10px;
+}
+
+.profile-video-pane-currently-watching-container-header-expand {
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+
+    width: 100%;
+    justify-content: center;
+
+    height: 25px;
+
+    margin-top: 10px;
+}
+
+.profile-header-label-collapse-show{
+    color: gray;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin-top: 0;
+    font-size: medium;
+}
+
+.profile-video-pane-currently-watching-container-header-expand:hover .profile-header-label-collapse-show {
+    color: white;
+}
+
+.profile-video-pane-currently-watching-container-header-expand:hover .svg-home-small {
+    fill: white;
 }

@@ -112,7 +112,7 @@ function addEpisodes(anime : aniflix.Anime){
     textContainer.className = 'content-episodes-item-text-container';
 
     const relationTitle = document.createElement('a');
-    relationTitle.className = 'content-episodes-item-title';
+    relationTitle.className = 'content-episodes-item-title-number';
 
     const episodeNumber = (i + 1).toString();
 
@@ -122,14 +122,15 @@ function addEpisodes(anime : aniflix.Anime){
     if (streamingEpisode) {
       relation.style.backgroundImage = `url('${streamingEpisode.thumbnail}')`;
       relationTitle.innerHTML = streamingEpisode.title;
+
     }else{
       relationTitle.innerHTML = 'Episode ' + episodeNumber;
       relation.style.backgroundImage = `url('${anime.bannerImage}')`;
       relation.style.backgroundSize = `auto 100%`;
     }
 
-    textContainer.appendChild(relationTitle);
     
+    textContainer.appendChild(relationTitle);
   
     console.log("appended episode " + episodeNumber + " to container");
   
@@ -230,6 +231,15 @@ export default function MangaDetails(props: MangaDetailsProps) {
   if(anime?.id == undefined){
     console.log("loading anime from entry [not in effect]");
     useEffect(() => {
+
+      const detailspane = document.getElementById('mangadetails-child-container');
+
+      if(detailspane == null){
+        return;
+      }
+
+      detailspane.style.opacity = "0";
+
       console.log("loading anime from entry");
       if(entry == undefined){
         return;
@@ -237,75 +247,86 @@ export default function MangaDetails(props: MangaDetailsProps) {
       console.log("loading anime");
       const data = entry.manga;
       const promisedAnime = getMangaDetails(data.id);
-      load(promisedAnime);
+      load(promisedAnime).then(() => {
+        detailspane.style.opacity = "1";
+        document.getElementById('mangadetails-pane-container')!.style.backgroundImage = `none`;
+      });
+
+      
     }, []);
   }else{
     //useEffect(() => {
       //document.querySelector('.content-relations')!.childNodes.forEach((node) => { node.remove(); }); 
       console.log("running anime");
       run(anime);
+
+
+      document.getElementById('mangadetails-pane-container')!.style.backgroundImage = `none`;
+
     //}, []);
   }
   
     return (
       <>
         {
-         <div className='mangadetails-pane'>
-          <div className='content-details'>
-            <div className='content-details-container'>
-              <div className='content-details-image'>
-                <img src="" id='mangadetails-cover' alt='manga cover' className='manga-cover'/>
+          <div id='mangadetails-pane-container'>
+            <div className='mangadetails-pane' id='mangadetails-child-container'>
+              <div className='content-details'>
+                <div className='content-details-container'>
+                  <div className='content-details-image'>
+                    <img src="" id='mangadetails-cover' alt='manga cover' className='manga-cover'/>
+                  </div>
+                  <div className='content-details-info'>
+                    <div className='content-details-info-format'>
+                      <h3 id = 'content-details-label'>Format</h3>
+                      <h3 id='content-details-info-format-data'>Dummy data</h3>
+                    </div>
+                    <br/>
+                    <div className='content-details-info-episode'>
+                      <h3 id = 'content-details-label'>Episodes</h3>
+                      <h3 id='content-details-info-episode-data'>Dummy data</h3>
+                    </div>
+                    <br/>
+                    <div className='content-details-info-episode-duration'>
+                      <h3 id = 'content-details-label'>Episode duration</h3>
+                      <h3 id='content-details-info-episode-duration-data'>Dummy data</h3>
+                    </div>
+                    <br/>
+                    <div className='content-details-info-status'>
+                      <h3 id = 'content-details-label'>Status</h3>
+                      <h3 id='content-details-info-status-data'>Dummy data</h3>
+                    </div>
+                    <br/>
+                    <div className='content-details-info-average-score'>
+                    <h3 id = 'content-details-label'>Average score</h3>
+                      <h3 id='content-details-info-average-score-data'>Dummy data</h3>
+                    </div>
+                    <br/>
+                    <div className='content-details-info-studios'>
+                      <h3 id = 'content-details-label'>Studios</h3>
+                      <h3 id='content-details-info-studios-data'>Dummy data</h3>
+                    </div>
+                    <br/>
+                    <div className='content-details-info-genres'>
+                      <h3 id = 'content-details-label'>Genres</h3>
+                      <h3 id='content-details-info-genres-data'>Dummy data</h3>
+                    </div>
+                    <br/>
+                  </div>
+                </div>
               </div>
-              <div className='content-details-info'>
-                <div className='content-details-info-format'>
-                  <h3 id = 'content-details-label'>Format</h3>
-                  <h3 id='content-details-info-format-data'>Dummy data</h3>
+              <div className='content-description-container'>
+                <div className='content-description'>
+                    <h1 id='mangadetails-title'>Dummy data</h1>
+                    <h3 id='mangadetails-description'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum auctor eros vel lectus laoreet luctus. Nullam bibendum sapien eget metus malesuada, in faucibus nisi venenatis. Ut euismod ante sed risus ornare, non fermentum nulla varius. Morbi ac augue id odio dictum iaculis quis et massa. Fusce tristique, nisl nec aliquet vestibulum, sapien quam ultricies purus, vel eleifend orci mi vitae mauris. Sed quis est pharetra, tincidunt tortor at, rhoncus enim. Proin dapibus, arcu eu ultrices sagittis</h3>
+                      {/* <div className='content-relations'></div>  */}
+                    <div className='content-episodes-and-relations'>
+                      <div className='content-episodes'></div>
+                    </div>
                 </div>
-                <br/>
-                <div className='content-details-info-episode'>
-                  <h3 id = 'content-details-label'>Episodes</h3>
-                  <h3 id='content-details-info-episode-data'>Dummy data</h3>
-                </div>
-                <br/>
-                <div className='content-details-info-episode-duration'>
-                  <h3 id = 'content-details-label'>Episode duration</h3>
-                  <h3 id='content-details-info-episode-duration-data'>Dummy data</h3>
-                </div>
-                <br/>
-                <div className='content-details-info-status'>
-                  <h3 id = 'content-details-label'>Status</h3>
-                  <h3 id='content-details-info-status-data'>Dummy data</h3>
-                </div>
-                <br/>
-                <div className='content-details-info-average-score'>
-                <h3 id = 'content-details-label'>Average score</h3>
-                  <h3 id='content-details-info-average-score-data'>Dummy data</h3>
-                </div>
-                <br/>
-                <div className='content-details-info-studios'>
-                  <h3 id = 'content-details-label'>Studios</h3>
-                  <h3 id='content-details-info-studios-data'>Dummy data</h3>
-                </div>
-                <br/>
-                <div className='content-details-info-genres'>
-                  <h3 id = 'content-details-label'>Genres</h3>
-                  <h3 id='content-details-info-genres-data'>Dummy data</h3>
-                </div>
-                <br/>
               </div>
-            </div>
-          </div>
-          <div className='content-description-container'>
-            <div className='content-description'>
-                <h1 id='mangadetails-title'>Dummy data</h1>
-                <h3 id='mangadetails-description'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum auctor eros vel lectus laoreet luctus. Nullam bibendum sapien eget metus malesuada, in faucibus nisi venenatis. Ut euismod ante sed risus ornare, non fermentum nulla varius. Morbi ac augue id odio dictum iaculis quis et massa. Fusce tristique, nisl nec aliquet vestibulum, sapien quam ultricies purus, vel eleifend orci mi vitae mauris. Sed quis est pharetra, tincidunt tortor at, rhoncus enim. Proin dapibus, arcu eu ultrices sagittis</h3>
-                  {/* <div className='content-relations'></div>  */}
-            </div>
-            <div className='content-episodes-and-relations'>
-              <div className='content-episodes'></div>
-            </div>
-          </div>
-        </div> 
+            </div> 
+        </div>
         }
     </>
     );

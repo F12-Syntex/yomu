@@ -175,7 +175,6 @@ export default function SearchMenu() {
           </div>
           <div className="search-grid"></div>
       </div>
-
     </>
   );
 }
