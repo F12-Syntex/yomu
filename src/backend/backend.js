@@ -16,7 +16,6 @@ const path = require('path');
 const cors = require('cors');
 const axios = require('axios');
 
-
 const SourceTextModule = require('vm');
 const { noDeprecation } = require('process');
 const { Console } = require('console');
@@ -122,6 +121,7 @@ app.get('/getStatistics', (req, res) => {
   const query = `
   query {
     Viewer {
+      name,
       avatar{
         large
       },
@@ -214,6 +214,7 @@ app.get('/getCurrentWatchingList', (req, res) => {
     MediaListCollection(userId: ${userId}, type: ANIME, status: CURRENT) {
       lists {
         entries {
+          progress,
           media {
             id
             title {
@@ -255,6 +256,7 @@ app.get('/getPlanningList', (req, res) => {
     MediaListCollection(userId: ${userId}, type: ANIME, status: PLANNING) {
       lists {
         entries {
+          progress,
           media {
             id
             title {
@@ -427,4 +429,3 @@ function saveData(code, filePath) {
     console.log('Code saved to file: ' + filePath);
   });
 }
-

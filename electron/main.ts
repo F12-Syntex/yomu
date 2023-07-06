@@ -1,5 +1,6 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'node:path';
+// import { fileURLToPath } from 'url';
 
 // The built directory structure
 //
@@ -23,24 +24,37 @@ const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL']
 // )
 
 //load the background script
-import { spawn } from 'child_process';
+import { ChildProcessWithoutNullStreams, spawn } from 'child_process';
 
-// Spawn a new child process to run the Node.js script
-const childProcess = spawn('node', ['electron/backend.js']);
+// const __filename = fileURLToPath(import.meta.url);
+// const path = require('path');
 
-// Listen for output from the child process
-childProcess.stdout.on('data', (data) => {
-  console.log(`stdout: ${data}`);
-});
 
-childProcess.stderr.on('data', (data) => {
-  console.error(`stderr: ${data}`);
-});
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+console.log('Current Directory:', __filename);
 
-// Listen for the child process to exit
-childProcess.on('close', (code) => {
-  console.log(`child process exited with code ${code}`);
-});
+const child_process1 = spawn('node', [path.join('src', 'backend', 'backend.js')]);
+const child_process2 = spawn('node', [path.join('src', 'backend', 'discord.js')]);
+
+startChildProcess(child_process1);
+startChildProcess(child_process2);
+
+function startChildProcess(childProcess: ChildProcessWithoutNullStreams) {
+  // Listen for output from the child process
+  childProcess.stdout.on('data', (data: any) => {
+    console.log(`stdout: ${data}`);
+  });
+
+  childProcess.stderr.on('data', (data: any) => {
+    console.error(`stderr: ${data}`);
+  });
+
+  // Listen for the child process to exit
+  childProcess.on('close', (code: any) => {
+    console.log(`child process exited with code ${code}`);
+  });
+}
 
 function createWindow() {
   win = new BrowserWindow({

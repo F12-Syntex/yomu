@@ -3,6 +3,7 @@ import React from 'react';
 import * as animeflix from '../content-source/animeflix.ts';
 import * as State from '../core/State.ts';
 import * as sideMenuUtils from '../utils/SideMenu.ts';
+import * as discord from '../content-source/discord-api.ts';
 
 import '../stylings/content/search.css';
 import MangaDetails from './MangaDetails.tsx';
@@ -55,6 +56,8 @@ function search(event: React.KeyboardEvent<HTMLInputElement>) {
     }
 
     startLoadingAnimation();
+
+    discord.setSearching();
 
 
     const search_input = document.getElementById('search-input') as HTMLInputElement;
@@ -148,6 +151,8 @@ export async function loadEntries(searchGrid: Element, entries: animeflix.AnimeQ
 }
 
 export default function SearchMenu() {  
+
+  discord.setSearching();
 
   sideMenuUtils.toggle(document.getElementById('sidemenu-search')!);
 

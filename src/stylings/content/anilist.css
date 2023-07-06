@@ -256,17 +256,6 @@
     margin-top: 0;
 }
 
-.profile-video-pane-anime-grid {
-  width: 100%;
-  height: 375px;
-
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  overflow: hidden;
-  grid-gap: 10px;
-  transition: overflow 0.3s ease-in-out;
-}
-
 .profile-expand-collapse-pane{
 
     margin-top: 10px;
@@ -285,6 +274,17 @@
     cursor: pointer;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+
+.profile-video-pane-anime-grid {
+    width: 100%;
+    height: 375px;
+  
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    overflow: hidden;
+    grid-gap: 10px;
+    transition: overflow 0.3s ease-in-out;
+  }
 
 .profile-anime-entry:hover,
 .profile-anime-entry:hover + .profile-anime-entry-header {
@@ -331,6 +331,12 @@
     font-size: 1em;
     text-align: left;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-decoration: underline;
+}
+
+#profile-anime-entry-details:hover{
+    color: aqua;
+    opacity: 1;
 }
 
 .svg-home-small {

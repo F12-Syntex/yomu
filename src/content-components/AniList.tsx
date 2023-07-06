@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { useEffect } from 'react';
-import * as sideMenuUtils from '../utils/SideMenu.ts';
-import * as State from '../core/State.ts';
 import * as animeflix from '../content-source/animeflix.ts';
+import * as State from '../core/State.ts';
+import * as sideMenuUtils from '../utils/SideMenu.ts';
+import * as mangaDetails from '../content-components/MangaDetails.tsx';
+import * as discord from '../content-source/discord-api.ts';
 
 import { shell } from 'electron';
 import Search from './Search.tsx';
@@ -14,7 +16,7 @@ const authKeyUri = "http://localhost:" + port + "/authenticate";
 const connectedUri = "http://localhost:" + port + "/isConnected";
 const planningUri = "http://localhost:" + port + "/getPlanningList";
 const watchingUri = "http://localhost:" + port + "/getCurrentWatchingList";
-const statsUri = "http://localhost:" + port + "/getStatistics";
+// const statsUri = "http://localhost:" + port + "/getStatistics";
 const clientId = '13194';
 
 const authoriseUrl = `https://anilist.co/api/v2/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
@@ -23,8 +25,11 @@ import { MangaEntry } from '../content-source/mangakakalot.ts';
 import MangaDetails from './MangaDetails.tsx';
 
 import '../stylings/content/anilist.css';
+import Player from './Player.tsx';
 
 async function loadUserData() {
+
+  discord.setChilling("the profile page");
 
   const page = document.getElementById('profile-page');
 
@@ -57,22 +62,37 @@ async function loadUserData() {
 
   
   const response = await axios.get(watchingUri);
-  const arr: any[] = response.data.data.MediaListCollection.lists[0].entries;
+  const arr: any[] = response.data.data.MediaListCollection.lists[0]?.entries;
 
   console.log("retrieved response from " + watchingUri);
 
   const response1 = await axios.get(planningUri);
-  const arr1: any[] = response1.data.data.MediaListCollection.lists[0].entries;
+  const arr1: any[] = response1.data.data.MediaListCollection.lists[0]?.entries;
 
   console.log("retrieved response from " + planningUri);
 
   await getStats();
 
-  loadItems(arr, "profile-video-pane-currently-watching");
-  loadItems(arr1, "profile-video-pane-currently-planning");
+  if(arr != undefined){
+    loadItems(arr, "profile-video-pane-currently-watching");
+  }else{
+    const containerElement = document.getElementById("profile-video-pane-currently-watching");
+    if (containerElement) {
+      containerElement.style.height = "auto";
+    }
+  }
+
+  if(arr1 != undefined){
+    loadItems(arr1, "profile-video-pane-currently-planning");
+  }else{
+    const containerElement = document.getElementById("profile-video-pane-currently-planning");
+    if (containerElement) {
+      containerElement.style.height = "auto";
+    }
+  }
+
+
   // loadItems(arr1, ".anilist-planning");
-
-
   // id='profile-watching-container-header'
   const elements = [
     "watching",
@@ -165,14 +185,10 @@ async function getStats(){
   document.getElementById('profile-info-favourite-tag-value')!.innerHTML = String(tags[0].tag.name).toLowerCase();
   document.getElementById('profile-info-favourite-studio-value')!.innerHTML = String(studios[0].studio.name);
 
-
-  //profile-banner-img
-  //profile-banner
-
-  console.log(stats);
-
   document.getElementById('profile-avatar')!.style.backgroundImage = 'url(' + stats.data.Viewer.avatar.large + ')';
   document.getElementById('profile-banner')!.style.backgroundImage = 'url(' + stats.data.Viewer.bannerImage+ ')';
+
+  document.getElementById('profile-banner-img-username')!.textContent = stats.data.Viewer.name;
 
 
   //profile-info
@@ -184,7 +200,10 @@ function loadItems(ids: any[], container: string) {
   ids.forEach((data) => {
 
     const entry = data.media;
-    
+
+    //gets the next episode to watch, and if the episode is more than the total episodes, it will set it to the total episodes
+    const episode = data.progress + 1 > entry.episodes ? entry.episodes : data.progress + 1;
+
 
     // Create child element with class 'profile-anime-entry'
     const animeEntryElement = document.createElement('div');
@@ -206,8 +225,7 @@ function loadItems(ids: any[], container: string) {
     // Create h1 element with id 'profile-anime-entry-details'
     const detailsElement = document.createElement('h1');
     detailsElement.setAttribute('id', 'profile-anime-entry-details');
-    detailsElement.textContent = 'CONTINUE FROM EPISODE 4';
-
+    detailsElement.textContent = 'CONTINUE FROM EPISODE ' + episode;
 
     // Append child elements to their respective parents
     animeEntryContentElement.appendChild(titleElement);
@@ -221,21 +239,31 @@ function loadItems(ids: any[], container: string) {
     const containerElement = document.getElementById(container);
     containerElement?.appendChild(animeEntryElement);
 
-    // Add mouseover event listener to animeEntryElement
-    animeEntryElement.addEventListener('mouseover', function() {
-      //animeEntryHeaderElement.style.opacity = '0.8';
-    });
+    // // Add mouseover event listener to animeEntryElement
+    // detailsElement.addEventListener('mouseover', function() {
+    //   detailsElement.style.opacity = '1';
+    // });
 
-    // Add mouseout event listener to animeEntryElement
-    animeEntryElement.addEventListener('mouseout', function() {
-      //animeEntryHeaderElement.style.opacity = '1';
-    });
+    // // Add mouseout event listener to animeEntryElement
+    // detailsElement.addEventListener('mouseout', function() {
+    //   detailsElement.style.opacity = '1';
+    // });
 
     if(containerElement === null){	
       return;
     }
   
     containerElement.appendChild(animeEntryElement);
+
+    detailsElement.addEventListener('mousedown', () => {
+      const uri = mangaDetails.getUriEmbed(entry.title.romaji, episode);
+
+      discord.setWatchingAnime(entry.title.romaji, parseInt(episode), entry.episodes, entry.coverImage.extraLarge);
+      animeflix.updateEpisodeForUser(entry, episode);
+
+      const state = <Player url={uri}/>;
+      State.updateState(state);
+    });
 
     animeEntryElement.addEventListener('click', () => {
 

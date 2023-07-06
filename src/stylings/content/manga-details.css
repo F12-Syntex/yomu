@@ -232,6 +232,10 @@
   border: 1px solid gray;
 }
 
+.content-episodes-item-watched{
+  background-size: auto 80%;
+}
+
 .content-episodes-item-text-container {
   display: flex;
   justify-content: center;

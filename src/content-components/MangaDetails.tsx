@@ -3,6 +3,7 @@ import * as sideMenu from '../utils/SideMenu.ts';
 import * as aniflix from '../content-source/animeflix.ts';
 import * as mangakalot from '../content-source/mangakakalot.ts';
 import * as State from '../core/State.ts';
+import * as discord from '../content-source/discord-api.ts';
 
 import '../stylings/content/manga-details.css';
 import Player from './Player.tsx';
@@ -14,6 +15,7 @@ type MangaDetailsProps = {
 
 async function load(aniData: Promise<aniflix.Anime>) {
     const anime = await aniData;
+    discord.BrowsingAnime(anime);
     run(anime);
 }
 
@@ -123,10 +125,21 @@ function addEpisodes(anime : aniflix.Anime){
       relation.style.backgroundImage = `url('${streamingEpisode.thumbnail}')`;
       relationTitle.innerHTML = streamingEpisode.title;
 
+      // if(i < 10){
+      //   relation.classList.add('content-episodes-item-watched');
+      //   relationTitle.innerHTML = streamingEpisode.title + " ( watched )";
+      // }
+
     }else{
       relationTitle.innerHTML = 'Episode ' + episodeNumber;
       relation.style.backgroundImage = `url('${anime.bannerImage}')`;
       relation.style.backgroundSize = `auto 100%`;
+
+      // if(i < 10){
+      //   relation.classList.add('content-episodes-item-watched');
+      //   relationTitle.innerHTML += " ( watched )";
+      // }
+
     }
 
     
@@ -146,7 +159,9 @@ function addEpisodes(anime : aniflix.Anime){
 
       aniflix.updateEpisodeForUser(anime, episodeNumber);
 
-      const url = `https://animeflix.live/watch/${anime.title.romaji.replace(/[^\w\s]/gi, "").replace(/\s+/g, "-").toLowerCase()}-episode-${episodeNumber}/`;
+      discord.setWatchingAnime(anime.title.romaji, parseInt(episodeNumber), anime.episodes, anime.coverImage.extraLarge);
+
+      const url = getUriEmbed(anime.title.romaji, episodeNumber);
       console.log(url); 
       State.updateState(<Player url={url}/>);
       
@@ -159,6 +174,12 @@ function addEpisodes(anime : aniflix.Anime){
   episodes.appendChild(container);
 
 }
+
+export function getUriEmbed(title: string, episode: string) : string{
+  const url = `https://animeflix.live/watch/${title.replace(/[^\w\s]/gi, "").replace(/\s+/g, "-").toLowerCase()}-episode-${episode}/`;
+  return url;
+}
+
 
 // function addRelations(anime : aniflix.Anime){
 //     const relations = document.querySelector('.content-relations')!;
@@ -222,7 +243,6 @@ async function getMangaDetails(id: number) {
 
 export default function MangaDetails(props: MangaDetailsProps) {
 
-
   console.log("running manga details");
 
   const entry = props.entry;
@@ -259,6 +279,7 @@ export default function MangaDetails(props: MangaDetailsProps) {
       //document.querySelector('.content-relations')!.childNodes.forEach((node) => { node.remove(); }); 
       console.log("running anime");
       run(anime);
+      discord.BrowsingAnime(anime);
 
 
       document.getElementById('mangadetails-pane-container')!.style.backgroundImage = `none`;

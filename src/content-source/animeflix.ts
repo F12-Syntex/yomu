@@ -1,5 +1,5 @@
 import axios from "axios";
-import { json } from "express";
+// import { json } from "express";
 
 export type Anime = {
   id: number;

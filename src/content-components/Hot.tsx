@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import * as sideMenu from '../utils/SideMenu.ts';
 import * as searchPane from '../content-components/Search.tsx';
 import * as aniflix from '../content-source/animeflix.ts';
+import * as discord from '../content-source/discord-api.ts';
 
 import '../stylings/content/search.css';
 
@@ -40,6 +41,8 @@ function search() {
 export default function hot() {  
 
   sideMenu.toggle(document.getElementById('sidemenu-hot')!);
+
+  discord.hotMenu();
 
   const items = document.querySelectorAll('.grid-item');
   items.forEach(item => {
