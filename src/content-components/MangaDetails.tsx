@@ -161,8 +161,21 @@ function addEpisodes(anime : aniflix.Anime){
 
       discord.setWatchingAnime(anime.title.romaji, parseInt(episodeNumber), anime.episodes, anime.coverImage.extraLarge);
 
-      const url = getUriEmbed(anime.title.romaji, episodeNumber);
+      let url = getUriEmbed(anime.title.romaji, episodeNumber);
       console.log(url); 
+
+      if(anime.isAdult){
+        //https://watchhentai.net/jwplayer/?source=https%3A%2F%2Fhstorage.xyz%2Ffiles%2FO%2Foverflow%2Foverflow-1.mp4&id=1119&type=mp4
+        //https://watchhentai.net/jwplayer/?source=https%3A%2F%2Fhstorage.xyz%2Ffiles%2FT%2Ftsurupeta-shugo-kishi-elfina-ochiru%2Ftsurupeta-shugo-kishi-elfina-ochiru-2.mp4&id=10721&type=mp4
+
+
+        //https://watchhentai.net/jwplayer/?source=https%3A%2F%2Fhstorage.xyz%2Ffiles%2FH%2Fharem-camp%2Fharem-camp-6.mp4&id=4134&type=mp4&quality=1080p,720p
+        //https://watchhentai.net/jwplayer/?source=https%3A%2F%2Fhstorage.xyz%2Ffiles%2FH%2FHarem-Camp%2FHarem-Camp-6.mp4
+        const name = anime.title.romaji.replace(/[^\w\s]/gi, '').replace(/\s/g, "-");
+        url = "https://watchhentai.net/jwplayer/?source=https%3A%2F%2Fhstorage.xyz%2Ffiles%2F" + name.charAt(0).toUpperCase() + "%2F" + name +  "%2F" + name + "-" + episodeNumber + ".mp4";
+        console.log(url);
+      }
+
       State.updateState(<Player url={url}/>);
       
     });

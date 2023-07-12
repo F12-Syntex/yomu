@@ -19,6 +19,7 @@ export type Anime = {
   episodes: number;
   duration: number;
   averageScore: number;
+  isAdult: boolean;
   genres: string[];
   synonyms: string[];
   format: string;
@@ -223,7 +224,7 @@ export async function getTrendingAnime(): Promise<AnimeQuery[]> {
               hasNextPage
               perPage
             }
-            media (type: ANIME, isAdult: false, sort: TRENDING_DESC) {
+            media (type: ANIME, isAdult: true, sort: TRENDING_DESC) {
               id
               title {
                 romaji
@@ -265,7 +266,7 @@ export async function search(query: string): Promise<AnimeQuery[]> {
       query: `
         query ($search: String) {
           Page {
-            media (search: $search, type: ANIME, isAdult: false) {
+            media (search: $search, type: ANIME) {
               id
               title {
                 romaji
@@ -299,7 +300,7 @@ export async function getAnimeById(variables: Record<string, any>): Promise<Anim
     body: JSON.stringify({
       query: `
         query ($id: Int) {
-          Media (id: $id, type: ANIME,  isAdult: false) {
+          Media (id: $id, type: ANIME) {
             id
             title {
               romaji
@@ -313,6 +314,7 @@ export async function getAnimeById(variables: Record<string, any>): Promise<Anim
             }
             bannerImage
             status
+            isAdult
             season
             episodes
             duration
