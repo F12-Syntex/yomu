@@ -1,9 +1,8 @@
 @import url(../global/theme.css);
 
-
 ::-webkit-scrollbar {
   width: 10px;
-  height: 15px 
+  height: 15px;
 }
 
 /* color of the scrollbar track */
@@ -11,15 +10,14 @@
   background-color: transparent;
 }
 
-
-.content-search{
+.content-search {
   width: 100%;
   height: 100%;
   padding: 2% 0%;
   overflow: hidden;
 }
 
-.content-search input{
+.content-search input {
   width: 30%; /* 100% - padding ( 5% )*/
   height: 50%;
   border: none;
@@ -42,8 +40,8 @@
   overflow: scroll;
 }
 
-#search-input-img{
-  background-image: url("../../assets/search/search.svg");
+#search-input-img {
+  background-image: url('../../assets/search/search.svg');
   height: 100%;
   width: 40px;
 
@@ -52,15 +50,13 @@
   background-repeat: no-repeat;
   image-rendering: -webkit-optimize-contrast; /* Safari/Chrome */
   color: white;
-
 }
 
-#search-results{
+#search-results {
   display: flex;
   flex-direction: row;
   margin-left: 20px;
   height: 40px;
-
 }
 
 /* Add hover effects */
@@ -85,12 +81,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  
+
   height: 35vh;
   /* width: 20vw; */
 
   border-radius: 15px;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2), inset 0px 0px 15px rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0px 0px 15px rgba(0, 0, 0, 0.2),
+    inset 0px 0px 15px rgba(0, 0, 0, 0.2);
   filter: brightness(80%);
   transition: all 0.3s ease-in-out; /* Add a transition for smooth animation */
   overflow: hidden;
@@ -101,7 +99,7 @@
   image-rendering: -webkit-optimize-contrast; /* Safari/Chrome */
   /* background-size: 20vw 35vh; */
   background-color: transparent;
-  background-image: url("../../assets/search/loading.gif");
+  background-image: url('../../assets/search/loading.gif');
   background-size: 100% auto;
 
   border: solid 2px rgba(255, 255, 255, 0.6);
@@ -112,7 +110,9 @@
 .grid-item:hover {
   transform: scale(1.05);
   filter: brightness(90%);
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 1), inset 0px 0px 15px rgba(0, 0, 0, 1);
+  box-shadow:
+    0px 0px 15px rgba(0, 0, 0, 1),
+    inset 0px 0px 15px rgba(0, 0, 0, 1);
   border: solid 3px rgba(255, 255, 255, 1);
   overflow: hidden;
   transition: all 0.3s ease-in-out;
@@ -127,7 +127,7 @@
   height: 78vh;
   max-height: 70vh;
   padding: 60px 60px;
-  overflow-y: scroll; 
+  overflow-y: scroll;
   overflow-x: hidden;
 
   grid-auto-flow: dense;
@@ -139,14 +139,22 @@
 
 /* Define the fade-in animation */
 @keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* Define the fade-out animation */
 @keyframes fade-out {
-  from { opacity: 1; }
-  to { opacity: 0; }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 /* Apply the fade-in animation to each grid item */
@@ -183,7 +191,7 @@
   --threshold: 50%;
 }
 
-.hbox1{
+.hbox1 {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -191,7 +199,7 @@
   margin-top: 0px;
 }
 
-.loading{
+.loading {
   display: flex;
   flex-direction: column;
   justify-content: left;
@@ -199,12 +207,11 @@
   margin-top: 0px;
   width: 80vw;
   height: 100%;
-  background-image: url("../../assets/search/loading.gif");
+  background-image: url('../../assets/search/loading.gif');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 20% auto;
 }
-
 
 /* Apply the fade-out animation to the overflowing item */
 .search-grid > *.overflow {
@@ -214,13 +221,12 @@
   animation-fill-mode: forwards;
 }
 
-
-.grid-item:hover .grid-item-details{
+.grid-item:hover .grid-item-details {
   display: block;
 }
 
 .grid-item:hover::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -230,7 +236,7 @@
   opacity: 0.5; /* Adjust the opacity to darken the image */
 }
 
-.grid-item-details-buttons{
+.grid-item-details-buttons {
   border-top: solid 2px rgba(255, 255, 255, 0.1);
   background-color: rgba(0, 0, 0, 0.8);
   width: 100%;
@@ -267,7 +273,7 @@
   margin-left: 10px;
 }
 
-.grid-item-container{
+.grid-item-container {
   margin: 0px;
   display: flex;
   justify-content: center;
@@ -282,11 +288,10 @@
   height: 100%;
   width: 100%;
 
-
   /*
   position: absolute;
   display: flex; /* hide by default */
-  
+
   animation-name: slide-up;
   animation-duration: 0.25s;
   animation-fill-mode: forwards;
@@ -312,7 +317,6 @@
   animation-duration: 0.3s;
   animation-fill-mode: forwards;
 }
-
 
 @keyframes slide-up {
   from {

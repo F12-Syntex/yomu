@@ -57,7 +57,7 @@ h1{
 
 ::-webkit-scrollbar {
   width: 10px;
-  height: 15px 
+  height: 15px;
 }
 
 /* color of the scrollbar track */
@@ -66,15 +66,15 @@ h1{
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.10);
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
 }
 
-.anilist-container{
+.anilist-container {
   width: 100%;
   height: 100%;
   /* background-image: url('../../assets/search/loading.gif'); */
-/* 
+  /* 
   background-repeat: no-repeat;
   background-position: center;
 
@@ -83,18 +83,19 @@ h1{
 
 h1 {
   color: white;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .anilist-grid-item {
   display: flex;
   overflow-x: auto;
   white-space: nowrap;
-  margin-right: 20px; 
+  margin-right: 20px;
 }
 .anilist-grid-item > * {
   flex: 0 0 auto;
-  margin-right: 10px; 
+  margin-right: 10px;
 }
 
 .anilist-item {
@@ -112,13 +113,13 @@ h1 {
   overflow: hidden;
 }
 
-.anilist-item:hover{
+.anilist-item:hover {
   transform: scale(1.05);
   transition: transform 0.2s;
   cursor: pointer;
 }
 
-#anilist-item-img{
+#anilist-item-img {
   width: 50%;
 }
 
@@ -133,13 +134,10 @@ h1 {
   overflow: hidden;
 }
 
-#anilist-item-title{
+#anilist-item-title {
   margin: 0;
   padding: 0px 10px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: white;
   font-size: medium;
 }
-
-
-

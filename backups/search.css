@@ -1,7 +1,7 @@
 /* width and height of the scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
-  height: 15px 
+  height: 15px;
 }
 
 /* color of the scrollbar thumb */
@@ -21,14 +21,14 @@
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-.content-search{
+.content-search {
   width: 100%;
   height: 100%;
   padding: 2% 0%;
   overflow: hidden;
 }
 
-.content-search input{
+.content-search input {
   width: 30%; /* 100% - padding ( 5% )*/
   height: 50%;
   border: none;
@@ -51,8 +51,8 @@
   overflow: scroll;
 }
 
-#search-input-img{
-  background-image: url("../../assets/search/search.svg");
+#search-input-img {
+  background-image: url('../../assets/search/search.svg');
   height: 100%;
   width: 40px;
 
@@ -63,12 +63,11 @@
   color: white;
 }
 
-#search-results{
+#search-results {
   display: flex;
   flex-direction: row;
   margin-left: 20px;
   height: 40px;
-
 }
 
 /* Add hover effects */
@@ -97,7 +96,7 @@
   color: white;
   outline: none;
   transition: all 0.2s ease-in-out; /* Add a transition for smooth animation */
-  margin: 20px;   
+  margin: 20px;
   cursor: pointer;
   margin-bottom: 10px;
 }
@@ -145,14 +144,22 @@
 
 /* Define the fade-in animation */
 @keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* Define the fade-out animation */
 @keyframes fade-out {
-  from { opacity: 1; }
-  to { opacity: 0; }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 /* Apply the fade-in animation to each grid item */
@@ -189,14 +196,13 @@
   --threshold: 50%;
 }
 
-.hbox1{
+.hbox1 {
   display: flex;
   flex-direction: column;
   justify-content: left;
   align-items: left;
   margin-top: 10px;
 }
-
 
 /* Apply the fade-out animation to the overflowing item */
 .search-grid > *.overflow {
@@ -215,7 +221,9 @@
   align-items: center;
   height: 35vh;
   border-radius: 15px;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2), inset 0px 0px 15px rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0px 0px 15px rgba(0, 0, 0, 0.2),
+    inset 0px 0px 15px rgba(0, 0, 0, 0.2);
   filter: brightness(50%);
   transition: all 0.3s ease-in-out; /* Add a transition for smooth animation */
   overflow: hidden;
@@ -230,22 +238,23 @@
   cursor: pointer;
 }
 
-.grid-item:hover .grid-item-details{
+.grid-item:hover .grid-item-details {
   display: block;
 }
-
 
 .grid-item:hover {
   transform: scale(1.05);
   filter: brightness(100%);
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 1), inset 0px 0px 15px rgba(0, 0, 0, 1);
+  box-shadow:
+    0px 0px 15px rgba(0, 0, 0, 1),
+    inset 0px 0px 15px rgba(0, 0, 0, 1);
   border: solid 3px rgba(255, 255, 255, 1);
   overflow: hidden;
   transition: all 0.3s ease-in-out;
   background-color: rgba(255, 255, 255, 0.05);
 }
 
-.grid-item-details-buttons{
+.grid-item-details-buttons {
   border-top: solid 2px rgba(255, 255, 255, 0.1);
   background-color: rgba(0, 0, 0, 0.8);
   width: 100%;
@@ -281,18 +290,19 @@
   text-align: left;
 }
 
-.grid-item-container{
+.grid-item-container {
   margin: 0px;
 }
 
 .grid-item-details {
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 1), inset 0px 0px 15px rgba(0, 0, 0, 1);
+  box-shadow:
+    0px 0px 15px rgba(0, 0, 0, 1),
+    inset 0px 0px 15px rgba(0, 0, 0, 1);
   border-left: solid 3px white;
   background-color: rgba(0, 0, 0, 0.8);
 
   height: 100%;
   width: 50%;
-
 
   position: absolute;
   display: flex; /* hide by default */
@@ -326,7 +336,6 @@
   animation-duration: 0.3s;
   animation-fill-mode: forwards;
 }
-
 
 @keyframes slide-up {
   from {

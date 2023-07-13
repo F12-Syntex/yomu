@@ -1,5 +1,5 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
-import path from 'node:path';
+import { app, BrowserWindow, ipcMain } from 'electron'
+import path from 'node:path'
 
 // The built directory structure
 //
@@ -11,7 +11,9 @@ import path from 'node:path';
 // │ │ └── preload.js
 // │
 process.env.DIST = path.join(__dirname, '../dist')
-process.env.PUBLIC = app.isPackaged ? process.env.DIST : path.join(process.env.DIST, '../public')
+process.env.PUBLIC = app.isPackaged
+  ? process.env.DIST
+  : path.join(process.env.DIST, '../public')
 
 let win: BrowserWindow | null
 // 🚧 Use ['ENV_NAME'] avoid vite:define plugin - Vite@2.x
@@ -23,24 +25,24 @@ const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL']
 // )
 
 //load the background script
-import { spawn } from 'child_process';
+import { spawn } from 'child_process'
 
 // Spawn a new child process to run the Node.js script
-const childProcess = spawn('node', ['electron/backend.js']);
+const childProcess = spawn('node', ['electron/backend.js'])
 
 // Listen for output from the child process
 childProcess.stdout.on('data', (data) => {
-  console.log(`stdout: ${data}`);
-});
+  console.log(`stdout: ${data}`)
+})
 
 childProcess.stderr.on('data', (data) => {
-  console.error(`stderr: ${data}`);
-});
+  console.error(`stderr: ${data}`)
+})
 
 // Listen for the child process to exit
 childProcess.on('close', (code) => {
-  console.log(`child process exited with code ${code}`);
-});
+  console.log(`child process exited with code ${code}`)
+})
 
 function createWindow() {
   win = new BrowserWindow({
@@ -53,13 +55,13 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
       contextIsolation: false,
-      devTools: true,
-    },
+      devTools: true
+    }
   })
 
   // Test active push message to Renderer-process.
   win.webContents.on('did-finish-load', () => {
-    win?.webContents.send('main-process-message', (new Date).toLocaleString())
+    win?.webContents.send('main-process-message', new Date().toLocaleString())
   })
 
   if (VITE_DEV_SERVER_URL) {
@@ -70,22 +72,20 @@ function createWindow() {
   }
 
   ipcMain.on('handleClose', () => {
-    win?.close();
-  });
+    win?.close()
+  })
 
   ipcMain.on('handleMaximize', () => {
-
-    if(win?.isMaximized()){
-      win?.unmaximize();
-    }else{
-      win?.maximize();
+    if (win?.isMaximized()) {
+      win?.unmaximize()
+    } else {
+      win?.maximize()
     }
-  });
+  })
 
   ipcMain.on('handleMinimize', () => {
-    win?.minimize();
-  });
-
+    win?.minimize()
+  })
 }
 
 export function openWindow(url: string) {
@@ -94,38 +94,37 @@ export function openWindow(url: string) {
     width: 800,
     height: 600,
     webPreferences: {
-      nodeIntegration: true,
+      nodeIntegration: true
 
       // Enable loading of chrome extensions
       //allowRunningInsecureContent: true,
       //webSecurity: false,
-    },
-  });
+    }
+  })
 
   // Load the specified URL in the new window
-  win.loadURL(url);
+  win.loadURL(url)
 
   //load the extension
-  win.setMenu(null);
+  win.setMenu(null)
 
   win.webContents.on('will-redirect', (event) => {
-    event.preventDefault();
-  });
+    event.preventDefault()
+  })
 
   // Prevent popups
   win.webContents.on('will-navigate', (event, url) => {
     if (url !== win.webContents.getURL()) {
-      event.preventDefault();
+      event.preventDefault()
     }
-  });
+  })
 
   // Show the new window when it's ready to be displayed
   win.once('ready-to-show', () => {
     //win.webContents.session.loadExtension("C:\\Users\\synte\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\gighmmpiobklfepjocnamgkkbiglidom\\5.7.0_0");
     //win.show();
-  });
+  })
 }
-
 
 app.on('window-all-closed', () => {
   win = null

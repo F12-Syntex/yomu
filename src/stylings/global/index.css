@@ -13,14 +13,14 @@ body {
   overflow: hidden;
 }
 
-#titlebar{
+#titlebar {
   height: 30px;
 }
 
 /* Add a ::before pseudo-element to the :root element */
 :root::before {
-  content: "";
-  
+  content: '';
+
   position: absolute;
   top: 0;
   left: 0;
@@ -28,7 +28,7 @@ body {
   height: 100%;
   z-index: -1; /* Make sure the pseudo-element is behind all other elements */
   filter: blur(30px) brightness(35%);
-  background-image: url("../../assets/backgrounds/background9.jpg");
+  background-image: url('../../assets/backgrounds/background9.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -42,7 +42,7 @@ body {
   gap: 30px;
 }
 
-#vbox-item{
+#vbox-item {
   display: flex;
   flex-direction: row;
   align-items: stretch;
@@ -62,7 +62,7 @@ body {
   grid-row: 1 / 4;
 }
 
-.sidemenu{
+.sidemenu {
   grid-column: 1 / 2;
   grid-row: 3 / 4;
 }
@@ -89,4 +89,3 @@ body {
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add this line */
 }
-

@@ -2,8 +2,8 @@ module.exports = {
   env: { browser: true, es2020: true, jest: true, node: true },
   settings: {
     react: {
-      version: 'detect',
-    },
+      version: 'detect'
+    }
   },
   extends: [
     'eslint:recommended',
@@ -12,15 +12,15 @@ module.exports = {
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
-    'plugin:tailwindcss/recommended',
+    'plugin:tailwindcss/recommended'
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
-      jsx: true,
+      jsx: true
     },
     ecmaVersion: 11,
-    sourceType: 'module',
+    sourceType: 'module'
   },
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
   plugins: [
@@ -28,7 +28,7 @@ module.exports = {
     'react-hooks',
     'react-refresh',
     '@typescript-eslint',
-    'tailwindcss',
+    'tailwindcss'
   ],
 
   rules: {
@@ -40,6 +40,6 @@ module.exports = {
     '@typescript-eslint/no-non-null-assertion': 'off',
     'tailwindcss/classnames-order': 'warn',
     'tailwindcss/no-custom-classname': 'warn',
-    'tailwindcss/no-contradicting-classname': 'error',
-  },
-};
+    'tailwindcss/no-contradicting-classname': 'error'
+  }
+}
