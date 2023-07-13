@@ -44,13 +44,13 @@ cd yomu
 Install dependencies.
 
 ```bash
-pnpm install
+npm install
 ```
 
 Launch the web app (no browser required)
 
 ```bash
-pnpm run dev
+npm run dev
 ```
 
 <h2>🚧 Roadmap</h2>
