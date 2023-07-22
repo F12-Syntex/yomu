@@ -224,7 +224,7 @@ export async function getTrendingAnime(): Promise<AnimeQuery[]> {
               hasNextPage
               perPage
             }
-            media (type: ANIME, isAdult: true, sort: TRENDING_DESC) {
+            media (type: ANIME, sort: TRENDING_DESC) {
               id
               title {
                 romaji
@@ -253,9 +253,27 @@ export async function getTrendingAnime(): Promise<AnimeQuery[]> {
   }));
 }
 
+export function getHentaiEmbed(query: string,  episode: any): string {
+    //https://spankbang.party/s/Boku%20dake%20no%20Hentai%20Kanojo%20Motto%E2%99%A5%20THE%20ANIMATION%20episode%205/
+    let title = query.replace(/[^\w\s]/gi, '%20').replace(/\s/g, "%20").toLowerCase();
+    let url: string = `https://spankbang.party/s/hentai%20${title}%20episode%20${episode}/`;
+
+   
+    fetch(url).then(response => console.log(response.text));
+
+    return url;
+  }
+
 
 
 export async function search(query: string): Promise<AnimeQuery[]> {
+
+  let nsfw = query.endsWith(':nsfw');
+
+  if(nsfw) {
+    query = query.slice(0, -5);
+  }
+
   const response = await fetch('https://graphql.anilist.co', {
     method: 'POST',
     headers: {
@@ -266,7 +284,7 @@ export async function search(query: string): Promise<AnimeQuery[]> {
       query: `
         query ($search: String) {
           Page {
-            media (search: $search, type: ANIME) {
+            media (search: $search, type: ANIME, isAdult: ${nsfw}) {
               id
               title {
                 romaji
@@ -404,6 +422,12 @@ export async function getAnimeById(variables: Record<string, any>): Promise<Anim
   //console.log(data);
 
   return data.data.Media;
+}
+
+export function searchHmv(query: string): string {
+  axios.get('https://spankbang.com/s/hmv%20hentai/' + query).then(response => console.log(response.data));
+
+  return "";
 }
 
 interface UserData {

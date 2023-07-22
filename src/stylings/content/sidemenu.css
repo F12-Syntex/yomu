@@ -146,3 +146,17 @@
 #sidemenu-hot:hover > #sidemenu-hot-img{
   background-image: url("../../assets/sidemenu/hot-active.svg");
 }
+
+/* MANGA BUTTON */
+.sidemenu-mangaSearch-img-active {
+  background-image: url("../../assets/sidemenu/mangaSearch-active.svg");
+}
+.sidemenu-mangaSearch-img-inactive {
+  background-image: url("../../assets/sidemenu/mangaSearch-inactive.svg");
+}
+#sidemenu-mangaSearch:hover > #sidemenu-mangaSearch-selector:not(.sidemenu-button-selector-active) {
+  background-color: rgb(121, 120, 120);
+}
+#sidemenu-mangaSearch:hover > #sidemenu-mangaSearch-img{
+  background-image: url("../../assets/sidemenu/mangaSearch-active.svg");
+}

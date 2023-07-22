@@ -79,7 +79,11 @@ async function run(aniData: aniflix.Anime) {
   average_score.innerHTML = anime.averageScore.toString() + '%';
 
   const studios = document.getElementById('content-details-info-studios-data')!;
-  studios.innerHTML = anime.studios.nodes[0].name;
+  if(anime.studios.nodes[0] == undefined){
+    studios.innerHTML = "unknown";
+  }else{
+    studios.innerHTML = anime.studios.nodes[0].name;
+  }
 
   const genres = document.getElementById('content-details-info-genres-data')!;
   genres.innerHTML = anime.genres.toString().split(',').join(', ');
@@ -164,6 +168,8 @@ function addEpisodes(anime : aniflix.Anime){
       let url = getUriEmbed(anime.title.romaji, episodeNumber);
       console.log(url); 
 
+      let nsfw = false;
+
       if(anime.isAdult){
         //https://watchhentai.net/jwplayer/?source=https%3A%2F%2Fhstorage.xyz%2Ffiles%2FO%2Foverflow%2Foverflow-1.mp4&id=1119&type=mp4
         //https://watchhentai.net/jwplayer/?source=https%3A%2F%2Fhstorage.xyz%2Ffiles%2FT%2Ftsurupeta-shugo-kishi-elfina-ochiru%2Ftsurupeta-shugo-kishi-elfina-ochiru-2.mp4&id=10721&type=mp4
@@ -172,11 +178,12 @@ function addEpisodes(anime : aniflix.Anime){
         //https://watchhentai.net/jwplayer/?source=https%3A%2F%2Fhstorage.xyz%2Ffiles%2FH%2Fharem-camp%2Fharem-camp-6.mp4&id=4134&type=mp4&quality=1080p,720p
         //https://watchhentai.net/jwplayer/?source=https%3A%2F%2Fhstorage.xyz%2Ffiles%2FH%2FHarem-Camp%2FHarem-Camp-6.mp4
         const name = anime.title.romaji.replace(/[^\w\s]/gi, '').replace(/\s/g, "-");
-        url = "https://watchhentai.net/jwplayer/?source=https%3A%2F%2Fhstorage.xyz%2Ffiles%2F" + name.charAt(0).toUpperCase() + "%2F" + name +  "%2F" + name + "-" + episodeNumber + ".mp4";
+        url = aniflix.getHentaiEmbed(name, episodeNumber);
         console.log(url);
+        nsfw = true;
       }
 
-      State.updateState(<Player url={url}/>);
+      State.updateState(<Player url={url} nsfw={nsfw}/>);
       
     });
   

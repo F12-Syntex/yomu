@@ -1,5 +1,4 @@
 import * as aniflix from "../content-source/animeflix";
-import axios from 'axios';
 
 const chillingImg = "https://avatarfiles.alphacoders.com/896/thumb-89615.png";
 const searchingImg = "https://avatarfiles.alphacoders.com/896/thumb-89615.png";

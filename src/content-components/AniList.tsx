@@ -261,7 +261,7 @@ function loadItems(ids: any[], container: string) {
       discord.setWatchingAnime(entry.title.romaji, parseInt(episode), entry.episodes, entry.coverImage.extraLarge);
       animeflix.updateEpisodeForUser(entry, episode);
 
-      const state = <Player url={uri}/>;
+      const state = <Player url={uri} nsfw={entry.isAdult}/>;
       State.updateState(state);
     });
 

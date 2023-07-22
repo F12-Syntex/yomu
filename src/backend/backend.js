@@ -19,7 +19,7 @@ const axios = require('axios');
 const SourceTextModule = require('vm');
 const { noDeprecation } = require('process');
 const { Console } = require('console');
-
+const fetch = require('node-fetch');
 
 
 // Set up the server

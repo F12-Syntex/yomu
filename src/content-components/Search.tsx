@@ -9,6 +9,8 @@ import '../stylings/content/search.css';
 import MangaDetails from './MangaDetails.tsx';
 import { MangaEntry } from '../content-source/mangakakalot.ts';
 
+const hmv = false;
+
 function addMetaInfo(details: HTMLElement, titleText: string){
       // add a title to the details section
 
@@ -69,6 +71,11 @@ function search(event: React.KeyboardEvent<HTMLInputElement>) {
     //});
 
     //search for data
+
+    if (hmv) {
+      animeflix.searchHmv(search_text);
+    }
+
     animeflix.search(search_text).then((entries) => {
       searchGrid.innerHTML = '';
       loadEntries(searchGrid, entries);
@@ -76,6 +83,9 @@ function search(event: React.KeyboardEvent<HTMLInputElement>) {
 
 
   }
+}
+
+async function loadEntriesHmv(searchGrid: Element, entries: animeflix.AnimeQuery[]) {
 }
 
 export async function loadEntries(searchGrid: Element, entries: animeflix.AnimeQuery[]) {
@@ -139,16 +149,15 @@ export async function loadEntries(searchGrid: Element, entries: animeflix.AnimeQ
 
         State.updateState(state);
       });
-      
-
+    
       searchGrid.appendChild(img); // append the new element to searchGrid
-
-
     }
   }
 
 
 }
+
+
 
 export default function SearchMenu() {  
 
