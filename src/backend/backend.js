@@ -114,6 +114,40 @@ app.get('/updateEpisodeForUser', (req, res) => {
 
 });
 
+app.get('/updateChapterForUser', (req, res) => {
+  const mangaId = req.query.mangaId;
+  const chapter = req.query.chapter;
+  const authkey = req.query.authkey;
+
+  // make API call to AniList
+  axios.post('https://graphql.anilist.co', {
+    query: `
+      mutation ($mediaId: Int!, $progress: Int!) {
+        SaveMediaListEntry(mediaId: $mediaId, progress: $progress) {
+          id
+        }
+      }
+    `,
+    variables: {
+      mediaId: mangaId,
+      progress: chapter
+    }
+  }, {
+    headers: {
+      'Authorization': `Bearer ${authkey}`
+    }
+  })
+  .then(response => {
+    console.log(response.data);
+    res.send('Manga updated successfully');
+  })
+  .catch(error => {
+    console.error(error);
+    res.status(500).send('Error updating manga');
+  });
+});
+
+
 app.get('/getStatistics', (req, res) => {
   const authKey = req.query.authkey;
   const userIdentification = userId; 

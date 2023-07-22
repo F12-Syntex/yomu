@@ -121,6 +121,28 @@ export type Studio = {
   count: number;
 }
 
+export type AnilistMedia = {
+  id: number;
+  title: {
+    romaji?: string;
+    english?: string;
+    native?: string;
+  };
+  description?: string;
+  coverImage?: {
+    extraLarge?: string;
+    color?: string;
+  };
+}
+
+export type AnilistResponse = {
+  data: {
+    Page: {
+      media: AnilistMedia[];
+    };
+  };
+}
+
 export type AnimeStatistics = {
   count: number;
   meanScore: number;
@@ -153,7 +175,46 @@ export type UserDataType = {
   };
 }
 
-
+export type Manga = {
+  id: number;
+  title: {
+    romaji: string;
+    english: string | null;
+    native: string;
+  };
+  description: string | null;
+  coverImage: {
+    extraLarge: string;
+    color: string | null;
+  };
+  bannerImage: string | null;
+  status: string | null;
+  isAdult: boolean;
+  genres: string[];
+  synonyms: string[];
+  format: string | null;
+  source: string | null;
+  authors: {
+    nodes: {
+      name: string;
+    }[];
+  };
+  serialization: {
+    nodes: {
+      name: string;
+    }[];
+  };
+  chapters: number;
+  volumes: number | null;
+  averageScore: number | null;
+  relationChapters: number | null;
+  relatedMedia: {
+    edges: {
+      relationType: string;
+      node: Manga;
+    }[];
+  };
+};
 
 export type AnimeQuery = {
   id: number;
@@ -183,6 +244,22 @@ export function updateEpisodeForUser(props: Anime, episode: string) {
     .then(response => {
       const authKey = response.data;
       const uri = "http://localhost:" + port + `/updateEpisodeForUser?animeId=${props.id}&episode=${episode}&authkey=${authKey}`;
+      axios.get(uri);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}
+
+export function updateChapterForUser(props: Manga, chapter: string) {
+  const port = `3023`;
+  const authKeyUri = "http://localhost:" + port + "/authenticate";
+
+  // Get authentication key from server
+  axios.get(authKeyUri)
+    .then(response => {
+      const authKey = response.data;
+      const uri = "http://localhost:" + port + `/updateChapterForUser?mangaId=${props.id}&chapter=${chapter}&authkey=${authKey}`;
       axios.get(uri);
     })
     .catch(error => {
@@ -308,6 +385,51 @@ export async function search(query: string): Promise<AnimeQuery[]> {
 
   return data.data.Page.media;
 }
+
+export async function searchManga(query: string): Promise<AnilistMedia[]> {
+
+  let nsfw = query.endsWith(':nsfw');
+
+  if(nsfw) {
+    query = query.slice(0, -5);
+  }
+
+  // sort: TITLE_ENGLISH
+  const response = await fetch('https://graphql.anilist.co', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify({
+      query: `
+        query ($search: String) {
+          Page {
+            media (search: $search, type: MANGA, isAdult: ${nsfw}, sort: POPULARITY_DESC) {
+              id
+              title {
+                romaji
+                english
+                native
+              }
+              description
+              coverImage {
+                extraLarge
+                color
+              }
+            }
+          }
+        }
+      `,
+      variables: { search: query }
+    })
+  });
+
+  const data = await response.json();
+
+  return data.data.Page.media;
+}
+
 export async function getAnimeById(variables: Record<string, any>): Promise<Anime> {
   const response = await fetch('https://graphql.anilist.co', {
     method: 'POST',
@@ -423,6 +545,53 @@ export async function getAnimeById(variables: Record<string, any>): Promise<Anim
 
   return data.data.Media;
 }
+
+export async function getMangaById(variables: Record<string, any>): Promise<Manga> {
+  const response = await fetch('https://graphql.anilist.co', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify({
+      query: `
+        query ($id: Int) {
+          Media (id: $id, type: MANGA) {
+            id
+            title {
+              romaji
+              english
+              native
+            }
+            description
+            coverImage {
+              extraLarge
+              color
+            }
+            bannerImage
+            status
+            isAdult
+            genres
+            synonyms
+            format
+            source
+            chapters
+            volumes
+            averageScore
+          }
+        }
+      `,
+      variables: variables
+    })
+  });
+
+  const data = await response.json();
+
+  console.log(data);
+
+  return data.data.Media;
+}
+
 
 export function searchHmv(query: string): string {
   axios.get('https://spankbang.com/s/hmv%20hentai/' + query).then(response => console.log(response.data));

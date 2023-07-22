@@ -48,9 +48,21 @@ export function setChilling(state: string) : void {
 export function BrowsingAnime(anime: aniflix.Anime) : void {
 
     let activity: DiscordActivity = {
-        details: `looking at ${anime.title.romaji}`,
+        details: `looking at ${anime.title.romaji} anime`,
         startTimestamp: Date.now(),
         largeImageKey: anime.coverImage.extraLarge,
+        largeImageText: "cover-image",
+    }
+
+    sendRequest(activity);
+}
+
+export function BrowsingManga(manga: aniflix.AnilistMedia) : void {
+
+    let activity: DiscordActivity = {
+        details: `looking at ${manga.title.romaji} manga`,
+        startTimestamp: Date.now(),
+        largeImageKey: manga.coverImage?.extraLarge,
         largeImageText: "cover-image",
     }
 
@@ -102,6 +114,26 @@ export function setWatchingAnime(animeTitle: string, episode: number, episodes: 
         startTimestamp: Date.now(),
         largeImageKey: coverImage,
         largeImageText: animeTitle,
+    }
+
+    sendRequest(activity);
+
+}
+
+export function setWatchingManga(mangaTitle: string, chapter: number, chapters: number, coverImage: string) : void {
+
+    let actual_chapters = 'On going';
+
+    if(chapters !== null && chapters !== undefined) {
+        actual_chapters = chapters.toString();
+    }
+
+    let activity: DiscordActivity = {
+        details: `Reading ${mangaTitle}`,
+        state: `chapter ${chapter}/${actual_chapters}`,
+        startTimestamp: Date.now(),
+        largeImageKey: coverImage,
+        largeImageText: mangaTitle,
     }
 
     sendRequest(activity);

@@ -12,7 +12,7 @@ export default function Player(props: { url: string, nsfw: boolean }) {
 
   return (
     <>
-      <iframe src={"https://mangareader.to/read/mashle-magic-and-muscles-1616/en/chapter-65"} allowFullScreen onLoad={handleLoad}></iframe>
+      <iframe src={props.url} allowFullScreen onLoad={handleLoad}></iframe>
     </>
   );
 }

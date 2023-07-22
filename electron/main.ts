@@ -68,6 +68,7 @@ function createWindow() {
       nodeIntegration: true,
       contextIsolation: false,
       devTools: true,
+      webviewTag: true,
     },
   })
 
@@ -94,6 +95,11 @@ function createWindow() {
     }else{
       win?.maximize();
     }
+  });
+
+  ipcMain.on('open-manga-search', () => {
+    //create a new window for the manga search at the url https://mangareader.to/
+    openWindow("https://mangareader.to/");
   });
 
   ipcMain.on('handleMinimize', () => {

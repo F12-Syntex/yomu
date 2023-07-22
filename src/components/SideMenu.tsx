@@ -1,6 +1,7 @@
 import AniList from '../content-components/AniList.tsx';
 import Empty from '../content-components/Empty.tsx';
 import Hot from '../content-components/Hot.tsx';
+import MangaPane from '../content-components/MangaPane.tsx';
 import Search from '../content-components/Search.tsx';
 import * as State from '../core/State.ts';
 
@@ -89,11 +90,11 @@ function SideMenu() {
   }
 
   function mangaSearch() : void {
-    const button = document.getElementById('sidemenu-hot') as HTMLInputElement;
+    const button = document.getElementById('sidemenu-mangaSearch') as HTMLInputElement;
     if(button.classList.contains('active-button')) return;
 
     console.log(button);
-    State.updateState(<Hot/>);
+    State.updateState(<MangaPane/>);
   }
 
   function hot() : void {
