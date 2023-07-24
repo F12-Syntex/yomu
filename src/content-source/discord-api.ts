@@ -1,3 +1,4 @@
+import { text } from "express";
 import * as aniflix from "../content-source/animeflix";
 
 const chillingImg = "https://avatarfiles.alphacoders.com/896/thumb-89615.png";
@@ -120,25 +121,60 @@ export function setWatchingAnime(animeTitle: string, episode: number, episodes: 
 
 }
 
-export function setWatchingManga(mangaTitle: string, chapter: number, chapters: number, coverImage: string) : void {
+let readingTime: number | null; // Global variable declaration
 
+export function setReadingTime(time: number) : void {
+    readingTime = time;
+}
+
+export function setWatchingManga(mangaTitle: string, chapter: number, chapters: number, coverImage: string) : void {
     let actual_chapters = 'On going';
 
     if(chapters !== null && chapters !== undefined) {
         actual_chapters = chapters.toString();
     }
 
+    let timestamp: number = Date.now();
+
+    if(!(readingTime === null || readingTime === undefined)) {
+        timestamp = readingTime;
+    }
+
     let activity: DiscordActivity = {
         details: `Reading ${mangaTitle}`,
         state: `chapter ${chapter}/${actual_chapters}`,
-        startTimestamp: Date.now(),
+        startTimestamp: timestamp,
         largeImageKey: coverImage,
         largeImageText: mangaTitle,
     }
 
     sendRequest(activity);
-
 }
+
+export function setWatchingMangaCached(mangaTitle: string, chapter: number, chapters: number, coverImage: string) : void {
+    let actual_chapters = 'On going';
+
+    if(chapters !== null && chapters !== undefined) {
+        actual_chapters = chapters.toString();
+    }
+
+    let timestamp: number = Date.now();
+
+    if(!(readingTime === null || readingTime === undefined)) {
+        timestamp = readingTime;
+    }
+
+    let activity: DiscordActivity = {
+        details: `Reading ${mangaTitle}`,
+        state: `chapter ${chapter}/${actual_chapters}`,
+        startTimestamp: timestamp,
+        largeImageKey: coverImage,
+        largeImageText: mangaTitle,
+    }
+
+    sendRequest(activity);
+}
+
 
 function sendRequest(activity: DiscordActivity) {
 

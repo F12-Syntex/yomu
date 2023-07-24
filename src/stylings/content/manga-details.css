@@ -27,7 +27,7 @@
     flex-direction: column;
     align-items: left;
     justify-content: left;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
 
     height: 25vh;
     max-height: 90vh;
@@ -113,8 +113,7 @@
     padding: 10px;
     margin: 10px;
     flex-direction: column;
-
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
 }
 
 .content-episodes-and-relations{
@@ -305,3 +304,24 @@ iframe{
   background-position: center;
   background-size: 25% auto;
 }
+
+
+#mangadetails-pane-container-parent {
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+  width: 100%;
+
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+#mangadetails-pane-container-banner{
+  height: auto;
+  width: 100%;
+}
+
+#mangadetails-pane-container-banner >img{
+  border-radius: 20px;
+}
+

@@ -51,6 +51,7 @@ export default function MangaPane({ url }: MangaPaneProps) {
             lastMangaClicked = null;
             lastManga = null;
             discord.setChilling(`${"manga view"}`);
+            discord.setReadingTime(Date.now());
         }
 
         if(url.url.startsWith('https://mangafire.to/manga/')){
@@ -88,7 +89,6 @@ export default function MangaPane({ url }: MangaPaneProps) {
           let chapters = lastManga.chapters;
 
           discord.setWatchingManga(lastManga.title.romaji, parseFloat(chapter), chapters, lastManga.coverImage.extraLarge);
-          aniflix.updateChapterForUser(lastManga, chapter);
         }
 
 
@@ -102,7 +102,7 @@ export default function MangaPane({ url }: MangaPaneProps) {
 
           //update the discord status
           let chapters = lastManga.chapters;
-          discord.setWatchingManga(lastManga.title.romaji, parseFloat(chapter), chapters, lastManga.coverImage.extraLarge);
+          discord.setWatchingMangaCached(lastManga.title.romaji, parseFloat(chapter), chapters, lastManga.coverImage.extraLarge);
           aniflix.updateChapterForUser(lastManga, chapter);
         }
       }

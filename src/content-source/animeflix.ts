@@ -341,14 +341,102 @@ export function getHentaiEmbed(query: string,  episode: any): string {
     return url;
   }
 
+  export async function searchHentai1(): Promise<AnimeQuery[]> {
+  
+    const response = await fetch('https://graphql.anilist.co', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        query: `
+          query {
+            Page {
+              media (type: ANIME, isAdult: true, sort: SCORE_DESC) {
+                id
+                title {
+                  romaji
+                  english
+                  native
+                }
+                description
+                coverImage {
+                  extraLarge
+                  color
+                }
+              }
+            }
+          }
+        `,
+        variables: {}
+      })
+    });
+  
+    const data = await response.json();
+  
+    return data.data.Page.media;
+  }
+
+  export async function searchHentai2(): Promise<AnimeQuery[]> {
+  
+    const response = await fetch('https://graphql.anilist.co', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        query: `
+          query {
+            Page {
+              media (type: ANIME, isAdult: true, sort: END_DATE_DESC) {
+                id
+                title {
+                  romaji
+                  english
+                  native
+                }
+                description
+                coverImage {
+                  extraLarge
+                  color
+                }
+              }
+            }
+          }
+        `,
+        variables: {}
+      })
+    });
+  
+    const data = await response.json();
+  
+    return data.data.Page.media;
+  }
 
 
 export async function search(query: string): Promise<AnimeQuery[]> {
 
+  if(query.startsWith(':hentai-new')) {
+    return searchHentai2();
+  }
+
+  if(query.startsWith(':hentai')) {
+    return searchHentai1();
+  }
+
   let nsfw = query.endsWith(':nsfw');
+  let filter = query.includes(':filter: ') && query.includes(':end');
+
+  let filteredString = '';
 
   if(nsfw) {
     query = query.slice(0, -5);
+  }
+
+  if(filter) {
+    filteredString = query.split(':filter: ')[1].split(':end')[0];
   }
 
   const response = await fetch('https://graphql.anilist.co', {
