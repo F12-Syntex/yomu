@@ -11,8 +11,6 @@ let current_activity = {
     state: 'Idling in the main screen',
     largeImageKey: 'https://avatarfiles.alphacoders.com/896/thumb-89615.png',
     largeImageText: 'Idle',
-    smallImageKey: 'https://avatarfiles.alphacoders.com/896/thumb-89615.png',
-    smallImageText: 'Idle',
     startTimestamp: new Date().getTime(),
 };
 
