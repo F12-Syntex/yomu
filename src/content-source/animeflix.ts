@@ -235,7 +235,7 @@ export type AnimeQuery = {
   @param props: Anime
   @param episode: number - the episode the user is on
 */
-export function updateEpisodeForUser(id: number, episode: number) {
+export function updateEpisodeForUser(id: string, episode: string) {
   const port = `3023`;
   const authKeyUri = "http://localhost:" + port + "/authenticate";
 

@@ -177,9 +177,8 @@ function addEpisodes(anime : aniflix.Anime){
       //   return;
       // }
 
-      aniflix.updateEpisodeForUser(anime, episodeNumber);
-
-      discord.setWatchingAnime(anime.title.romaji, parseInt(episodeNumber), anime.episodes, anime.coverImage.extraLarge);
+      // aniflix.updateEpisodeForUser(anime.title.romaji, episodeNumber);
+      // discord.setWatchingAnime(anime.title.romaji, parseInt(episodeNumber), anime.episodes, anime.coverImage.extraLarge);
 
       let url = getUriEmbed(anime.title.romaji, episodeNumber);
       console.log(url); 
@@ -199,7 +198,7 @@ function addEpisodes(anime : aniflix.Anime){
         nsfw = true;
       }
 
-      State.updateState(<Player url={url} nsfw={nsfw} id={anime.id} episode={parseInt(episodeNumber)}/>);
+      State.updateState(<Player url={url} nsfw={nsfw} entry={anime} episodeNumber={episodeNumber}/>);
       
     });
   
