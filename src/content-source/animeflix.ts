@@ -1,3 +1,6 @@
+//TODO: make custom user profiles
+
+
 import axios from "axios";
 // import { json } from "express";
 
@@ -330,14 +333,27 @@ export async function getTrendingAnime(): Promise<AnimeQuery[]> {
   }));
 }
 
-export function getHentaiEmbed(query: string,  episode: any): string {
+export function getHentaiEmbedSpankBang(query: string,  episode: any): string {
     //https://spankbang.party/s/Boku%20dake%20no%20Hentai%20Kanojo%20Motto%E2%99%A5%20THE%20ANIMATION%20episode%205/
     let title = query.replace(/[^\w\s]/gi, '%20').replace(/\s/g, "%20").toLowerCase();
     let url: string = `https://spankbang.party/s/hentai%20${title}%20episode%20${episode}/`;
-
-   
     fetch(url).then(response => console.log(response.text));
+    return url;
+  }
 
+  export function getHentaiEmbedHentaiHaven(query: string,  episode: any): string {
+    //https://spankbang.party/s/Boku%20dake%20no%20Hentai%20Kanojo%20Motto%E2%99%A5%20THE%20ANIMATION%20episode%205/
+    let title = query.replace(/[^\w\s]/gi, '-').replace(/\s/g, "-").toLowerCase();
+    
+    if(title.startsWith('-')) {
+      title = title.slice(1);
+    }
+    if(title.endsWith('-')) {
+      title = title.slice(0, -1);
+    }
+
+    let url: string = `https://hentaihaven.xxx/watch/${title}/episode-${episode}/`;
+    fetch(url).then(response => console.log(response.text));
     return url;
   }
 
