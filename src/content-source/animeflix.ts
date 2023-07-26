@@ -235,7 +235,7 @@ export type AnimeQuery = {
   @param props: Anime
   @param episode: number - the episode the user is on
 */
-export function updateEpisodeForUser(props: Anime, episode: string) {
+export function updateEpisodeForUser(id: number, episode: number) {
   const port = `3023`;
   const authKeyUri = "http://localhost:" + port + "/authenticate";
 
@@ -243,7 +243,7 @@ export function updateEpisodeForUser(props: Anime, episode: string) {
   axios.get(authKeyUri)
     .then(response => {
       const authKey = response.data;
-      const uri = "http://localhost:" + port + `/updateEpisodeForUser?animeId=${props.id}&episode=${episode}&authkey=${authKey}`;
+      const uri = "http://localhost:" + port + `/updateEpisodeForUser?animeId=${id}&episode=${episode}&authkey=${authKey}`;
       axios.get(uri);
     })
     .catch(error => {

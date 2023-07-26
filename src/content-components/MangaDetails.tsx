@@ -199,7 +199,7 @@ function addEpisodes(anime : aniflix.Anime){
         nsfw = true;
       }
 
-      State.updateState(<Player url={url} nsfw={nsfw}/>);
+      State.updateState(<Player url={url} nsfw={nsfw} id={anime.id} episode={parseInt(episodeNumber)}/>);
       
     });
   

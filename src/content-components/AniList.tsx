@@ -258,10 +258,10 @@ function loadItems(ids: any[], container: string) {
     detailsElement.addEventListener('mousedown', () => {
       const uri = mangaDetails.getUriEmbed(entry.title.romaji, episode);
 
-      discord.setWatchingAnime(entry.title.romaji, parseInt(episode), entry.episodes, entry.coverImage.extraLarge);
-      animeflix.updateEpisodeForUser(entry, episode);
+      // discord.setWatchingAnime(entry.title.romaji, parseInt(episode), entry.episodes, entry.coverImage.extraLarge);
+      // animeflix.updateEpisodeForUser(entry, episode);
 
-      const state = <Player url={uri} nsfw={entry.isAdult}/>;
+      const state = <Player url={uri} nsfw={entry.isAdult} id={entry.id} episode={parseInt(episode)}/>;
       State.updateState(state);
     });
 
