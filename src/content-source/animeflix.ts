@@ -443,6 +443,7 @@ export async function search(query: string): Promise<AnimeQuery[]> {
   }
 
   let nsfw = query.endsWith(':nsfw');
+  let unfiltered = query.endsWith(':unfiltered');
   let filter = query.includes(':filter: ') && query.includes(':end');
 
   let filteredString = '';
@@ -451,8 +452,15 @@ export async function search(query: string): Promise<AnimeQuery[]> {
     query = query.slice(0, -5);
   }
 
+  if(unfiltered) {
+    query = query.slice(0, -11);
+  }
+
+  let isAdult = `, isAdult: ${nsfw || unfiltered}`;
+
   if(filter) {
     filteredString = query.split(':filter: ')[1].split(':end')[0];
+    isAdult = ``;
   }
 
   const response = await fetch('https://graphql.anilist.co', {
@@ -465,7 +473,7 @@ export async function search(query: string): Promise<AnimeQuery[]> {
       query: `
         query ($search: String) {
           Page {
-            media (search: $search, type: ANIME, isAdult: ${nsfw}) {
+            media (search: $search, type: ANIME ${isAdult}) {
               id
               title {
                 romaji

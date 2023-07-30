@@ -3,8 +3,6 @@ import '../stylings/content/player.css';
 
 import * as animeflix from '../content-source/animeflix.ts';
 import * as discord from '../content-source/discord-api.ts';
-import { useEffect } from 'react';
-
 
 function getUriEmbed(title: string, episode: string) : string{
   const url = `https://animeflix.live/watch/${title.replace(/[^\w\s]/gi, "").replace(/\s+/g, "-").toLowerCase()}-episode-${episode}/`;
@@ -17,12 +15,14 @@ export default function Player(props: { url?: string, nsfw?: boolean, entry: any
   let url = props.url;
   let nsfw = props.nsfw;
 
+  const forceAniflix = false;
+
   if(nsfw === undefined || nsfw === null){
     nsfw = props.entry.isAdult;
   }
 
   if(url === undefined || url === null) {
-    if(nsfw){
+    if(nsfw && !forceAniflix){
       url = animeflix.getHentaiEmbedSpankBang(props.entry.title.romaji, props.episodeNumber);
       amountOfTries = Infinity;
     }else{
@@ -47,3 +47,4 @@ export default function Player(props: { url?: string, nsfw?: boolean, entry: any
     </>
   );
 }
+

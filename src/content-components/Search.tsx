@@ -85,9 +85,6 @@ function search(event: React.KeyboardEvent<HTMLInputElement>) {
   }
 }
 
-async function loadEntriesHmv(searchGrid: Element, entries: animeflix.AnimeQuery[]) {
-}
-
 export async function loadEntries(searchGrid: Element, entries: animeflix.AnimeQuery[]) {
 
   for (let i = 0; i < entries.length; i++) {
