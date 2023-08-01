@@ -151,6 +151,8 @@ async function generateSections(){
 
 }
 
+
+
 async function loadUserData() {
 
   discord.setChilling("the profile page");
