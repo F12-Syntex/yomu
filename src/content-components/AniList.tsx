@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { useEffect } from 'react';
 import * as animeflix from '../content-source/animeflix.ts';
+import * as discord from '../content-source/discord-api.ts';
 import * as State from '../core/State.ts';
 import * as sideMenuUtils from '../utils/SideMenu.ts';
-import * as mangaDetails from '../content-components/MangaDetails.tsx';
-import * as discord from '../content-source/discord-api.ts';
+import { Section } from '../anilist/Section';
 
 import { shell } from 'electron';
 import Search from './Search.tsx';
@@ -14,8 +14,8 @@ const port = `3023`;
 const redirectUri = "http://localhost:" + port + "/" + endpoint;
 const authKeyUri = "http://localhost:" + port + "/authenticate";
 const connectedUri = "http://localhost:" + port + "/isConnected";
-const planningUri = "http://localhost:" + port + "/getPlanningList";
-const watchingUri = "http://localhost:" + port + "/getCurrentWatchingList";
+// const planningUri = "http://localhost:" + port + "/getPlanningList";
+// const watchingUri = "http://localhost:" + port + "/getCurrentWatchingList";
 // const statsUri = "http://localhost:" + port + "/getStatistics";
 const clientId = '13194';
 
@@ -27,82 +27,91 @@ import MangaDetails from './MangaDetails.tsx';
 import '../stylings/content/anilist.css';
 import Player from './Player.tsx';
 
-async function loadUserData() {
+async function generateSections(){
 
-  discord.setChilling("the profile page");
-
-  const page = document.getElementById('profile-page');
-
-  if (page === null) {
-    return;
-  }
-  
-  page.style.opacity = '0';
-
-
-  const loaded : boolean = await accountConnected();
-
-  if(!loaded){
-    shell.openExternal(authoriseUrl);
-    State.updateState(<Search/>);
-    return;
-  }
-
-  await axios.get(authKeyUri);
-
-  console.log("connected");
-
-  // const watchingGrid = document.querySelector('.anilist-watching');
-  // const planningGrid = document.querySelector('.anilist-planning');
-
-  // || planningGrid === null
-  // if(watchingGrid === null){
-  //   return;
-  // }
-
-  
-  const response = await axios.get(watchingUri);
-  const arr: any[] = response.data.data.MediaListCollection.lists[0]?.entries;
-
-  console.log("retrieved response from " + watchingUri);
-
-  const response1 = await axios.get(planningUri);
-  const arr1: any[] = response1.data.data.MediaListCollection.lists[0]?.entries;
-
-  console.log("retrieved response from " + planningUri);
-
-  await getStats();
-
-  if(arr != undefined){
-    loadItems(arr, "profile-video-pane-currently-watching");
-  }else{
-    const containerElement = document.getElementById("profile-video-pane-currently-watching");
-    if (containerElement) {
-      containerElement.style.height = "auto";
-    }
-  }
-
-  if(arr1 != undefined){
-    loadItems(arr1, "profile-video-pane-currently-planning");
-  }else{
-    const containerElement = document.getElementById("profile-video-pane-currently-planning");
-    if (containerElement) {
-      containerElement.style.height = "auto";
-    }
-  }
-
-
-  // loadItems(arr1, ".anilist-planning");
-  // id='profile-watching-container-header'
-  const elements = [
-    "watching",
-    "planning",
+  const sections : Section[] = [
+    new Section("Currently watching", "watching", "http://localhost:" + port + "/fetchList?status=CURRENT"),
+    new Section("Rewatching", "rewatching", "http://localhost:" + port + "/fetchList?status=REPEATING"),
+    new Section("Planning", "planning", "http://localhost:" + port + "/fetchList?status=PLANNING"),
+    new Section("Completed", "completed", "http://localhost:" + port + "/fetchList?status=COMPLETED"),
+    new Section("Paused", "paused", "http://localhost:" + port + "/fetchList?status=PAUSED"),
+    new Section("Dropped", "dropped", "http://localhost:" + port + "/fetchList?status=DROPPED"),
   ];
 
+  const section: Element | null = document.querySelector('.profile-video-pane-currently-watching-container');
 
-  elements.forEach((element) => {
-    
-    const showMoreElement = document.getElementById(`profile-${element}-container-header`);
+  if(section === null || section === undefined){
+    return;
+  }
+
+  for (const entry of sections) {
+    const sectionElement = document.createElement('div');
+    sectionElement.className = 'profile-section';
+    sectionElement.id = `profile-section-${entry.getId()}`;
+
+    const currentlyWatchingContainerHeader = document.createElement('div');
+    currentlyWatchingContainerHeader.className = 'profile-video-pane-currently-watching-container-header';
+
+    const profileHeaderLabel = document.createElement('h1');
+    profileHeaderLabel.id = 'profile-header-label';
+    profileHeaderLabel.textContent = entry.getSavedString();
+    currentlyWatchingContainerHeader.appendChild(profileHeaderLabel);
+
+    const profileVideoPaneAnimeGrid = document.createElement('div');
+    profileVideoPaneAnimeGrid.className = 'profile-video-pane-anime-grid';
+    profileVideoPaneAnimeGrid.id = `profile-video-pane-currently-${entry.getId()}`;
+
+    const profileCurrentlyWatchingContainerHeaderExpand = document.createElement('div');
+    profileCurrentlyWatchingContainerHeaderExpand.className = 'profile-video-pane-currently-watching-container-header-expand';
+    profileCurrentlyWatchingContainerHeaderExpand.id = `profile-${entry.getId()}-container-header`;
+
+    const profileHeaderLabelCollapseShow = document.createElement('h1');
+    profileHeaderLabelCollapseShow.className = 'profile-header-label-collapse-show';
+    profileHeaderLabelCollapseShow.id = `profile-header-label-show-more-${entry.getId()}`;
+    profileHeaderLabelCollapseShow.textContent = 'Show more';
+    profileCurrentlyWatchingContainerHeaderExpand.appendChild(profileHeaderLabelCollapseShow);
+
+    const profileSvg: string = `
+    <svg xmlns="http://www.w3.org/2000/svg" className='svg-home-small' fill='gray' viewBox="0 0 16 16" id='profile-svg-${entry.getId()}'>
+      <path fill-rule="evenodd" d="M1 3.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5zM8 6a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 .708-.708L7.5 12.293V6.5A.5.5 0 0 1 8 6z"/>
+    </svg>
+    `
+    profileCurrentlyWatchingContainerHeaderExpand.innerHTML += profileSvg;
+
+    sectionElement.appendChild(currentlyWatchingContainerHeader);
+    sectionElement.appendChild(profileVideoPaneAnimeGrid);
+    sectionElement.appendChild(profileCurrentlyWatchingContainerHeaderExpand);
+
+    section.appendChild(sectionElement);
+  }
+
+  for (const entry of sections) {
+    const response = await axios.get(entry.getUrl());
+    const arr: any[] = response.data.data.MediaListCollection.lists[0]?.entries;
+
+    const sectionElement = document.getElementById(`profile-section-${entry.getId()}`);
+
+    if(sectionElement === null){
+      return;
+    }
+
+    console.log("retrieved response from " + entry.getUrl());
+  
+    await getStats();
+  
+    if(arr != undefined){
+      loadItems(arr, "profile-video-pane-currently-" + entry.getId());
+      sectionElement.style.backgroundImage = "none";
+    }else{
+      const containerElement = document.getElementById("profile-video-pane-currently-" + entry.getId());
+      if (containerElement) {
+        containerElement.style.opacity = '0';
+      }
+      sectionElement.remove();
+      continue;
+    }
+
+    const showMoreElement = document.getElementById(`profile-${entry.getId()}-container-header`);
 
     if(showMoreElement === null){
       return;
@@ -110,11 +119,11 @@ async function loadUserData() {
     
     // Add a click event listener to the h1 element
     showMoreElement.addEventListener('mousedown', function() {
-      const watchingElement = document.getElementById('profile-video-pane-currently-'+ element);
-      const watchingElementButton = document.getElementById('profile-header-label-show-more-' + element);
-      const icon = document.getElementById('profile-svg-' + element);
+      const watchingElement = document.getElementById('profile-video-pane-currently-'+ entry.getId());
+      const watchingElementButton = document.getElementById('profile-header-label-show-more-' + entry.getId());
+      const icon = document.getElementById('profile-svg-' + entry.getId());
 
-      console.log("clicked " + element);
+      console.log("clicked " + entry.getId());
     
       if (watchingElement === null || watchingElementButton === null || icon === null) {
         return;
@@ -137,15 +146,47 @@ async function loadUserData() {
   
     });
 
-  });
+  }
 
-  page.style.opacity = '1';
+
+}
+
+async function loadUserData() {
+
+  discord.setChilling("the profile page");
+
+  const page = document.getElementById('profile-page');
+
+  if (page === null) {
+    return;
+  }
 
   const container = document.getElementById('profile-page-container');
 
   if(container === null){
     return;
   }
+
+  
+  //page.style.opacity = '0';
+  container.style.backgroundImage = 'none';
+
+
+  const loaded : boolean = await accountConnected();
+
+  if(!loaded){
+    shell.openExternal(authoriseUrl);
+    State.updateState(<Search/>);
+    return;
+  }
+
+  await axios.get(authKeyUri);
+
+  console.log("connected");
+
+  await generateSections();
+
+  page.style.opacity = '1';
 
   container.style.backgroundImage = 'none';
   
@@ -431,44 +472,7 @@ export default function aniList() {
             </div>
           </div>
           <div className='profile-video-pane'>
-            <div className='profile-video-pane-currently-watching-container'>
-              <div className='profile-video-pane-currently-watching-container-header'>
-                  <h1 id='profile-header-label'>Continue Watching</h1>
-              </div>
-              <div className='profile-video-pane-anime-grid' id='profile-video-pane-currently-watching'>
-                  {/* <div className='profile-anime-entry'>
-                    <div className='profile-anime-entry-header'></div>
-                    <div className='profile-anime-entry-content'>
-                      <h1 id='profile-anime-entry-title'>KIMI NO NA WA</h1>
-                      <h1 id='profile-anime-entry-details'>CONTINUE FROM EPISODE 4</h1>
-                    </div>
-                  </div> */}
-              </div>
-              <div className='profile-video-pane-currently-watching-container-header-expand' id='profile-watching-container-header'>
-                <h1 className='profile-header-label-collapse-show' id='profile-header-label-show-more-watching'>Show more</h1>
-                <svg xmlns="http://www.w3.org/2000/svg" className='svg-home-small' viewBox="0 0 16 16" id='profile-svg-watching'>
-                  <path fill-rule="evenodd" d="M1 3.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5zM8 6a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 .708-.708L7.5 12.293V6.5A.5.5 0 0 1 8 6z"/>
-                </svg>
-              </div>
-              <div className='profile-video-pane-currently-watching-container-header'>
-                  <h1 id='profile-header-label'>Planning</h1>
-              </div>
-              <div className='profile-video-pane-anime-grid' id='profile-video-pane-currently-planning'>
-                  {/* <div className='profile-anime-entry'>
-                    <div className='profile-anime-entry-header'></div>
-                    <div className='profile-anime-entry-content'>
-                      <h1 id='profile-anime-entry-title'>KIMI NO NA WA</h1>
-                      <h1 id='profile-anime-entry-details'>CONTINUE FROM EPISODE 4</h1>
-                    </div>
-                  </div> */}
-              </div>
-              <div className='profile-video-pane-currently-watching-container-header-expand' id='profile-planning-container-header'>
-                  <h1 className='profile-header-label-collapse-show' id='profile-header-label-show-more-planning'>Show more</h1>
-                    <svg xmlns="http://www.w3.org/2000/svg" className='svg-home-small' viewBox="0 0 16 16" id='profile-svg-planning'>
-                      <path fill-rule="evenodd" d="M1 3.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5zM8 6a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 .708-.708L7.5 12.293V6.5A.5.5 0 0 1 8 6z"/>
-                    </svg>
-                  </div>
-            </div>
+            <div className='profile-video-pane-currently-watching-container'/>
           </div>  
       </div>    
     </div>

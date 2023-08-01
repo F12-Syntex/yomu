@@ -240,7 +240,50 @@ app.get('/getStatistics', (req, res) => {
 
 });
 
+app.get('/fetchList', (req, res) => {
 
+  const status = req.query.status;
+
+  const query = `
+  query {
+    MediaListCollection(userId: ${userId}, type: ANIME, status: ${status}) {
+      lists {
+        entries {
+          progress,
+          media {
+            id
+            title {
+              romaji
+              english
+              native
+            }
+            description
+            coverImage {
+              extraLarge
+              color
+            }
+            bannerImage
+            status
+            season
+            episodes
+            duration
+            averageScore
+            genres
+            synonyms
+            format
+            source
+          }
+        }
+      }
+    }
+  }
+  `;
+
+  const response = anilistQuery(query);
+  response.then(data => {
+    res.end(JSON.stringify(data));
+  });
+});
 
 app.get('/getCurrentWatchingList', (req, res) => {
   const query = `

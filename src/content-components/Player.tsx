@@ -30,7 +30,7 @@ export default function Player(props: { url?: string, nsfw?: boolean, entry: any
     }
   }
 
-  if(!nsfw){
+  if(!nsfw){ 
     animeflix.updateEpisodeForUser(props.entry.id, props.episodeNumber);
     discord.setWatchingAnime(props.entry.title.romaji, parseInt(props.episodeNumber), props.entry.episodes, props.entry.coverImage.extraLarge);
   }
