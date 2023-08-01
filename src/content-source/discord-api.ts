@@ -30,12 +30,12 @@ export function setDiscordActivity(activity: DiscordActivity) : void {
  * Sets the user's status to "Chilling" to the current state the application is in, for example,
  * if the user is in the settings page, the status will be set to "Chilling in Settings"
  */
-export function setChilling(state: string) : void {
+export function setChilling(state: string, img?: string) : void {
 
     let activity: DiscordActivity = {
         details: `Chilling in ${state}`,
         startTimestamp: Date.now(),
-        largeImageKey: chillingImg,
+        largeImageKey: img || chillingImg,
         largeImageText: "Chilling",
     }
 

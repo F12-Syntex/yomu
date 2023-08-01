@@ -431,6 +431,43 @@ export function getHentaiEmbedSpankBang(query: string,  episode: any): string {
     return data.data.Page.media;
   }
 
+  
+  export async function searchHentai3(sort: String): Promise<AnimeQuery[]> {
+  
+    const response = await fetch('https://graphql.anilist.co', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        query: `
+          query {
+            Page {
+              media (type: ANIME, isAdult: true, sort: ${sort}) {
+                id
+                title {
+                  romaji
+                  english
+                  native
+                }
+                description
+                coverImage {
+                  extraLarge
+                  color
+                }
+              }
+            }
+          }
+        `,
+        variables: {}
+      })
+    });
+  
+    const data = await response.json();
+  
+    return data.data.Page.media;
+  }
 
 export async function search(query: string): Promise<AnimeQuery[]> {
 
@@ -440,6 +477,10 @@ export async function search(query: string): Promise<AnimeQuery[]> {
 
   if(query.startsWith(':hentai')) {
     return searchHentai1();
+  }
+
+  if(query.startsWith(':hsort:')) {
+    return searchHentai3(query.split(":")[2]);
   }
 
   let nsfw = query.endsWith(':nsfw');
@@ -463,6 +504,8 @@ export async function search(query: string): Promise<AnimeQuery[]> {
     isAdult = ``;
   }
 
+  //type: ANIME ${isAdult}
+
   const response = await fetch('https://graphql.anilist.co', {
     method: 'POST',
     headers: {
@@ -473,7 +516,7 @@ export async function search(query: string): Promise<AnimeQuery[]> {
       query: `
         query ($search: String) {
           Page {
-            media (search: $search, type: ANIME ${isAdult}) {
+            media (search: $search) {
               id
               title {
                 romaji
