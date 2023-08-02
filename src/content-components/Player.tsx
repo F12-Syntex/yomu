@@ -5,7 +5,7 @@ import * as animeflix from '../content-source/animeflix.ts';
 import * as discord from '../content-source/discord-api.ts';
 
 function getUriEmbed(title: string, episode: string) : string{
-  const url = `https://animeflix.live/watch/${title.replace(/[^\w\s]/gi, "").replace(/\s+/g, "-").toLowerCase()}-episode-${episode}/`;
+  const url = `https://animeflix.live/watch/${title.replace(/[^\w\s-]/gi, "").replace(/\s+/g, "-").toLowerCase()}-episode-${episode}/`;
   return url;
 }
 
@@ -40,6 +40,8 @@ export default function Player(props: { url?: string, nsfw?: boolean, entry: any
       titleBar.handleBack();
     }
   }
+
+  console.log(url);
 
   return (
     <>
