@@ -402,7 +402,7 @@ export function getHentaiEmbedSpankBang(query: string,  episode: any): string {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-      body: JSON.stringify({
+      body: JSON.stringify({ 
         query: `
           query {
             Page {
@@ -516,7 +516,7 @@ export async function search(query: string): Promise<AnimeQuery[]> {
       query: `
         query ($search: String) {
           Page {
-            media (search: $search) {
+            media (search: $search, type: ANIME) {
               id
               title {
                 romaji
