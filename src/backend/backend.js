@@ -369,6 +369,120 @@ app.get('/getPlanningList', (req, res) => {
   });
 });
 
+app.get('/getHot', (req, res) => {
+  const query = `
+        query {
+          Page (page: 1, perPage: 20) {
+            pageInfo {
+              total
+              currentPage
+              lastPage
+              hasNextPage
+              perPage
+            }
+            media (type: ANIME, sort: TRENDING_DESC) {
+              id
+              title {
+                romaji
+                english
+                native
+              }
+              description
+              coverImage {
+                extraLarge
+                color
+              }
+              bannerImage
+              status
+              isAdult
+              season
+              episodes
+              duration
+              averageScore
+              genres
+              synonyms
+              format
+              source
+              studios(isMain: true) {
+                nodes {
+                  name
+                }
+              }
+              staff {
+                edges {
+                  role
+                  node {
+                    name {
+                      full
+                    }
+                  }
+                }
+              }
+              relations {
+                edges {
+                  relationType
+                  node {
+                    id
+                    title {
+                      romaji
+                      english
+                      native
+                    }
+                    description
+                    coverImage {
+                      extraLarge
+                      color
+                    }
+                    bannerImage
+                    status
+                    season
+                    episodes
+                    duration
+                    averageScore
+                    genres
+                    synonyms
+                    format
+                    source
+                    studios(isMain: true) {
+                      nodes {
+                        name
+                      }
+                    }
+                    staff {
+                      edges {
+                        role
+                        node {
+                          name {
+                            full
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              streamingEpisodes {
+                title
+                thumbnail
+                url
+                site
+              }
+              nextAiringEpisode {
+                airingAt
+                timeUntilAiring
+                episode
+              }
+            }
+          }
+        }
+      `;
+
+  const response = anilistQuery(query);
+  response.then(data => {
+    res.end(JSON.stringify(data));
+  });
+});
+
 async function anilistQuery(query){
 
   const response = await fetch('https://graphql.anilist.co', {

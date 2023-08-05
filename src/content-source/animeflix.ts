@@ -333,6 +333,22 @@ export async function getTrendingAnime(): Promise<AnimeQuery[]> {
   }));
 }
 
+export async function getTrendingAnimeDeep(): Promise<any[]> {
+  const port = `3023`;
+  const authKeyUri = "http://localhost:" + port + "/authenticate";
+
+  // Get authentication key from server
+
+  const key = await axios.get(authKeyUri);
+  const authKey = key.data;
+
+  console.log("authkey: " + authKey);
+  const uri = "http://localhost:" + port + `/getHot?&authkey=${authKey}`;
+  
+  const data = await axios.get(uri);
+  return data.data;
+}
+
 export function getHentaiEmbedSpankBang(query: string,  episode: any): string {
     //https://spankbang.party/s/Boku%20dake%20no%20Hentai%20Kanojo%20Motto%E2%99%A5%20THE%20ANIMATION%20episode%205/
     let title = query.replace(/[^\w\s]/gi, '%20').replace(/\s/g, "%20").toLowerCase();

@@ -4,7 +4,7 @@ import * as animeflix from '../content-source/animeflix.ts';
 import * as discord from '../content-source/discord-api.ts';
 import * as State from '../core/State.ts';
 import * as sideMenuUtils from '../utils/SideMenu.ts';
-import { Section } from '../anilist/Section';
+import { Section } from '../anilist/Section.ts';
 
 import { shell } from 'electron';
 import Search from './Search.tsx';
