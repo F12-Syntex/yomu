@@ -265,6 +265,13 @@ function loadItems(ids: any[], container: string) {
     titleElement.setAttribute('id', 'profile-anime-entry-title');
     titleElement.textContent = entry.title.romaji;
 
+    const maxLength : number = 60;
+
+    if(titleElement.textContent != undefined && titleElement.textContent?.length > maxLength){
+      //titleElement.style.fontSize = '1rem';
+      titleElement.textContent = titleElement.textContent.substring(0, maxLength).trim() + '...';
+    }
+
     // Create h1 element with id 'profile-anime-entry-details'
     const detailsElement = document.createElement('h1');
     detailsElement.setAttribute('id', 'profile-anime-entry-details');
