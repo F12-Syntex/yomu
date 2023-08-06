@@ -137,6 +137,8 @@ function addEpisodes(anime : aniflix.Anime){
     // Check if episode exists in streamingEpisodes
     const streamingEpisode = streamingEpisodes.find(ep => (ep.title + "Episode 1").split("Episode ")[1].split(" ")[0] == (i + 1).toString());
 
+    //TODO colour watched episodes differently
+
     if (streamingEpisode) {
       relation.style.backgroundImage = `url('${streamingEpisode.thumbnail}')`;
       relationTitle.innerHTML = streamingEpisode.title;
