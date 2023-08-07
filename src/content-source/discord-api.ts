@@ -109,6 +109,19 @@ export function setSearching() : void {
  */
 export function setWatchingAnime(animeTitle: string, episode: number, episodes: number, coverImage: string) : void {
 
+    if(episodes === null || episodes === undefined) {
+        let activity: DiscordActivity = {
+            details: `Watching ${animeTitle}`,
+            state: `Episode ${episode}`,
+            startTimestamp: Date.now(),
+            largeImageKey: coverImage,
+            largeImageText: animeTitle,
+        }
+    
+        sendRequest(activity);
+        return;
+    }
+
     let activity: DiscordActivity = {
         details: `Watching ${animeTitle}`,
         state: `Episode ${episode}/${episodes}`,

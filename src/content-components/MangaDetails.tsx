@@ -110,16 +110,17 @@ function addEpisodes(anime : aniflix.Anime){
     episodeCount = anime.episodes;
   }
 
-  if(anime.bannerImage){
-    // Create the image element
-    const img = document.createElement('img');
+  
+  // if(anime.bannerImage){
+  //   // Create the image element
+  //   const img = document.createElement('img');
 
-    // Set the src, alt, width, and height attributes
-    img.src = anime.bannerImage;
-    img.alt = 'Banner Image';
+  //   // Set the src, alt, width, and height attributes
+  //   img.src = anime.bannerImage;
+  //   img.alt = 'Banner Image';
 
-    document.getElementById('mangadetails-pane-container-banner')!.appendChild(img);
-  }
+  //   document.getElementById('mangadetails-pane-container-banner')!.appendChild(img);
+  // }
 
 
   for (let i = 0; i < episodeCount; i++) {
