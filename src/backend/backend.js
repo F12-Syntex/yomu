@@ -370,9 +370,10 @@ app.get('/getPlanningList', (req, res) => {
 });
 
 app.get('/getHot', (req, res) => {
+  const sort = req.query.sort;
   const query = `
         query {
-          Page (page: 1, perPage: 20) {
+          Page (page: 1, perPage: 10) {
             pageInfo {
               total
               currentPage
@@ -380,7 +381,7 @@ app.get('/getHot', (req, res) => {
               hasNextPage
               perPage
             }
-            media (type: ANIME, sort: TRENDING_DESC) {
+            media (type: ANIME, sort: ${sort}) {
               id
               title {
                 romaji

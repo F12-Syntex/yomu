@@ -30,7 +30,9 @@ import Player from './Player.tsx';
 async function generateSections(){
 
   const sections : Section[] = [
-    new Section("Trending Anime", "watching", "http://localhost:" + port + "/fetchList?status=PLANNING"),
+    new Section("Popular", "popularity", "POPULARITY_DESC"),
+    new Section("Trending Anime", "watching", "TRENDING_DESC"),
+    new Section("Highest Rated", "score", "SCORE_DESC"),
   ];
 
   const section: Element | null = document.querySelector('.profile-video-pane-currently-watching-container');
@@ -68,7 +70,7 @@ async function generateSections(){
   }
 
   for (const entry of sections) {
-    const arr: any = await animeflix.getTrendingAnimeDeep();
+    const arr: any = await animeflix.getTrendingAnimeDeep(entry.getUrl());
     const sectionElement = document.getElementById(`profile-section-${entry.getId()}`);
 
     if(sectionElement === null){
@@ -147,6 +149,8 @@ async function loadUserData() {
 }
 
 function loadItems(ids: any, container: string) {
+
+  console.log(ids);
 
   const arr : any[] = ids.data.Page.media;
 
@@ -271,7 +275,6 @@ export default function Hot1() {
 
 
   return (
-    <>
      <div className='profile-page-container' id='profile-page-container'>
       <div className='profile-page' id='profile-page'>
           <div className='profile-video-pane'>
@@ -279,6 +282,5 @@ export default function Hot1() {
           </div>  
       </div>    
     </div>
-    </>
   );
 }

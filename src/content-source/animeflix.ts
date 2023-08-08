@@ -333,7 +333,7 @@ export async function getTrendingAnime(): Promise<AnimeQuery[]> {
   }));
 }
 
-export async function getTrendingAnimeDeep(): Promise<any[]> {
+export async function getTrendingAnimeDeep(sort: string): Promise<any[]> {
   const port = `3023`;
   const authKeyUri = "http://localhost:" + port + "/authenticate";
 
@@ -343,7 +343,8 @@ export async function getTrendingAnimeDeep(): Promise<any[]> {
   const authKey = key.data;
 
   console.log("authkey: " + authKey);
-  const uri = "http://localhost:" + port + `/getHot?&authkey=${authKey}`;
+
+  const uri = "http://localhost:" + port + `/getHot?&sort=${sort}&authkey=${authKey}`;
   
   const data = await axios.get(uri);
   return data.data;
