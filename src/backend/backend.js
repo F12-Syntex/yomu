@@ -393,6 +393,7 @@ app.get('/getHot', (req, res) => {
                 extraLarge
                 color
               }
+              progress
               bannerImage
               status
               isAdult

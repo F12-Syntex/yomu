@@ -21,6 +21,7 @@ export type Anime = {
   season: string;
   episodes: number;
   duration: number;
+  progress: number;
   averageScore: number;
   isAdult: boolean;
   genres: string[];

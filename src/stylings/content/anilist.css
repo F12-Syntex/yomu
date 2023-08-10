@@ -303,10 +303,14 @@
 .profile-anime-entry{
     width: 300px;
     height: 350px;
+
+    min-width: 300px;
+    min-height: 350px;
+    
     margin: 10px;
 
     overflow: hidden;
-    border-radius: 5%;
+    border-radius: 10px;
     border: gray 1px solid;
 
     background-color: rgb(15, 15, 15);

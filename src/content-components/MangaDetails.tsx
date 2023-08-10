@@ -88,14 +88,129 @@ async function run(aniData: aniflix.Anime) {
   const genres = document.getElementById('content-details-info-genres-data')!;
   genres.innerHTML = anime.genres.toString().split(',').join(', ');
 
-  //addRelations(anime);
+  addRelations(anime);
   addEpisodes(anime);
+}
+
+function addRelations(anime : aniflix.Anime){
+  const relations = document.querySelector('.content-relations')!;
+
+  const label = document.createElement('div');
+  label.className = 'content-episodes-label';
+  label.innerHTML = 'Related';
+
+  const items = anime.relations.edges.filter(i => i.node.format !== "MUSIC" && i.node.format !== "MANGA");
+
+  if(items.length == 0){
+    return;
+  }
+
+  relations.appendChild(label);
+
+  const relationItems = document.createElement('div');
+  relationItems.className = 'content-relations-pane';
+
+
+  relations.appendChild(relationItems);
+
+  items.forEach(relation => {
+    const relationType = relation.relationType;
+    const relationNode = relation.node;
+    addRelation(relationNode, relationType, relationItems);
+  });
+  
+
+}
+
+function addRelation(relation : aniflix.Anime, relationType : string, containerElement : Element){
+  
+    const entry = relation;
+  
+      if(entry.progress === undefined || entry.progress === null){
+         entry.progress = 0;
+      }
+  
+      //gets the next episode to watch, and if the episode is more than the total episodes, it will set it to the total episodes
+      const episode = entry.progress + 1 > entry.episodes ? entry.episodes : entry.progress + 1;
+  
+  
+      // Create child element with class 'profile-anime-entry'
+      const animeEntryElement = document.createElement('div');
+      animeEntryElement.classList.add('profile-anime-entry');
+  
+      // Create child element with class 'profile-anime-entry-header'
+      const animeEntryHeaderElement = document.createElement('div');
+      animeEntryHeaderElement.classList.add('profile-anime-entry-header');
+  
+      // Create child element with class 'profile-anime-entry-content'
+      const animeEntryContentElement = document.createElement('div');
+      animeEntryContentElement.classList.add('profile-anime-entry-content');
+  
+      // Create h1 element with id 'profile-anime-entry-title'
+      const titleElement = document.createElement('h1');
+      titleElement.setAttribute('id', 'profile-anime-entry-title');
+      titleElement.textContent = entry.title.romaji + " (" + relationType.toLowerCase() + ")";
+  
+      const maxLength : number = 60;
+  
+      if(titleElement.textContent != undefined && titleElement.textContent?.length > maxLength){
+        //titleElement.style.fontSize = '1rem';
+        titleElement.textContent = titleElement.textContent.substring(0, maxLength).trim() + '...';
+      }
+  
+      // Create h1 element with id 'profile-anime-entry-details'
+      const detailsElement = document.createElement('h1');
+      detailsElement.setAttribute('id', 'profile-anime-entry-details');
+      detailsElement.textContent = 'CONTINUE FROM EPISODE ' + episode;
+  
+      // Append child elements to their respective parents
+      animeEntryContentElement.appendChild(titleElement);
+      animeEntryContentElement.appendChild(detailsElement);
+      animeEntryElement.appendChild(animeEntryHeaderElement);
+      animeEntryElement.appendChild(animeEntryContentElement);
+  
+      animeEntryHeaderElement.style.backgroundImage = `url(${entry.coverImage.extraLarge})`;
+  
+      // Append the parent element to the desired container in your HTML document
+      containerElement?.appendChild(animeEntryElement);
+
+      if(containerElement === null){	
+        return;
+      }
+    
+      containerElement.appendChild(animeEntryElement);
+  
+      detailsElement.addEventListener('mousedown', () => {
+        const state = <Player entry={entry} episodeNumber={episode.toString()}/>;
+        State.updateState(state);
+      });
+  
+      animeEntryElement.addEventListener('click', () => {
+  
+        const queryEntry: mangakalot.MangaEntry = {
+          manga: {
+            id:  entry.id,
+            alt: entry.title.romaji,
+            img: entry.coverImage.extraLarge,
+          },
+        };
+  
+        const state = <MangaDetails entry={queryEntry}/>;
+  
+        State.updateState(state);
+      });
 }
 
 function addEpisodes(anime : aniflix.Anime){
   
   const streamingEpisodes: { title: string; thumbnail: string; url: string; site: string; }[] = anime.streamingEpisodes;
   const episodes = document.querySelector('.content-episodes')!;
+
+  const label = document.createElement('div');
+  label.className = 'content-episodes-label';
+  label.innerHTML = 'Episodes';
+
+  episodes.appendChild(label);
 
   console.log(streamingEpisodes);
 
@@ -376,6 +491,7 @@ export default function MangaDetails(props: MangaDetailsProps) {
                       <h3 id='mangadetails-description'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum auctor eros vel lectus laoreet luctus. Nullam bibendum sapien eget metus malesuada, in faucibus nisi venenatis. Ut euismod ante sed risus ornare, non fermentum nulla varius. Morbi ac augue id odio dictum iaculis quis et massa. Fusce tristique, nisl nec aliquet vestibulum, sapien quam ultricies purus, vel eleifend orci mi vitae mauris. Sed quis est pharetra, tincidunt tortor at, rhoncus enim. Proin dapibus, arcu eu ultrices sagittis</h3>
                         {/* <div className='content-relations'></div>  */}
                       <div className='content-episodes-and-relations'>
+                        <div className='content-relations'></div>
                         <div className='content-episodes'></div>
                       </div>
                   </div>

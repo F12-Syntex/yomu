@@ -33,6 +33,15 @@
     max-height: 90vh;
 }
 
+.content-episodes-label{
+    color: white;
+    font-size: 2em;
+    margin: 12px;
+    padding: 0px;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 .content-description h1{
     font-size: 1.8em;
     text-align: left;
@@ -143,12 +152,17 @@
 }
 
 .content-relations {
-  margin: 10px;
+    border-radius: 10px;
+    flex: 4;
+    flex-wrap: nowrap; /* change this */
+}
+
+.content-relations-pane {
+  width: 70vw;
+  display: flex;
+  flex-direction: rows;
+  overflow-x: scroll; /* Enable horizontal scrolling if there are more items */
   border-radius: 10px;
-  flex: 1;
-  
-  flex-wrap: nowrap; /* change this */
-  border: 2px solid gray;
 }
 
 .content-relations-item {
@@ -156,13 +170,13 @@
   height: 120px;
   padding: 10px 0px;
   margin: 10px 0px 10px 20px;
-  overflow: hidden;
+  overflow: scroll;
   background-color: rgb(255, 255, 255, 0.05);
   transition: transform 0.2s;
   border-radius: 10px;
 
   display: flex;
-  flex-direction: rows;
+  flex-direction: column;
 }
 
 .content-relations-item:hover{
