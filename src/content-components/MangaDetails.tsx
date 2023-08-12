@@ -194,7 +194,7 @@ function addRelation(relation : aniflix.Anime, relationType : string, containerE
             img: entry.coverImage.extraLarge,
           },
         };
-  
+
         const state = <MangaDetails entry={queryEntry}/>;
   
         State.updateState(state);
