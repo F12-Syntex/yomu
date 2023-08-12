@@ -30,11 +30,15 @@ export function updateState(newElement: { type: any; props: any; } | null, addEl
 
   const rootElement = document.getElementById('content-source')!;
 
-  if(root === undefined) {
-    root = createRoot(rootElement);
+  if (root && root.unmount && typeof root.unmount === 'function') {
+    // Check if root is mounted and has an unmount function
+    root.unmount();
   }
-
+  
+  root = createRoot(rootElement);
   root.render(element);
+  
+  
 
   if(errorMessage !== '') {
     alert(errorMessage);

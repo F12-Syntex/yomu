@@ -7,6 +7,9 @@ import * as discord from '../content-source/discord-api.ts';
 
 import '../stylings/content/manga-details.css';
 import Player from './Player.tsx';
+import Empty from './Empty.tsx';
+import Hot from './Hot.tsx';
+import { MangaEntry } from '../content-source/mangakakalot.ts';
 
 type MangaDetailsProps = {
   entry?: mangakalot.MangaEntry;
@@ -187,7 +190,7 @@ function addRelation(relation : aniflix.Anime, relationType : string, containerE
   
       animeEntryElement.addEventListener('click', () => {
   
-        const queryEntry: mangakalot.MangaEntry = {
+        const queryEntry: MangaEntry = {
           manga: {
             id:  entry.id,
             alt: entry.title.romaji,
@@ -196,7 +199,6 @@ function addRelation(relation : aniflix.Anime, relationType : string, containerE
         };
 
         const state = <MangaDetails entry={queryEntry}/>;
-  
         State.updateState(state);
       });
 }
@@ -396,7 +398,7 @@ export default function MangaDetails(props: MangaDetailsProps) {
   const anime = props.anime;
 
   if(anime?.id == undefined){
-    console.log("loading anime from entry [not in effect]");
+    console.log("loading anime from entry [not in effect]: " + entry?.manga?.alt ?? "undefined");
     useEffect(() => {
 
       const detailspane = document.getElementById('mangadetails-child-container');
