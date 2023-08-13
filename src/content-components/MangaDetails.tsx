@@ -451,37 +451,37 @@ export default function MangaDetails(props: MangaDetailsProps) {
                     <div className='content-details-info'>
                       <div className='content-details-info-format'>
                         <h3 id = 'content-details-label'>Format</h3>
-                        <h3 id='content-details-info-format-data'>Dummy data</h3>
+                        <h3 id='content-details-info-format-data'>N/A</h3>
                       </div>
                       <br/>
                       <div className='content-details-info-episode'>
                         <h3 id = 'content-details-label'>Episodes</h3>
-                        <h3 id='content-details-info-episode-data'>Dummy data</h3>
+                        <h3 id='content-details-info-episode-data'>N/A</h3>
                       </div>
                       <br/>
                       <div className='content-details-info-episode-duration'>
                         <h3 id = 'content-details-label'>Episode duration</h3>
-                        <h3 id='content-details-info-episode-duration-data'>Dummy data</h3>
+                        <h3 id='content-details-info-episode-duration-data'>N/A</h3>
                       </div>
                       <br/>
                       <div className='content-details-info-status'>
                         <h3 id = 'content-details-label'>Status</h3>
-                        <h3 id='content-details-info-status-data'>Dummy data</h3>
+                        <h3 id='content-details-info-status-data'>N/A</h3>
                       </div>
                       <br/>
                       <div className='content-details-info-average-score'>
                       <h3 id = 'content-details-label'>Average score</h3>
-                        <h3 id='content-details-info-average-score-data'>Dummy data</h3>
+                        <h3 id='content-details-info-average-score-data'>N/A</h3>
                       </div>
                       <br/>
                       <div className='content-details-info-studios'>
                         <h3 id = 'content-details-label'>Studios</h3>
-                        <h3 id='content-details-info-studios-data'>Dummy data</h3>
+                        <h3 id='content-details-info-studios-data'>N/A</h3>
                       </div>
                       <br/>
                       <div className='content-details-info-genres'>
                         <h3 id = 'content-details-label'>Genres</h3>
-                        <h3 id='content-details-info-genres-data'>Dummy data</h3>
+                        <h3 id='content-details-info-genres-data'>N/A</h3>
                       </div>
                       <br/>
                     </div>
@@ -489,8 +489,8 @@ export default function MangaDetails(props: MangaDetailsProps) {
                 </div>
                 <div className='content-description-container'>
                   <div className='content-description'>
-                      <h1 id='mangadetails-title'>Dummy data</h1>
-                      <h3 id='mangadetails-description'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum auctor eros vel lectus laoreet luctus. Nullam bibendum sapien eget metus malesuada, in faucibus nisi venenatis. Ut euismod ante sed risus ornare, non fermentum nulla varius. Morbi ac augue id odio dictum iaculis quis et massa. Fusce tristique, nisl nec aliquet vestibulum, sapien quam ultricies purus, vel eleifend orci mi vitae mauris. Sed quis est pharetra, tincidunt tortor at, rhoncus enim. Proin dapibus, arcu eu ultrices sagittis</h3>
+                      <h1 id='mangadetails-title'>N/A</h1>
+                      <h3 id='mangadetails-description'>N/A</h3>
                         {/* <div className='content-relations'></div>  */}
                       <div className='content-episodes-and-relations'>
                         <div className='content-relations'></div>
