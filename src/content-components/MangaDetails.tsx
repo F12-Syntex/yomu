@@ -69,17 +69,28 @@ async function run(aniData: aniflix.Anime) {
   if(anime.status === 'RELEASING') {
     episodes.innerHTML = "airing";
   }else{
-    episodes.innerHTML = anime.episodes.toString();
+    if(anime.episodes){
+      episodes.innerHTML = anime.episodes.toString();
+    }else{
+      episodes.innerHTML = "Unknown"
+    }
   }
 
   const episode_duration = document.getElementById('content-details-info-episode-duration-data')!;
-  episode_duration.innerHTML = anime.duration.toString() + ' minutes';
+
+  if(anime.duration){
+    episode_duration.innerHTML = anime.duration.toString() + ' minutes';
+  }
 
   const status = document.getElementById('content-details-info-status-data')!;
   status.innerHTML = anime.status;
 
   const average_score = document.getElementById('content-details-info-average-score-data')!;
-  average_score.innerHTML = anime.averageScore.toString() + '%';
+
+  if(anime.averageScore){
+    average_score.innerHTML = anime.averageScore.toString() + '%';
+  }
+
 
   const studios = document.getElementById('content-details-info-studios-data')!;
   if(anime.studios.nodes[0] == undefined){

@@ -41,7 +41,7 @@ export default function Player(props: { url?: string, nsfw?: boolean, entry: any
     }
   }
 
-  console.log(url);
+  console.log("Player: " + url);
 
   return (
       <iframe src={url} allowFullScreen onLoad={handleLoad}></iframe>
