@@ -1,6 +1,5 @@
 import AniList from '../content-components/AniList.tsx';
 import Empty from '../content-components/Empty.tsx';
-import Hot from '../content-components/Hot.tsx';
 import Hot1 from '../content-components/Hot1.tsx';
 import MangaPane from '../content-components/MangaPane.tsx';
 import Search from '../content-components/Search.tsx';

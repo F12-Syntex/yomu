@@ -220,27 +220,66 @@ async function getStats(){
   const tags: any[]  = animeStats.tags;
   const voiceActors: any[] = animeStats.voiceActors;
 
-  //profile-info-total-anime-value profile-info-minutes-watched-value
-  document.getElementById('profile-info-total-anime-value')!.innerHTML = animeWatched;
-  document.getElementById('profile-info-minutes-watched-value')!.innerHTML = minutesWatched;
+  // Set anime watched value
+  let animeWatchedElement = document.getElementById('profile-info-total-anime-value')!;
+  animeWatchedElement.innerHTML = animeWatched || "0";
 
-  document.getElementById('profile-info-watched-episodes-value')!.innerHTML = episodesWatched;
-  document.getElementById('profile-info-genres-explored-value')!.innerHTML = genres.length+"";
+  // Set minutes watched value
+  let minutesWatchedElement = document.getElementById('profile-info-minutes-watched-value')!;
+  minutesWatchedElement.innerHTML = minutesWatched || "0";
 
-  document.getElementById('profile-info-mean-score-value')!.innerHTML = meanScore;
-  document.getElementById('profile-info-standard-deviation-value')!.innerHTML = standardDeviation;
-  document.getElementById('profile-info-chapters-read-value')!.innerHTML = chaptersRead;
-  document.getElementById('profile-info-studios-value')!.innerHTML = studios.length+"";
+  // Set episodes watched value
+  let episodesWatchedElement = document.getElementById('profile-info-watched-episodes-value')!;
+  episodesWatchedElement.innerHTML = episodesWatched || "0";
 
-  document.getElementById('profile-info-best-genre-value')!.innerHTML = String(genres[0].genre.genre).toLowerCase();
-  document.getElementById('profile-info-favourite-voice-actor-value')!.innerHTML = String(voiceActors[0].voiceActor.name.full).toLowerCase();
-  document.getElementById('profile-info-favourite-tag-value')!.innerHTML = String(tags[0].tag.name).toLowerCase();
-  document.getElementById('profile-info-favourite-studio-value')!.innerHTML = String(studios[0].studio.name);
+  // Set genres explored value
+  let genresExploredElement = document.getElementById('profile-info-genres-explored-value')!;
+  genresExploredElement.innerHTML = genres.length.toString();
 
-  document.getElementById('profile-avatar')!.style.backgroundImage = 'url(' + stats.data.Viewer.avatar.large + ')';
-  document.getElementById('profile-banner')!.style.backgroundImage = 'url(' + stats.data.Viewer.bannerImage+ ')';
+  // Set mean score value
+  let meanScoreElement = document.getElementById('profile-info-mean-score-value')!;
+  meanScoreElement.innerHTML = meanScore || "0";
 
-  document.getElementById('profile-banner-img-username')!.textContent = stats.data.Viewer.name;
+  // Set standard deviation value
+  let standardDeviationElement = document.getElementById('profile-info-standard-deviation-value')!;
+  standardDeviationElement.innerHTML = standardDeviation || "0";
+
+  // Set chapters read value
+  let chaptersReadElement = document.getElementById('profile-info-chapters-read-value')!;
+  chaptersReadElement.innerHTML = chaptersRead || "0";
+
+  // Set studios value
+  let studiosValueElement = document.getElementById('profile-info-studios-value')!;
+  studiosValueElement.innerHTML = studios.length.toString();
+
+  // Set best genre value
+  let bestGenreValueElement = document.getElementById('profile-info-best-genre-value')!;
+  bestGenreValueElement.innerHTML = (genres[0] && genres[0].genre.genre) ? String(genres[0].genre.genre).toLowerCase() : "N/A";
+
+  // Set favorite voice actor value
+  let favoriteVoiceActorValueElement = document.getElementById('profile-info-favourite-voice-actor-value')!;
+  favoriteVoiceActorValueElement.innerHTML = (voiceActors[0] && voiceActors[0].voiceActor.name.full) ? String(voiceActors[0].voiceActor.name.full).toLowerCase() : "N/A";
+
+  // Set favorite tag value
+  let favoriteTagValueElement = document.getElementById('profile-info-favourite-tag-value')!;
+  favoriteTagValueElement.innerHTML = (tags[0] && tags[0].tag.name) ? String(tags[0].tag.name).toLowerCase() : "N/A";
+
+  // Set favorite studio value
+  let favoriteStudioValueElement = document.getElementById('profile-info-favourite-studio-value')!;
+  favoriteStudioValueElement.innerHTML = (studios[0] && studios[0].studio.name) ? String(studios[0].studio.name) : "N/A";
+
+  // Set profile avatar background image
+  let profileAvatarElement = document.getElementById('profile-avatar')!;
+  profileAvatarElement.style.backgroundImage = 'url(' + (stats.data.Viewer.avatar.large || "") + ')';
+
+  // Set profile banner background image
+  let profileBannerElement = document.getElementById('profile-banner')!;
+  profileBannerElement.style.backgroundImage = 'url(' + (stats.data.Viewer.bannerImage || "") + ')';
+
+  // Set profile username
+  let profileUsernameElement = document.getElementById('profile-banner-img-username')!;
+  profileUsernameElement.textContent = stats.data.Viewer.name || "N/A";
+
 
 
   //profile-info
