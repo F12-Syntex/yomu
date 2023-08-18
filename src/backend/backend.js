@@ -122,6 +122,7 @@ app.get('/authenticate', (req, res) => {
       return;
     }
 
+    //test
     createAuthKey(profile, res);
 
 });
