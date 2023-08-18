@@ -154,9 +154,12 @@ function loadItems(ids: any, container: string) {
 
   const arr : any[] = ids.data.Page.media;
 
+  console.log(ids.data);
+
   arr.forEach((data) => {
 
     const entry = data;
+    
 
     if(entry.progress === undefined || entry.progress === null){
        entry.progress = 0;

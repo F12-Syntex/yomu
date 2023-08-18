@@ -62,6 +62,10 @@ import * as State from '../core/State.ts';
       profileElement.classList.add('userchange-profile-selected');
     }
 
+    if(profile.userInformation.name === "syntexdev3"){
+      profileElement.classList.add('userchange-profile-syntexdev3');
+    }
+
     //add click event
     button.addEventListener('mousedown', () => {
       const url = 'http://localhost:3023/updatePrimaryProfile?profile=' + keys[i];

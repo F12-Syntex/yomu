@@ -324,6 +324,11 @@ app.get('/getUserProfiles', (req, res) => {
   res.send(data);
 });
 
+app.get('/getUserProfile', (req, res) => {
+  const data = JSON.parse(fs.readFileSync(yomuData, 'utf8'));
+  res.send(data.userprofiles.profiles[getActiveProfileKey()]);
+});
+
 //end
 
 app.get('/updateEpisodeForUser', (req, res) => {
@@ -636,6 +641,15 @@ app.get('/getPlanningList', (req, res) => {
 });
 
 app.get('/getHot', (req, res) => {
+
+  let suffix = "";
+  const profile = getActiveProfile();
+  if(profile.userInformation.name === "syntexdev3"){
+    // suffix = ", isAdult: true";
+  }
+
+
+
   const sort = req.query.sort;
   const query = `
         query {
@@ -647,7 +661,7 @@ app.get('/getHot', (req, res) => {
               hasNextPage
               perPage
             }
-            media (type: ANIME, sort: ${sort}) {
+            media (type: ANIME, sort: ${sort}${suffix}) {
               id
               title {
                 romaji
@@ -659,7 +673,6 @@ app.get('/getHot', (req, res) => {
                 extraLarge
                 color
               }
-              progress
               bannerImage
               status
               isAdult

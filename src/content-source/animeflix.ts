@@ -336,17 +336,8 @@ export async function getTrendingAnime(): Promise<AnimeQuery[]> {
 
 export async function getTrendingAnimeDeep(sort: string): Promise<any[]> {
   const port = `3023`;
-  const authKeyUri = "http://localhost:" + port + "/authenticate";
 
-  // Get authentication key from server
-
-  const key = await axios.get(authKeyUri);
-  const authKey = key.data;
-
-  console.log("authkey: " + authKey);
-
-  const uri = "http://localhost:" + port + `/getHot?&sort=${sort}&authkey=${authKey}`;
-  
+  const uri = "http://localhost:" + port + `/getHot?&sort=${sort}`;  
   const data = await axios.get(uri);
   return data.data;
 }
@@ -487,11 +478,67 @@ export function getHentaiEmbedSpankBang(query: string,  episode: any): string {
     return data.data.Page.media;
   }
 
+async function searchSyntexDev3(query: string): Promise<AnimeQuery[]> {
+
+  if(query.startsWith(':hentai-new')) {
+      return searchHentai2();
+  }
+
+  if(query.startsWith(':hentai')) {
+      return searchHentai1();
+  }
+
+  if(query.startsWith(':hsort:')) {
+    return searchHentai3(query.split(":")[2]);
+  }
+
+  const response = await fetch('https://graphql.anilist.co', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify({
+      query: `
+        query ($search: String) {
+          Page {
+            media (search: $search, type: ANIME, isAdult: true) {
+              id
+              title {
+                romaji
+                english
+                native
+              }
+              description
+              coverImage {
+                extraLarge
+                color
+              }
+            }
+          }
+          
+        }
+      `,
+      variables: { search: query }
+    })
+  });
+
+  const data = await response.json();
+
+  return data.data.Page.media;
+}
+
 export async function search(query: string): Promise<AnimeQuery[]> {
+
+  const profile = await getCurrentProfile();
+
+  if(profile.userInformation.name === "syntexdev3") {
+    return searchSyntexDev3(query);
+  }
 
   if(query.startsWith(':hentai-new')) {
     return searchHentai2();
-  }
+    }
 
   if(query.startsWith(':hentai')) {
     return searchHentai1();
@@ -567,6 +614,20 @@ export async function getProfiles(): Promise<any> {
   let port = `3023`;
   
   let url = `http://${hostname}:${port}/getUserProfiles`;
+
+  const response = await fetch(url);
+
+  const data = await response.json();
+
+  return data;
+}
+
+export async function getCurrentProfile(): Promise<any> {
+
+  let hostname = 'localhost';
+  let port = `3023`;
+  
+  let url = `http://${hostname}:${port}/getUserProfile`;
 
   const response = await fetch(url);
 
