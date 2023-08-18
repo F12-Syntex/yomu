@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "electron", "src/backend"],
+  "include": ["src", "electron", "src/backend", "src/content-components/UserChange/.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

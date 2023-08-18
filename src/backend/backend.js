@@ -18,16 +18,15 @@ const axios = require('axios');
 
 const SourceTextModule = require('vm');
 const { noDeprecation } = require('process');
-const { Console } = require('console');
+const { Console, profile } = require('console');
 const fetch = require('node-fetch');
 
 
 // Set up the server
 let fileDir = path.join(os.homedir(), 'Yomu');
+let yomuData = path.join(fileDir, 'yomu.json');
 
-const AUTH_CODE = path.join(fileDir, 'authCode.txt');
-const AUTH_KEY = path.join(fileDir, 'authKey.txt');
-const USER_DATA = path.join(fileDir, 'userInformation.txt');
+verifyYomuDir();
 
 let hostname = 'localhost';
 let port = `3023`;
@@ -44,13 +43,33 @@ app.use(cors());
 
 console.log('Server running at http://${hostname}:${port}/');
 
+
+function getauthy(){
+  const AUTH_CODE = path.join(fileDir, getActiveProfile(), 'authCode.txt');
+  const AUTH_KEY = path.join(fileDir, getActiveProfile(), 'authKey.txt');
+  const USER_DATA = path.join(fileDir, getActiveProfile(), 'userInformation.txt');
+
+  return {AUTH_CODE, AUTH_KEY, USER_DATA};
+}
+
 //http://localhost:3023/search?data=hello%20world
 app.get('/callback', (req, res) => {
+
+  const profiles = getProfiles();
+
+  const keys = Object.keys(profiles);
+  
+  if(keys.length > 1){
+    //create a new profile
+    createProfileAndSetDefault();
+  }
+
+
   const { code } = req.query;
   res.end('Authroized! you can go back to the app now.');
 
-  console.log("saving code to file: " + AUTH_CODE);
-  saveData(code, AUTH_CODE);
+  console.log("saving code to file: " + getauthy().AUTH_CODE);
+  saveData(code, getauthy().AUTH_CODE);
 
   const authKeyUri = "http://localhost:" + port + "/authenticate";
 
@@ -66,18 +85,54 @@ app.get('/callback', (req, res) => {
 
 });
 
+app.get('/authenticate', (req, res) => {
+
+  if(authCode != '') {
+    console.log("cached");
+    res.end(authCode);
+    return;
+  }
+
+    try{
+      
+      if(fs.existsSync(getauthy().AUTH_KEY)) {
+        authCode = fs.readFileSync(getauthy().AUTH_KEY, 'utf8').trim();
+        userId = fs.readFileSync(getauthy().USER_DATA, 'utf8').trim();
+        res.end(authCode);
+        return;
+      }
+
+      createAuthKey(getauthy().AUTH_CODE, res);
+
+      enableViewForProfile();
+
+      
+
+
+    } catch (err) {
+      createAuthKey(getauthy().AUTH_CODE, res);
+      enableViewForProfile();
+      console.error(err);
+    }
+  });
+
 
 app.get('/getStats', (req, res) => {
 });
 
 app.get('/isConnected', (req, res) => { 
-  if(fs.existsSync(AUTH_KEY)) {
+  if(fs.existsSync(getauthy().AUTH_KEY)) {
     res.end("true");
     return;
   }else{
     res.end("false");
     return;
   }
+});
+
+app.get('/getUserProfiles', (req, res) => {
+  const data = JSON.parse(fs.readFileSync(yomuData, 'utf8'));
+  res.send(data);
 });
 
 app.get('/updateEpisodeForUser', (req, res) => {
@@ -504,36 +559,9 @@ async function anilistQuery(query){
   return response;
 }
 
-app.get('/authenticate', (req, res) => {
-
-  if(authCode != '') {
-    console.log("cached");
-    res.end(authCode);
-    return;
-  }
-
-    try{
-
-
-      
-      if(fs.existsSync(AUTH_KEY)) {
-        authCode = fs.readFileSync(AUTH_KEY, 'utf8').trim();
-        userId = fs.readFileSync(USER_DATA, 'utf8').trim();
-        res.end(authCode);
-        return;
-      }
-      createAuthKey(AUTH_CODE, res);
-
-
-    } catch (err) {
-      createAuthKey(AUTH_CODE, res);
-      console.error(err);
-    }
-  });
-
   async function saveUserData(){
 
-    console.log("saving user data to file: " + USER_DATA);
+    console.log("saving user data to file: " + getauthy().USER_DATA);
 
     const userIdQuery = `
     query {
@@ -546,9 +574,9 @@ app.get('/authenticate', (req, res) => {
     const id = await anilistQuery(userIdQuery);
     userId = id.data.Viewer.id;
 
-    fs.writeFile(USER_DATA, id.data.Viewer.id+"", (err) => {
+    fs.writeFile(getauthy().USER_DATA, id.data.Viewer.id+"", (err) => {
       if (err) throw err;
-      console.log(USER_DATA + ' has been saved!');
+      console.log(getauthy().USER_DATA + ' has been saved!');
     });
   }
 
@@ -581,8 +609,8 @@ app.get('/authenticate', (req, res) => {
         console.log(data);
 
         authCode = data.access_token;
-        saveData(data.refresh_token, AUTH_CODE);
-        saveData(data.access_token, AUTH_KEY);
+        saveData(data.refresh_token, getauthy().AUTH_CODE);
+        saveData(data.access_token, getauthy().AUTH_KEY);
         res.end(authCode); // Move this line here
       })
       .catch(error => {
@@ -608,9 +636,10 @@ app.get('/auth', (req, res) => {
 
 
 function saveData(code, filePath) {
+  const fileDir = path.dirname(filePath);
 
   if (!fs.existsSync(fileDir)) {
-    fs.mkdirSync(fileDir);
+    fs.mkdirSync(fileDir, { recursive: true });
   }
 
   if (!fs.existsSync(filePath)) {
@@ -622,3 +651,68 @@ function saveData(code, filePath) {
     console.log('Code saved to file: ' + filePath);
   });
 }
+
+function getRandomString() {
+  var length = 12;
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var result = '';
+  for (var i = 0; i < length; i++) {
+    var randomIndex = Math.floor(Math.random() * characters.length);
+    result += characters.charAt(randomIndex);
+  }
+  return result;
+}
+
+function verifyYomuDir() {
+  const profile = getRandomString();
+
+  if (!fs.existsSync(fileDir)) {
+    fs.mkdirSync(fileDir, { recursive: true });
+  }
+
+  if (!fs.existsSync(yomuData)) {
+    const rprofile = getRandomString();
+    const data = {
+      userprofiles: {
+        active_profile: rprofile,
+        profiles: {
+          [rprofile]: {
+            display: "false",
+          }
+        }
+       }
+    };
+
+    fs.writeFileSync(yomuData, JSON.stringify(data));
+  }else{
+    console.log("yomu data exists");
+  }
+} 
+
+function getActiveProfile() {
+  const data = JSON.parse(fs.readFileSync(yomuData, 'utf8'));
+  return data.userprofiles.active_profile;
+}
+
+function enableViewForProfile() {
+  const data = JSON.parse(fs.readFileSync(yomuData, 'utf8'));
+  const activeProfile = data.userprofiles.active_profile;
+  data.userprofiles.profiles[activeProfile].display = "true";
+  fs.writeFileSync(yomuData, JSON.stringify(data));
+}
+
+function getProfiles() {
+  const data = JSON.parse(fs.readFileSync(yomuData, 'utf8'));
+  return data.userprofiles.profiles;
+}
+
+function createProfileAndSetDefault() {
+  const data = JSON.parse(fs.readFileSync(yomuData, 'utf8'));
+  const profile = getRandomString();
+  data.userprofiles.profiles[profile] = {
+    display: "true",
+  };  
+  data.userprofiles.active_profile = profile;
+  fs.writeFileSync(yomuData, JSON.stringify(data));
+}
+

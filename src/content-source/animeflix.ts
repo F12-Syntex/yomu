@@ -548,6 +548,7 @@ export async function search(query: string): Promise<AnimeQuery[]> {
               }
             }
           }
+          
         }
       `,
       variables: { search: query }
@@ -559,6 +560,21 @@ export async function search(query: string): Promise<AnimeQuery[]> {
   return data.data.Page.media;
 }
 
+
+export async function getProfiles(): Promise<any> {
+
+  let hostname = 'localhost';
+  let port = `3023`;
+  
+  let url = `http://${hostname}:${port}/getUserProfiles`;
+
+  const response = await fetch(url);
+
+  const data = await response.json();
+
+  return data;
+}
+
 export async function searchManga(query: string): Promise<AnilistMedia[]> {
 
   let nsfw = query.endsWith(':nsfw');
@@ -566,6 +582,7 @@ export async function searchManga(query: string): Promise<AnilistMedia[]> {
   if(nsfw) {
     query = query.slice(0, -5);
   }
+
 
   // sort: TITLE_ENGLISH
   const response = await fetch('https://graphql.anilist.co', {

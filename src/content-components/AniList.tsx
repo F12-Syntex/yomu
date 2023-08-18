@@ -26,6 +26,7 @@ import MangaDetails from './MangaDetails.tsx';
 
 import '../stylings/content/anilist.css';
 import Player from './Player.tsx';
+import UserChange from './UserChange.tsx';
 
 async function generateSections(){
 
@@ -177,10 +178,18 @@ async function loadUserData() {
   const loaded : boolean = await accountConnected();
 
   if(!loaded){
-    shell.openExternal(authoriseUrl);
-    State.updateState(<Search/>);
+    const state = <UserChange/>;
+    State.updateState(state);
+    // shell.openExternal(authoriseUrl);
+    // State.updateState(<Search/>);
     return;
   }
+
+  const pfp = document.getElementById('profile-avatar');
+  pfp?.addEventListener('mousedown', function() {
+    const state = <UserChange/>;
+    State.updateState(state);
+  });
 
   await axios.get(authKeyUri);
 
