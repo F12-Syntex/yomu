@@ -342,6 +342,31 @@ export async function getTrendingAnimeDeep(sort: string): Promise<any[]> {
   return data.data;
 }
 
+export function changeRootBackground(img: string) {
+  const root = document.querySelector(':root');
+
+  if(root == null){
+    console.log("root is null");
+    return;
+  }
+
+  const pseudoElement = document.createElement('div');
+  pseudoElement.style.content = '""';
+  pseudoElement.style.position = 'absolute';
+  pseudoElement.style.top = '0';
+  pseudoElement.style.left = '0';
+  pseudoElement.style.width = '100%';
+  pseudoElement.style.height = '100%';
+  pseudoElement.style.zIndex = '-1';
+  pseudoElement.style.filter = 'blur(0px) brightness(5%)';
+  pseudoElement.style.backgroundImage = "url('" + img + "')";
+  pseudoElement.style.backgroundSize = 'cover';
+  pseudoElement.style.backgroundPosition = 'center';
+  pseudoElement.style.backgroundRepeat = 'no-repeat';
+  pseudoElement.style.imageRendering = '-webkit-optimize-contrast';
+  root.appendChild(pseudoElement)
+}
+
 export function getHentaiEmbedSpankBang(query: string,  episode: any): string {
     //https://spankbang.party/s/Boku%20dake%20no%20Hentai%20Kanojo%20Motto%E2%99%A5%20THE%20ANIMATION%20episode%205/
     let title = query.replace(/[^\w\s]/gi, '%20').replace(/\s/g, "%20").toLowerCase();
@@ -891,4 +916,8 @@ export async function getUserData(authKey : string): Promise<UserData> {
   } else {
     throw new Error(data.errors[0].message);
   }
+}
+
+export async function getRandomHentaiGif(){
+  return "https://thehentaigif.com/wp-content/uploads/2020/10/14760024-38.gif";
 }

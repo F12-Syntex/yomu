@@ -185,11 +185,11 @@ async function loadUserData() {
     return;
   }
 
-  const pfp = document.getElementById('profile-avatar');
-  pfp?.addEventListener('mousedown', function() {
-    const state = <UserChange/>;
-    State.updateState(state);
-  });
+  // const pfp = document.getElementById('profile-avatar');
+  // pfp?.addEventListener('mousedown', function() {
+  //   const state = <UserChange/>;
+  //   State.updateState(state);
+  // });
 
   await axios.get(authKeyUri);
 
@@ -205,6 +205,7 @@ async function loadUserData() {
 
 async function getStats(){
   const stats = await animeflix.getUserStatistics();
+
   const animeStats = stats.data.Viewer.statistics.anime;
 
   const animeWatched = animeStats.count;
@@ -268,7 +269,6 @@ async function getStats(){
 
   // Set profile banner background image
   let profileBannerElement = document.getElementById('profile-banner')!;
-  profileBannerElement.style.backgroundImage = 'url(' + (stats.data.Viewer.bannerImage || "") + ')';
 
   // Set profile username
   let profileUsernameElement = document.getElementById('profile-banner-img-username')!;
@@ -285,7 +285,6 @@ async function getStats(){
     if(profile.accountInformation.nsfw === true){
       //alert("NSFW");
       // profileAvatarElement.style.backgroundImage = 'url(' + "https://thehentaigif.com/wp-content/uploads/2020/10/23435761-73.gif" + ')';
-      // profileAvatarElement.style.backgroundImage = 'url(' + (stats.data.Viewer.avatar.large || "") + ')';
       // profileAvatarElement.style.backgroundImage = 'url(' + "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSD47GnkRAr06SRQE5kTXhquSQLb5rWfr9bQn-kAEHgaG-6m8ebOu449eZei3ifydEAO8s&usqp=CAU" + ')';
       //https://img3.gelbooru.com//images/b2/78/b2785201ff2dc9ed3276edfb01bcf79a.gif
       //https://img3.gelbooru.com//images/b2/78/b2785201ff2dc9ed3276edfb01bcf79a.gif
@@ -293,12 +292,37 @@ async function getStats(){
       // profileAvatarElement.style.backgroundImage = 'url(' + "https://img3.gelbooru.com//images/46/2b/462b17d2aa4ee47ada2f8b0488144c7b.gif" + ')';
       //https://img3.gelbooru.com//images/8e/c8/8ec8ff0b0352e6a5ad1c3a04eeeae981.gif
       //https://img3.gelbooru.com//images/4b/b9/4bb982cda74103466ac8c65daf154f7b.gif
-      // profileAvatarElement.style.backgroundImage = 'url(' + "https://img3.gelbooru.com//images/8e/c8/8ec8ff0b0352e6a5ad1c3a04eeeae981.gif" + ')';
+      // profileAvatarElement.style.backgroundImage = 'url(' + "https://img3.gelbooru.com//images/8e/c8/8ec8ff0b0352e6a5ad1c3a04eeeae981.gif" + ')';   
+      // profileAvatarElement.style.backgroundImage = 'url(' + "https://img3.gelbooru.com//images/4b/b9/4bb982cda74103466ac8c65daf154f7b.gif" + ')';
+      // profileBannerElement.style.backgroundImage = 'url(' + "https://img3.gelbooru.com//images/4b/b9/4bb982cda74103466ac8c65daf154f7b.gif" + ')';
+
+      profileAvatarElement.style.backgroundImage = 'url(' + (stats.data.Viewer.avatar.large || "") + ')';
+      profileBannerElement.style.backgroundImage = 'url(' + (stats.data.Viewer.bannerImage || "") + ')';
+
       // profileAvatarElement.style.backgroundImage = 'url(' + (stats.data.Viewer.avatar.large || "") + ')';
-      profileAvatarElement.style.backgroundImage = 'url(' + "https://img3.gelbooru.com//images/4b/b9/4bb982cda74103466ac8c65daf154f7b.gif" + ')';
+
+      //https://thehentaigif.com/wp-content/uploads/2020/10/14760024-38.gif
+      //https://thehentaigif.com/wp-content/uploads/2020/10/22628365-21.gif
+
+      // const randomNumber1 = Math.floor(Math.random() * 129) + 1;
+      // const randomNumber2 = Math.floor(Math.random() * 129) + 1;
+
+
+      // profileAvatarElement.style.backgroundImage = `url("https://m1.imhentai.xxx/005/4wc2vzxntp/14.gif")`;
+      // profileBannerElement.style.backgroundImage = `url("https://m1.imhentai.xxx/005/4wc2vzxntp/115.gif")`;
+      
+      // animeflix.changeRootBackground("https://img3.gelbooru.com//images/4b/b9/4bb982cda74103466ac8c65daf154f7b.gif");
+
+      // profileAvatarElement.style.backgroundImage = 'url(' + (animeflix.getRandomHentaiGif() || "") + ')';
+      // profileBannerElement.style.backgroundImage = 'url(' + (animeflix.getRandomHentaiGif() || "") + ')';
+      //#endregion
+      // animeflix.changeRootBackground("https://m7.imhentai.xxx/024/ruixo5cvbh/3.jpg");
+
+
       profileAvatarElement.style.backgroundSize = 'auto 100%';
     }else{
       profileAvatarElement.style.backgroundImage = 'url(' + (stats.data.Viewer.avatar.large || "") + ')';
+      profileBannerElement.style.backgroundImage = 'url(' + (stats.data.Viewer.bannerImage || "") + ')';
     }
   }
 });

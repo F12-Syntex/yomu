@@ -307,7 +307,8 @@ function createProfileAndSetDefault() {
       name: [profile],
       avatar: {
         large: "https://avatarfiles.alphacoders.com/896/thumb-89615.png"
-      }
+      },
+      bannerImage: "",
     },
     accountInformation: {
       nsfw: false,
@@ -411,7 +412,8 @@ const query = `
       name,
       avatar{
         large
-      }
+      },
+      bannerImage,
     }
   }
 `;

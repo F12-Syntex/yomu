@@ -3,6 +3,7 @@ import Empty from '../content-components/Empty.tsx';
 import Hot1 from '../content-components/Hot1.tsx';
 import MangaPane from '../content-components/MangaPane.tsx';
 import Search from '../content-components/Search.tsx';
+import Settings from '../content-components/Settings.tsx';
 import * as State from '../core/State.ts';
 
 import '../stylings/content/sidemenu.css';
@@ -82,7 +83,7 @@ function SideMenu() {
     if(button.classList.contains('active-button')) return;
 
     console.log(button);
-    State.updateState(<Empty text="settings"/>);
+    State.updateState(<Settings/>);
 
     // Open a new window with a specific size and position
     //windowMaker.openWindow("https://gotaku1.com/streaming.php?id=MTkzNDcw&title=Blue+Lock+Episode+1");
