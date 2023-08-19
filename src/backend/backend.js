@@ -308,6 +308,9 @@ function createProfileAndSetDefault() {
       avatar: {
         large: "https://avatarfiles.alphacoders.com/896/thumb-89615.png"
       }
+    },
+    accountInformation: {
+      nsfw: false,
     }
   };  
   data.userprofiles.active_profile = profile;
@@ -642,10 +645,10 @@ app.get('/getPlanningList', (req, res) => {
 
 app.get('/getHot', (req, res) => {
 
-  let suffix = "";
+  let suffix = "false";
   const profile = getActiveProfile();
-  if(profile.userInformation.name === "syntexdev3"){
-    // suffix = ", isAdult: true";
+  if(profile.accountInformation.nsfw == true){
+    suffix = "true";
   }
 
 
@@ -661,7 +664,7 @@ app.get('/getHot', (req, res) => {
               hasNextPage
               perPage
             }
-            media (type: ANIME, sort: ${sort}${suffix}) {
+            media (type: ANIME, sort: ${sort}, isAdult: ${suffix}) {
               id
               title {
                 romaji

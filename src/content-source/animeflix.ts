@@ -532,7 +532,7 @@ export async function search(query: string): Promise<AnimeQuery[]> {
 
   const profile = await getCurrentProfile();
 
-  if(profile.userInformation.name === "syntexdev3") {
+  if(profile.accountInformation.nsfw === true){
     return searchSyntexDev3(query);
   }
 

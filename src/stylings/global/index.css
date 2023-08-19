@@ -33,6 +33,11 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   image-rendering: -webkit-optimize-contrast; /* Safari/Chrome */
+
+
+  /* NSFW */
+  /* background-image: url("https://img3.gelbooru.com//images/8e/c8/8ec8ff0b0352e6a5ad1c3a04eeeae981.gif");
+  filter: blur(0px) brightness(5%); */
 }
 
 #vbox {

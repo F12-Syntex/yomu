@@ -37,6 +37,11 @@ import * as State from '../core/State.ts';
     button.classList.add('userchange-profile-button');
     profileElement.appendChild(button);
 
+    //add image in a new div
+    const profileImage = document.createElement('div');
+    profileImage.style.backgroundImage = 'url(' + profile.userInformation.avatar.large + ')';
+    button.appendChild(profileImage);
+
 
     //add text
     const profileText = document.createElement('h3');
@@ -59,11 +64,18 @@ import * as State from '../core/State.ts';
 
 
     if(key === active_profile){
-      profileElement.classList.add('userchange-profile-selected');
+      button.classList.add('userchange-profile-selected');
     }
 
-    if(profile.userInformation.name === "syntexdev3"){
+    if(profile.accountInformation.nsfw === true){
       profileElement.classList.add('userchange-profile-syntexdev3');
+      profileImage.classList.add('userchange-profile-image-nsfw');
+      //https://thehentaigif.com/wp-content/uploads/2020/10/21483104-36.gif
+      //"https://thehentaigif.com/wp-content/uploads/2020/10/23435761-73.gif"
+      // profileImage.style.backgroundImage = 'url(' + "https://m1.hentaiera.com/005/4wc2vzxntp/4.gif" + ')';
+      profileImage.style.backgroundImage = 'url(' + profile.userInformation.avatar.large + ')';
+    }else{
+      profileImage.classList.add('userchange-profile-image');
     }
 
     //add click event

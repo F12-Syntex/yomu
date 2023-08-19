@@ -28,6 +28,7 @@
     flex-direction: column;
 
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
   /* Style the thumb of the scroll bar */
@@ -137,7 +138,9 @@
 }
 
 .userchange-profile-selected{
-    color: greenyellow;
+    text-decoration: underline;
+    font-weight: bold;
+    background-color: rgb(41, 40, 40);
 }
 
 .userchange-profile-buttons{
@@ -160,10 +163,45 @@
     height: 100%;
 
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
 }
 
 .userchange-profile-syntexdev3{
     color: pink;
+}
+
+.userchange-profile-image{
+    width: 50px;
+    height: 50px;
+    background-color: red;
+
+    background-size: cover;
+
+    border-radius: 25%;
+    overflow: hidden;
+
+    margin-right: 10px;
+    margin-left: 10%;
+
+    border: 2px solid white;
+}
+
+.userchange-profile-image-nsfw{
+    width: 50px;
+    height: 50px;
+    background-color: red;
+    background-size: cover;
+    border-radius: 25%;
+    overflow: hidden;
+    margin-right: 10px;
+    border: 2px solid white;
+    margin-left: 10%;
+}
+
+.userchange-profile-image-nsfw:hover{
+    filter: none;
+    cursor: pointer;
+
+    transition: 0.1s ease-in-out;
 }
