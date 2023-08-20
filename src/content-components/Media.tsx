@@ -1,32 +1,43 @@
 
 import * as sideMenuUtils from '../utils/SideMenu.ts';
 
-import '../stylings/content/media.css';
 import { useEffect } from 'react';
 import * as animeflix from '../content-source/animeflix.ts';
 import * as State from '../core/State.ts';
+import '../stylings/content/media.css';
 import PlayerGeneric from './PlayerGeneric.tsx';
 
 export default function mediaPane() {  
 
   sideMenuUtils.toggle(document.getElementById('sidemenu-media')!);
 
+  let nsfw = true;
+
   async function verifyAccount(){
-    const account = await animeflix.getCurrentProfile();
-    console.log(account.accountInformation.nsfw);
-    if(account.accountInformation.nsfw === false){
-        //clear the contents of this page, and display a message saying that the user needs to be 18+ to view this page
-        const page = document.getElementById('media-page')!;
-        page.innerHTML = '';
-        const message = document.createElement('div');
-        message.className = 'media-content-message';
-        message.innerHTML = 'This page is not available for your account yet.';
-        page.appendChild(message);
+    try{
+      const account = await animeflix.getCurrentProfile();
+      console.log(account);
+      if(account.accountInformation.nsfw === false){
+          sfw();
+      }
+    }catch(error){
+      console.log(error);
+      sfw();
     }
   }
 
+  function sfw(){
+    // const page = document.getElementById('media-page')!;
+    // page.innerHTML = '';
+    // const message = document.createElement('div');
+    // message.className = 'media-content-message';
+    // message.innerHTML = 'This page is not available for your account yet.';
+    // page.appendChild(message);
+    nsfw = false;
+  }
 
-  async function getEntries(query : string) {
+
+  async function getEntriesNsfw(query : string) {
     try {
       const response = await fetch('https://spankbang.com/s/' + query.replace(' ', '%20') + '/');
       const data = await response.text();
@@ -56,38 +67,44 @@ export default function mediaPane() {
     }
   }
 
-  async function test(query : string) {
-    try {
-      const response = await fetch('https://spankbang.com/s/' + query.replace(' ', '%20') + '/');
-      const data = await response.text();
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(data, 'text/html');
+  async function getEntries(query : string) {
+    //get random anime videos from the query
+    return [];
 
-      const elements = doc.getElementsByClassName('video-item');
-      const result_1: any[] = [];
-
-      const obj1 = {
-        href: "link.getAttribute('href')",
-        dataSrc: "https://tbi.sb-cd.com/t/9007249/9/0/w:300/t6-enh/hmv-haven.jpg",
-        alt: "hmv heaven"
-      };
-
-      const obj2 = {
-        href: "link.getAttribute('href')",
-        dataSrc: "https://tbi.sb-cd.com/t/12342700/1/2/w:300/t5-enh/hmv-pmv-your-body.jpg",
-        alt: "hmv pmv your body"
-      };
-
-      result_1.push(obj1);
-      result_1.push(obj2);
-
-
-      return result_1;
-    } catch (error) {
-      // Handle any errors that occur during the API call
-      console.error(error);
-    }
   }
+
+  // async function test(query : string) {
+  //   try {
+  //     const response = await fetch('https://spankbang.com/s/' + query.replace(' ', '%20') + '/');
+  //     const data = await response.text();
+  //     const parser = new DOMParser();
+  //     const doc = parser.parseFromString(data, 'text/html');
+
+  //     const elements = doc.getElementsByClassName('video-item');
+  //     const result_1: any[] = [];
+
+  //     const obj1 = {
+  //       href: "link.getAttribute('href')",
+  //       dataSrc: "https://tbi.sb-cd.com/t/9007249/9/0/w:300/t6-enh/hmv-haven.jpg",
+  //       alt: "hmv heaven"
+  //     };
+
+  //     const obj2 = {
+  //       href: "link.getAttribute('href')",
+  //       dataSrc: "https://tbi.sb-cd.com/t/12342700/1/2/w:300/t5-enh/hmv-pmv-your-body.jpg",
+  //       alt: "hmv pmv your body"
+  //     };
+
+  //     result_1.push(obj1);
+  //     result_1.push(obj2);
+
+
+  //     return result_1;
+  //   } catch (error) {
+  //     // Handle any errors that occur during the API call
+  //     console.error(error);
+  //   }
+  // }
   
 
   async function search(event: any){
@@ -97,7 +114,19 @@ export default function mediaPane() {
       const searchGrid = document.getElementsByClassName('media-search-grid')[0] as HTMLDivElement;
       
 
-      const entries : any[] | undefined = await getEntries(text);
+
+
+      let entries : any[] | undefined;
+
+      console.log(nsfw);
+
+      if(nsfw == true){
+        entries = await getEntriesNsfw(text);
+      }else{
+        entries = await getEntries(text);
+      }
+
+
       console.log(entries);
 
       searchGrid.innerHTML = '';
