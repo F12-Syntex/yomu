@@ -1,0 +1,157 @@
+.media-content-search{
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.media-search-results{
+  width: 100%;
+  height: 5vh;
+
+  margin: 10px;
+}
+
+.media-search-results input {
+  width: 90%; /* 100% - padding ( 5% )*/
+  height: 3vh;
+  border: none;
+  border-radius: 15px;
+  padding: 1% 2%;
+
+  font-size: 16px;
+  background-color: rgba(255, 255, 255, 0);
+  color: white;
+  outline: none;
+  transition: all 0.2s ease-in-out; /* Add a transition for smooth animation */
+
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  text-shadow: 1px 1px #000000;
+  border: 2px solid gray;
+
+  margin-left: 10px;
+}
+
+/* Add hover effects */
+.media-search-results input:hover {
+  background-color: rgba(0, 0, 0, 0.15);
+  transform: scale(1.01);
+}
+
+/* Add focus effects */
+.media-search-results input:focus {
+  background-color: rgba(0, 0, 0, 0.15);
+  transform: scale(1.015);
+  border: 2.5px solid white;
+}
+
+.media-content-message{
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-weight: lighter;
+  font-size: 20px;
+  color: white;
+
+  user-select: none;
+}
+
+/* Style the thumb of the scroll bar */
+.media-search-grid::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+/* Style the track of the scroll bar */
+.media-search-grid::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* Apply styles to the scrollbar thumb */
+.media-search-grid::-webkit-scrollbar-thumb {
+  background-color: rgb(87, 86, 86);
+  box-shadow: none;
+  border-radius: 0px;
+}
+
+/* Apply styles to the scrollbar thumb when hovering */
+.media-search-grid::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(129, 128, 128);
+}
+
+
+
+.media-search-grid {
+  height: 80vh;
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-rows: repeat(auto-fill, minmax(300px, 1fr));
+
+  grid-row-gap: 10px;
+  column-gap: 10px;
+  
+  overflow: auto;
+  
+  margin-top: 35px;
+}
+  
+
+.media-search-grid-box{
+  width: 300px;
+  height: 300px;
+
+  border: white 1px solid;
+  border-radius: 10px;
+
+  margin: 10px;
+  overflow: hidden;
+  background-color: #000000;
+}
+
+.media-search-grid-box-img{
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  width: 100%;
+  height: 80%;
+
+  border-bottom: 1px solid white;
+}
+
+.media-search-grid-box-title{
+  width: 100%;
+  height: 20%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-weight: lighter;
+  font-size: 1em;
+  color: white;
+
+  user-select: none;
+}
+
+.media-search-grid-box:hover{
+  transform: scale(1.01);
+  cursor: pointer;
+}

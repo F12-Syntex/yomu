@@ -451,6 +451,11 @@ export default function aniList() {
   });
 
 
+  function profileChange(){
+    const state = <UserChange/>;
+    State.updateState(state);
+  }
+
   return (
     // <div className='authKeyInput'>
     //   <h1>Input AuthKey</h1>
@@ -478,7 +483,7 @@ export default function aniList() {
       <div className='profile-page' id='profile-page'>
           <div className='profile-banner' id='profile-banner'>
             <div className='profile-banner-img' id='profile-avatar'>
-                <h1 id='profile-banner-img-username'>
+                <h1 id='profile-banner-img-username' onClick={profileChange}>
                   Syntex
                 </h1>
             </div>

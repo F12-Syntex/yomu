@@ -1,7 +1,7 @@
 import AniList from '../content-components/AniList.tsx';
-import Empty from '../content-components/Empty.tsx';
 import Hot1 from '../content-components/Hot1.tsx';
 import MangaPane from '../content-components/MangaPane.tsx';
+import Media from '../content-components/Media.tsx';
 import Search from '../content-components/Search.tsx';
 import Settings from '../content-components/Settings.tsx';
 import * as State from '../core/State.ts';
@@ -105,6 +105,14 @@ function SideMenu() {
     console.log(button);
     State.updateState(<Hot1/>);
   }
+
+  function media() : void {
+    const button = document.getElementById('sidemenu-media') as HTMLInputElement;
+    if(button.classList.contains('active-button')) return;
+
+    console.log(button);
+    State.updateState(<Media/>);
+  }
   
   return (
     <>
@@ -120,6 +128,10 @@ function SideMenu() {
           <div className='sidemenu-button' id='sidemenu-hot' onClick={hot}>
             <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-hot-selector'></div>
             <div className='sidemenu-button-img sidemenu-hot-img-inactive' id='sidemenu-hot-img'></div>
+          </div>
+          <div className='sidemenu-button' id='sidemenu-media' onClick={media}>
+            <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-media-selector'></div>
+            <div className='sidemenu-button-img sidemenu-media-img-inactive' id='sidemenu-media-img'></div>
           </div>
           <div className='sidemenu-button' id='sidemenu-settings' onClick={settings}>
             <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-settings-selector'></div>

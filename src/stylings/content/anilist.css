@@ -84,7 +84,7 @@
 
 #profile-avatar:hover{
     /* filter: brightness(0.2); */
-    cursor: inherit;
+    cursor: auto;
 }
 
 #profile-banner-img-username{
@@ -92,6 +92,11 @@
     color: white;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-size: 2em;
+}
+
+#profile-banner-img-username:hover{
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 

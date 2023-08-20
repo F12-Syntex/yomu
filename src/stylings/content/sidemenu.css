@@ -147,6 +147,20 @@
   background-image: url("../../assets/sidemenu/hot-active.svg");
 }
 
+/* MEDIA BUTTON */
+.sidemenu-media-img-active {
+  background-image: url("../../assets/sidemenu/media-active.svg");
+}
+.sidemenu-media-img-inactive {
+  background-image: url("../../assets/sidemenu/media-inactive.svg");
+}
+#sidemenu-media:hover > #sidemenu-media-selector:not(.sidemenu-button-selector-active) {
+  background-color: rgb(121, 120, 120);
+}
+#sidemenu-media:hover > #sidemenu-media-img{
+  background-image: url("../../assets/sidemenu/media-active.svg");
+}
+
 /* MANGA BUTTON */
 .sidemenu-mangaSearch-img-active {
   background-image: url("../../assets/sidemenu/mangaSearch-active.svg");
