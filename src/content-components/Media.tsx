@@ -3,9 +3,10 @@ import * as sideMenuUtils from '../utils/SideMenu.ts';
 
 import { useEffect } from 'react';
 import * as animeflix from '../content-source/animeflix.ts';
-import * as State from '../core/State.ts';
 import '../stylings/content/media.css';
 import PlayerGeneric from './PlayerGeneric.tsx';
+import ReactDOM from 'react-dom';
+import * as State from '../core/State.ts';
 
 export default function mediaPane() {  
 
@@ -36,9 +37,100 @@ export default function mediaPane() {
     nsfw = false;
   }
 
+  function randomNumber(min : number, max : number) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+  async function playRandom(urls : string[]) {
+    console.log(urls);
+
+    const result_1: any[] = [];
+
+    
+    for (const url of urls) {
+      
+      const response = await fetch(url);
+      const data = await response.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(data, 'text/html');
+
+      const elements = doc.getElementsByClassName('video-item');
+      const result_2: any[] = [];
+
+      Array.from(elements).forEach(element => {
+        const link = element.querySelector('a');
+        const img = element.querySelector('img');
+
+
+        if (link && img) {
+          if(link.getAttribute('href')?.includes('3d') || link.getAttribute('href')?.includes('sfm')){
+            return;
+          }
+          const obj = {
+            href: link.getAttribute('href'),
+            dataSrc: img.getAttribute('data-src'),
+            alt: img.getAttribute('alt')
+          };
+          result_2.push(obj);
+        }
+      });
+
+      const results = result_2.splice(8);
+
+      //add the results to the final array
+      results.forEach(result => {
+        result_1.push(result);
+      });
+
+    }
+
+    const newArray: any[] = [];
+
+    while (newArray.length < 10) {
+      const randomElement = result_1[Math.floor(Math.random() * result_1.length)];
+      if (!newArray.includes(randomElement)) {
+        newArray.push(randomElement);
+      }
+    }
+
+    return newArray;
+  }
 
   async function getEntriesNsfw(query : string) {
     try {
+
+      if(query.includes(':random0')){
+        const urls = [
+          `https://spankbang.com/s/hmv+hentai/${randomNumber(1, 15)}/?o=all`,
+          `https://spankbang.com/s/hmv+hentai/${randomNumber(1, 15)}/?o=all`,
+          `https://spankbang.com/s/hmv+hentai/${randomNumber(1, 15)}/?o=all`,
+          `https://spankbang.com/s/hmv+hentai/${randomNumber(1, 15)}/?o=all`,
+          `https://spankbang.com/s/hmv+hentai/${randomNumber(1, 15)}/?o=all`,
+        ]
+        const data = await playRandom(urls);
+        return data;
+      }
+
+
+
+      if(query.includes(':random1')){
+        const urls = [
+          // `https://spankbang.com/s/mind%20break%20hmv/`,
+          // `https://spankbang.com/6mefy/video/very+fast+swimmers+hmv`,
+          // `https://spankbang.com/6mil0/video/hmv+hentai+fast`,
+          `https://spankbang.com/4krt9/playlist/hmv`
+          // `https://spankbang.com/6ygcl/video/fast+rinxsen+hmv+a+i+upscaled`,
+          // `https://spankbang.com/6g3u9/playlist/rin+x+sem`,
+          // `https://spankbang.com/4krt9/playlist/hmv`,
+          // `https://spankbang.com/4wsaq/playlist/favorites`,
+          // `https://spankbang.com/4u4um/playlist/hmv+monsterous`,
+          // `https://spankbang.com/62qp7/playlist/pandora`
+
+        ]
+        const data = await playRandom(urls);
+        return data;
+      }
+
       const response = await fetch('https://spankbang.com/s/' + query.replace(' ', '%20') + '/');
       const data = await response.text();
       const parser = new DOMParser();
@@ -131,7 +223,7 @@ export default function mediaPane() {
 
       searchGrid.innerHTML = '';
 
-      entries?.forEach(entry => {
+      entries?.forEach(async entry => {
         //create a box div for the result
         const box = document.createElement('div');
         box.className = 'media-search-grid-box';
@@ -146,20 +238,52 @@ export default function mediaPane() {
         title.innerHTML = `${entry.alt}`;
         box.appendChild(title);
 
-        box.addEventListener('click', async () => {
+        if(text.startsWith(':random')){
           const url = `https://spankbang.com${entry.href}`;
+
+          console.log(url);
 
           const response = await fetch(url);
           const data = await response.text();
 
           const embed : string = data.split('"embedUrl": "')[1].split('"')[0];
+          
+          //open the url in the browser
+          //window.open(embed, '_blank');
 
-          //open the url in the player
-          State.updateState(<PlayerGeneric url={embed}/>);
-        });
+          if(text.includes('-new')){
 
-        //add the box
-        searchGrid.appendChild(box);
+            //custom resolution
+            //custom embed
+
+            window.open(embed, '_blank');
+          }else{
+            ReactDOM.render(
+              <PlayerGeneric url={embed} />,
+              // document.querySelector('.media-search-grid')
+              searchGrid.appendChild(document.createElement('div'))
+            );
+          }
+          
+          
+        }else{
+          
+          
+          box.addEventListener('click', async () => {
+            const url = `https://spankbang.com${entry.href}`;
+  
+            const response = await fetch(url);
+            const data = await response.text();
+  
+            const embed : string = data.split('"embedUrl": "')[1].split('"')[0];
+  
+            State.updateState(<PlayerGeneric url={embed}/>);
+          });
+  
+          //add the box
+          searchGrid.appendChild(box);
+        }
+        
       });
 
     }
