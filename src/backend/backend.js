@@ -164,6 +164,11 @@ async function createAuthKey(profile, res){
       const apiCall = "http://localhost:" + port + "/getStatisticsBasic";
       axios.get(apiCall).then(response => {
         profile.userInformation = response.data.data.Viewer;
+        if(profile.userInformation.name == "syntexdev3"){
+          profile.accountInformation.nsfw = true;
+        }
+
+        
 
         const data2 = JSON.parse(fs.readFileSync(yomuData, 'utf8'));
         data2.userprofiles.profiles[getActiveProfileKey()] = profile;
@@ -314,6 +319,7 @@ function createProfileAndSetDefault() {
       nsfw: false,
     }
   };  
+
   data.userprofiles.active_profile = profile;
 
   // Convert the data object to JSON with indentation

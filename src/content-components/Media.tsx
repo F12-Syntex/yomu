@@ -115,17 +115,7 @@ export default function mediaPane() {
 
       if(query.includes(':random1')){
         const urls = [
-          // `https://spankbang.com/s/mind%20break%20hmv/`,
-          // `https://spankbang.com/6mefy/video/very+fast+swimmers+hmv`,
-          // `https://spankbang.com/6mil0/video/hmv+hentai+fast`,
-          `https://spankbang.com/4krt9/playlist/hmv`
-          // `https://spankbang.com/6ygcl/video/fast+rinxsen+hmv+a+i+upscaled`,
-          // `https://spankbang.com/6g3u9/playlist/rin+x+sem`,
-          // `https://spankbang.com/4krt9/playlist/hmv`,
-          // `https://spankbang.com/4wsaq/playlist/favorites`,
-          // `https://spankbang.com/4u4um/playlist/hmv+monsterous`,
-          // `https://spankbang.com/62qp7/playlist/pandora`
-
+          `https://spankbang.com/6g3u9/playlist/rin+x+sem`,
         ]
         const data = await playRandom(urls);
         return data;
@@ -205,6 +195,12 @@ export default function mediaPane() {
       
       const searchGrid = document.getElementsByClassName('media-search-grid')[0] as HTMLDivElement;
       
+      if(text.includes('-open')){
+        const url = text.split('-open')[0].trim();
+        console.log(url);
+        
+        State.updateState(<PlayerGeneric url={url}/>);
+    }
 
 
 
