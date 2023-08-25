@@ -3,6 +3,7 @@ import '../stylings/content/player.css';
 
 import * as animeflix from '../content-source/animeflix.ts';
 import * as discord from '../content-source/discord-api.ts';
+import { useEffect } from 'react';
 
 function getUriEmbed(title: string, episode: string) : string{
   const url = `https://animeflix.live/watch/${title.replace(/[^\w\s-]/gi, "").replace(/\s+/g, "-").toLowerCase()}-episode-${episode}/`;
@@ -30,7 +31,14 @@ export default function Player(props: { url?: string, nsfw?: boolean, entry: any
     }
   }
 
-  animeflix.updateEpisodeForUser(props.entry.id, props.episodeNumber);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      animeflix.updateEpisodeForUser(props.entry.id, props.episodeNumber);
+    }, 1 * 60 * 1000);
+
+    return () => clearTimeout(timer);
+  }, [props.entry.id, props.episodeNumber]);
+
 
   if(!nsfw){ 
     discord.setWatchingAnime(props.entry.title.romaji, parseInt(props.episodeNumber), props.entry.episodes, props.entry.coverImage.extraLarge);
