@@ -63,6 +63,7 @@ export default function hot() {
   useEffect(() => {
     search();
   }, []);
+  
 
   return (
     <>

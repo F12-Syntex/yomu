@@ -594,6 +594,13 @@ export async function search(query: string): Promise<AnimeQuery[]> {
     isAdult = ``;
   }
 
+  let suffix = "";
+
+  if(query.endsWith('-movie')) {
+    query = query.slice(0, -6);
+    suffix = ", format: MOVIE";
+  }
+
   //type: ANIME ${isAdult}
 
   const response = await fetch('https://graphql.anilist.co', {
@@ -606,7 +613,7 @@ export async function search(query: string): Promise<AnimeQuery[]> {
       query: `
         query ($search: String) {
           Page {
-            media (search: $search, type: ANIME) {
+            media (search: $search, type: ANIME${suffix}) {
               id
               title {
                 romaji
