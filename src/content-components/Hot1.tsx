@@ -14,9 +14,6 @@ const port = `3023`;
 const redirectUri = "http://localhost:" + port + "/" + endpoint;
 const authKeyUri = "http://localhost:" + port + "/authenticate";
 const connectedUri = "http://localhost:" + port + "/isConnected";
-// const planningUri = "http://localhost:" + port + "/getPlanningList";
-// const watchingUri = "http://localhost:" + port + "/getCurrentWatchingList";
-// const statsUri = "http://localhost:" + port + "/getStatistics";
 const clientId = '13194';
 
 const authoriseUrl = `https://anilist.co/api/v2/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
@@ -30,9 +27,13 @@ import Player from './Player.tsx';
 async function generateSections(){
 
   const sections : Section[] = [
-    new Section("Popular", "popularity", "POPULARITY_DESC"),
-    new Section("Trending Anime", "watching", "TRENDING_DESC"),
-    new Section("Highest Rated", "score", "SCORE_DESC"),
+    new Section("Popular", "popularity", "POPULARITY_DESC", "TV"),
+    new Section("Trending Anime", "watching", "TRENDING_DESC", "TV"),
+    new Section("Highest Rated", "score", "SCORE_DESC", "TV"),
+    new Section("New movies", "movies", "END_DATE_DESC, status: FINISHED", "MOVIE"),
+    new Section("OVAS", "ovas", "SCORE_DESC", "OVA"),
+    new Section("ONA", "ona", "SCORE_DESC status: FINISHED", "ONA"),
+    new Section("SPECIAL", "special", "SCORE_DESC status: FINISHED", "SPECIAL"),
   ];
 
   const section: Element | null = document.querySelector('.profile-video-pane-currently-watching-container');
@@ -70,7 +71,7 @@ async function generateSections(){
   }
 
   for (const entry of sections) {
-    const arr: any = await animeflix.getTrendingAnimeDeep(entry.getUrl());
+    const arr: any = await animeflix.getTrendingAnimeDeep(entry.getUrl(), entry.getType());
     const sectionElement = document.getElementById(`profile-section-${entry.getId()}`);
 
     if(sectionElement === null){
@@ -99,7 +100,6 @@ async function generateSections(){
     
     watchingElement.style.overflow = 'visible';
     watchingElement.style.height = 'auto';
-
   }
 
 

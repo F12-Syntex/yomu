@@ -662,6 +662,8 @@ app.get('/getHot', (req, res) => {
 
 
   const sort = req.query.sort;
+  const type = req.query.type;
+  
   const query = `
         query {
           Page (page: 1, perPage: 10) {
@@ -672,7 +674,7 @@ app.get('/getHot', (req, res) => {
               hasNextPage
               perPage
             }
-            media (type: ANIME, sort: ${sort}, isAdult: ${suffix}) {
+            media (type: ANIME, sort: ${sort}, isAdult: ${suffix}, format: ${type}) {
               id
               title {
                 romaji

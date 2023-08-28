@@ -334,10 +334,10 @@ export async function getTrendingAnime(): Promise<AnimeQuery[]> {
   }));
 }
 
-export async function getTrendingAnimeDeep(sort: string): Promise<any[]> {
+export async function getTrendingAnimeDeep(sort: string, type: string): Promise<any[]> {
   const port = `3023`;
 
-  const uri = "http://localhost:" + port + `/getHot?&sort=${sort}`;  
+  const uri = "http://localhost:" + port + `/getHot?&sort=${sort}&type=${type}`;  
   const data = await axios.get(uri);
   return data.data;
 }
