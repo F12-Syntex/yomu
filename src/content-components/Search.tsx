@@ -157,10 +157,6 @@ function loadItems(ids: animeflix.AnimeQuery[], container: string) {
     detailsElement.addEventListener('mousedown', () => {
       // discord.setWatchingAnime(entry.title.romaji, parseInt(episode), entry.episodes, entry.coverImage.extraLarge);
       // animeflix.updateEpisodeForUser(entry, episode);
-
-      // const state = <PlayerGeneric url={'https://anilist.co/anime/' + data.id + '/'}/>;
-      // State.updateState(state);
-
       const url = 'https://anilist.co/anime/' + data.id + '/';
       shell.openExternal(url);
 
@@ -268,6 +264,20 @@ const InputTextField = styled(TextField)({
   },
 });
 
+const NsfwTextField = styled(TextField)({
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: '#510000',
+    },
+    '&:hover fieldset': {
+      borderColor: 'red',
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: 'red',
+    },
+  },
+});
+
 // Use the styled function to create a custom styled MenuItem component
 const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
   backgroundColor: '#0F0000',
@@ -311,6 +321,25 @@ const AiringStatus: string[] = [
   'Finished Airing',
   'Not yet aired',
   'Cancelled',
+  'Any'
+];
+
+const Adult: string[] = [
+  'NSFW',
+  'SFW',
+  'Any'
+];
+
+const Sort: string[] = [
+  'Popularity',
+  'Score',
+  'Start Date',
+  'End Date',
+  'Title',
+  'Updated At',
+  'Duration',
+  'Trending',
+  'Episodes',
   'Any'
 ];
 
@@ -409,6 +438,43 @@ export default function SearchMenu() {
             </StyledMenuItem>
           ))}
           </InputTextField> 
+          <InputTextField
+            id="sorted-select"
+            select
+            label="Sort"
+            defaultValue={"Any"}
+            InputProps={{
+              style: { color: 'white' },
+            }}
+            InputLabelProps={{
+              style: { color: 'gray' },
+            }}
+          >
+          {Sort.map((option) => (
+            <StyledMenuItem key={option} value={option}>
+              {option}
+            </StyledMenuItem>
+          ))}
+          </InputTextField> 
+          <NsfwTextField
+            id="nsfw-select"
+            select
+            label="Adult Content"
+            defaultValue={"SFW"}
+            color='warning'
+            InputProps={{
+              style: { color: 'red' },
+            }}
+            InputLabelProps={{
+              style: { color: 'red' },
+            }}
+          >
+          {Adult.map((option) => (
+            <StyledMenuItem key={option} value={option}>
+              {option}
+            </StyledMenuItem>
+          ))}
+          </NsfwTextField> 
         </div>
         <div className="search-grid" id='search-search-grid'></div>
       </div>
