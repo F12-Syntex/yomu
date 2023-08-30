@@ -12,6 +12,9 @@ import { MangaEntry } from '../content-source/mangakakalot.ts';
 
 import TextField from '@mui/material/TextField';
 import { Box, Chip, MenuItem, OutlinedInput, Select, SelectChangeEvent, Theme, ThemeProvider, createTheme, makeStyles, styled, useTheme, createStyles} from '@mui/material';
+import Player from './Player.tsx';
+import PlayerGeneric from './PlayerGeneric.tsx';
+import { shell } from 'electron';
 
 const hmv = false;
 
@@ -75,32 +78,24 @@ function search(event: any) {
 
     animeflix.search(search_text).then((entries) => {
       searchGrid.innerHTML = '';
-      // loadEntries(searchGrid, entries);
+      loadItems(entries, "search-search-grid");
     });
 
   }
 }
 
-function loadItems(ids: any, container: string) {
+function loadItems(ids: animeflix.AnimeQuery[], container: string) {
 
-  console.log(ids);
-
-  const arr : any[] = ids.data.Page.media;
-
-  console.log(ids.data);
-
-  arr.forEach((data) => {
+  ids.forEach((data) => {
 
     const entry = data;
+
+    console.log(entry);
     
 
     if(entry.progress === undefined || entry.progress === null){
        entry.progress = 0;
     }
-
-    //gets the next episode to watch, and if the episode is more than the total episodes, it will set it to the total episodes
-    const episode = data.progress + 1 > entry.episodes ? entry.episodes : data.progress + 1;
-
 
     // Create child element with class 'profile-anime-entry'
     const animeEntryElement = document.createElement('div');
@@ -129,7 +124,7 @@ function loadItems(ids: any, container: string) {
     // Create h1 element with id 'profile-anime-entry-details'
     const detailsElement = document.createElement('h1');
     detailsElement.setAttribute('id', 'profile-anime-entry-details');
-    detailsElement.textContent = 'CONTINUE FROM EPISODE ' + episode;
+    detailsElement.textContent = 'VIEW ON ANILIST';
 
     // Append child elements to their respective parents
     animeEntryContentElement.appendChild(titleElement);
@@ -163,8 +158,12 @@ function loadItems(ids: any, container: string) {
       // discord.setWatchingAnime(entry.title.romaji, parseInt(episode), entry.episodes, entry.coverImage.extraLarge);
       // animeflix.updateEpisodeForUser(entry, episode);
 
-      const state = <Player entry={entry} episodeNumber={episode}/>;
-      State.updateState(state);
+      // const state = <PlayerGeneric url={'https://anilist.co/anime/' + data.id + '/'}/>;
+      // State.updateState(state);
+
+      const url = 'https://anilist.co/anime/' + data.id + '/';
+      shell.openExternal(url);
+
     });
 
     animeEntryElement.addEventListener('click', () => {
@@ -411,7 +410,7 @@ export default function SearchMenu() {
           ))}
           </InputTextField> 
         </div>
-        <div className="search-grid"></div>
+        <div className="search-grid" id='search-search-grid'></div>
       </div>
     </>
   );

@@ -808,6 +808,39 @@ app.get('/auth', (req, res) => {
   const { client_id, redirect_uri, response_type } = req.query;
 });
 
+app.get('/searchContent', (req, res) => {
+  console.log("searching for content: " + req.query.query);
+  const search = req.query.query;
+  const query = `
+      query {
+        Page {
+          media (search: "${search}", type: ANIME) {
+            id
+            episodes
+            title {
+              romaji
+              english
+              native
+            }
+            description
+            coverImage {
+              extraLarge
+              color
+            }
+          }
+        }
+        
+      }
+    `;
+  const response = anilistQuery(query);
+
+  response.then(data => {
+    console.log("response: " + JSON.stringify(data));
+    res.end(JSON.stringify(data));
+  });
+
+});
+
 
 function saveData(code, filePath) {
   const fileDir = path.dirname(filePath);

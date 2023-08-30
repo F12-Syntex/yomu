@@ -222,6 +222,8 @@ export type Manga = {
 
 export type AnimeQuery = {
   id: number;
+  progress: number;
+  episodes: number;
   title: {
     romaji: string;
     english: string;
@@ -603,36 +605,43 @@ export async function search(query: string): Promise<AnimeQuery[]> {
 
   //type: ANIME ${isAdult}
 
-  const response = await fetch('https://graphql.anilist.co', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    },
-    body: JSON.stringify({
-      query: `
-        query ($search: String) {
-          Page {
-            media (search: $search, type: ANIME${suffix}) {
-              id
-              title {
-                romaji
-                english
-                native
-              }
-              description
-              coverImage {
-                extraLarge
-                color
-              }
-            }
-          }
-          
-        }
-      `,
-      variables: { search: query }
-    })
-  });
+  // const response = await fetch('https://graphql.anilist.co', {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     'Accept': 'application/json'
+  //   },
+  //   body: JSON.stringify({
+  //     query: `
+  //       query ($search: String) {
+  //         Page {
+  //           media (search: $search, type: ANIME${suffix}) {
+  //             id
+  //             episodes
+  //             title {
+  //               romaji
+  //               english
+  //               native
+  //             }
+  //             description
+  //             coverImage {
+  //               extraLarge
+  //               color
+  //             }
+  //           }
+  //         }
+  //       }
+  //     `,
+  //     variables: { search: query }
+  //   })
+  // });
+
+  let hostname = 'localhost';
+  let port = `3023`;
+  
+  let url = `http://${hostname}:${port}/searchContent?query=${query}`;
+
+  const response = await fetch(url);
 
   const data = await response.json();
 

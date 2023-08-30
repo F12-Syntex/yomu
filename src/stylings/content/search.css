@@ -109,8 +109,6 @@
 
 .search-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-gap: 50px;
   background: transparent;
   height: 78vh;
   max-height: 70vh;
@@ -124,6 +122,14 @@
 
   margin-top: 20px;
 }
+
+@media (min-width: 768px) {
+  .search-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 20px;
+  }
+}
+
 
 /* Define the fade-in animation */
 @keyframes fade-in {
