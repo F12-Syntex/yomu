@@ -19,6 +19,29 @@
   overflow: hidden;
 }
 
+.content-search input{
+  width: 30%; /* 100% - padding ( 5% )*/
+  height: 50%;
+  border: none;
+  border-radius: 15px;
+  padding: 1% 2%;
+
+  font-size: 16px;
+  background-color: rgba(255, 255, 255, 0);
+  color: white;
+  outline: none;
+  transition: all 0.2s ease-in-out; /* Add a transition for smooth animation */
+  margin-bottom: 5%;
+  margin-left: 10px;
+
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  text-shadow: 1px 1px #000000;
+  border: 2px solid gray;
+
+  overflow: scroll;
+}
+
 #search-input-img{
   background-image: url("../../assets/search/search.svg");
   height: 100%;
@@ -32,38 +55,27 @@
 
 }
 
-.search-results {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  grid-gap: 20px;
-  width: 90%;
-}
+#search-results{
+  display: flex;
+  flex-direction: row;
+  margin-left: 20px;
+  height: 40px;
 
-#search-input{
-  width: 150px;
 }
 
 /* Add hover effects */
-/* .content-search input:hover {
+.content-search input:hover {
   background-color: rgba(0, 0, 0, 0.15);
   transform: scale(1.01);
 
   overflow: scroll;
-} */
+}
 
 /* Add focus effects */
-/* .content-search input:focus {
+.content-search input:focus {
   background-color: rgba(0, 0, 0, 0.15);
   transform: scale(1.015);
   border: 2.5px solid white;
-} */
-
-.MuiMenu-paper{
-  background-color: red;
-}
-
-.MuiMenu-root ul{
-  background-color: #0F0000;
 }
 
 .grid-item {

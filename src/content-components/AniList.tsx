@@ -31,12 +31,12 @@ import UserChange from './UserChange.tsx';
 async function generateSections(){
 
   const sections : Section[] = [
-    new Section("Currently watching", "watching", "http://localhost:" + port + "/fetchList?status=CURRENT"),
-    new Section("Rewatching", "rewatching", "http://localhost:" + port + "/fetchList?status=REPEATING"),
-    new Section("Planning", "planning", "http://localhost:" + port + "/fetchList?status=PLANNING"),
-    new Section("Completed", "completed", "http://localhost:" + port + "/fetchList?status=COMPLETED"),
-    new Section("Paused", "paused", "http://localhost:" + port + "/fetchList?status=PAUSED"),
-    new Section("Dropped", "dropped", "http://localhost:" + port + "/fetchList?status=DROPPED"),
+    new Section("Currently watching", "watching", "http://localhost:" + port + "/fetchList?status=CURRENT", "TV"),
+    new Section("Rewatching", "rewatching", "http://localhost:" + port + "/fetchList?status=REPEATING", "TV"),
+    new Section("Planning", "planning", "http://localhost:" + port + "/fetchList?status=PLANNING", "TV"),
+    new Section("Completed", "completed", "http://localhost:" + port + "/fetchList?status=COMPLETED", "TV"),
+    new Section("Paused", "paused", "http://localhost:" + port + "/fetchList?status=PAUSED", "TV"),
+    new Section("Dropped", "dropped", "http://localhost:" + port + "/fetchList?status=DROPPED", "TV"),
   ];
 
   const section: Element | null = document.querySelector('.profile-video-pane-currently-watching-container');
