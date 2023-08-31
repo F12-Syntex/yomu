@@ -8,10 +8,11 @@ import { MangaEntry } from '../content-source/mangakakalot.ts';
 import '../stylings/content/search.css';
 import MangaDetails from './MangaDetails.tsx';
 
+import ClearIcon from '@mui/icons-material/Clear';
 
-import { MenuItem, styled } from '@mui/material';
+import { Autocomplete, Chip, MenuItem, Paper, styled } from '@mui/material';
 import TextField from '@mui/material/TextField';
-import { shell } from 'electron';
+import React from 'react';
 
 function addMetaInfo(details: HTMLElement, titleText: string){
       // add a title to the details section
@@ -85,7 +86,9 @@ function search(event: any) {
     const nsfw_select = document.getElementById('nsfw-select') as HTMLInputElement;
     const nsfw_text = nsfw_select.innerHTML;
 
-    const filtersURL = '&season=' + season_text + '&format=' + format_text + '&status=' + airing_status_text + '&sort=' + sorted_text + '&nsfw=' + nsfw_text;
+    console.log(value);
+
+    const filtersURL = '&season=' + season_text + '&format=' + format_text + '&status=' + airing_status_text + '&sort=' + sorted_text + '&nsfw=' + nsfw_text + '&tags=' + value;
 
     animeflix.search(search_text, filtersURL).then((entries) => {
       searchGrid.innerHTML = '';
@@ -100,9 +103,6 @@ function loadItems(ids: animeflix.AnimeQuery[], container: string) {
   ids.forEach((data) => {
 
     const entry = data;
-
-    console.log(entry);
-    
 
     if(entry.progress === undefined || entry.progress === null){
        entry.progress = 0;
@@ -424,7 +424,13 @@ const Sort: { [key: string]: string } = {
 };
 
 
+const fixedOptions: string[] = ["Anime"];
+let value: string[] | undefined, setValue: (arg0: string[]) => void;
+
+
 export default function SearchMenu() {  
+
+  [value, setValue] = React.useState([...fixedOptions]);
 
   discord.setSearching();
 
@@ -445,8 +451,7 @@ export default function SearchMenu() {
       });
     }
   });
-
-
+  
   return (
     <>
       <div className='content-search'>
@@ -487,7 +492,7 @@ export default function SearchMenu() {
             id="format-select"
             select
             label="Format"
-            defaultValue={"TV"}
+            defaultValue={"Any"}
             InputProps={{
               style: { color: 'white' },
             }}
@@ -556,9 +561,346 @@ export default function SearchMenu() {
             </StyledMenuItem>
           ))}
           </NsfwTextField> 
+          <Autocomplete
+            multiple
+            id="fixed-tags"
+            className='double-width'
+            value={value}
+            onChange={(_event, newValue) => {
+              setValue([
+                ...fixedOptions,
+                ...newValue.filter((option) => fixedOptions.indexOf(option) === -1),
+              ]);
+            }}
+            options={Tags}
+            getOptionLabel={(option) => option}
+            clearIcon={<ClearIcon style={{ fill: "white" }} />} // Add clear icon here
+            disableClearable={true}
+            disableCloseOnSelect={true}
+            renderTags={(tagValue, getTagProps) =>
+              tagValue.map((option, index) => (
+                <Chip
+                  label={option}
+                  {...getTagProps({ index })}
+                  disabled={fixedOptions.indexOf(option) !== -1}
+                  style={{
+                    color: "white",
+                    backgroundColor: "red", 
+                  }}
+                  deleteIcon={<ClearIcon style={{ fill: "white" }} />} // Change icon color here
+                />
+              ))
+            }
+            style={{ color: "white", borderColor: "red"}}
+            renderInput={(params) => (
+              <InputTextField
+                {...params}
+                label="Tags"
+                placeholder="Favorites"
+                InputLabelProps={{
+                  style: { color: "white"}, // Change text color here
+                }}
+                style={{ color: "white", borderColor: "red"}}
+              />
+            )}
+            PaperComponent={({ children }) => (
+              <Paper style={{color: "white", backgroundColor: "#0F0000", fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", fontSize: 18}}>{children}</Paper> // Change background color here
+            )}
+          />
         </div>
         <div className="search-grid" id='search-search-grid'></div>
       </div>
     </>
   );
 }
+
+const Tags = [
+  "Anime",
+  "4-koma",
+  "Achromatic",
+  "Achronological Order",
+  "Acting",
+  "Adoption",
+  "Advertisement",
+  "Afterlife",
+  "Age Gap",
+  "Age Regression",
+  "Agender",
+  "Agriculture",
+  "Airsoft",
+  "Alchemy",
+  "Aliens",
+  "Alternate Universe",
+  "American Football",
+  "Amnesia",
+  "Anachronism",
+  "Angels",
+  "Animals",
+  "Anthology",
+  "Anthropomorphism",
+  "Anti-Hero",
+  "Archery",
+  "Artificial Intelligence",
+  "Asexual",
+  "Assassins",
+  "Astronomy",
+  "Athletics",
+  "Augmented Reality",
+  "Autobiographical",
+  "Aviation",
+  "Badminton",
+  "Band",
+  "Bar",
+  "Baseball",
+  "Basketball",
+  "Battle Royale",
+  "Biographical",
+  "Bisexual",
+  "Body Horror",
+  "Body Swapping",
+  "Boxing",
+  "Boys' Love",
+  "Bullying",
+  "Butler",
+  "Calligraphy",
+  "Cannibalism",
+  "Card Battle",
+  "Cars",
+  "Centaur",
+  "CGI",
+  "Cheerleading",
+  "Chibi",
+  "Chimera",
+  "Chuunibyou",
+  "Circus",
+  "Classic Literature",
+  "Clone",
+  "College",
+  "Coming of Age",
+  "Conspiracy",
+  "Cosmic Horror",
+  "Cosplay",
+  "Crime",
+  "Crossdressing",
+  "Crossover",
+  "Cult",
+  "Cultivation",
+  "Cute Boys Doing Cute Things",
+  "Cute Girls Doing Cute Things",
+  "Cyberpunk",
+  "Cyborg",
+  "Cycling",
+  "Dancing",
+  "Death Game",
+  "Delinquents",
+  "Demons",
+  "Denpa",
+  "Desert",
+  "Detective",
+  "Dinosaurs",
+  "Disability",
+  "Dissociative Identities",
+  "Dragons",
+  "Drawing",
+  "Drugs",
+  "Dullahan",
+  "Dungeon",
+  "Dystopian",
+  "E-Sports",
+  "Economics",
+  "Educational",
+  "Elf",
+  "Ensemble Cast",
+  "Environmental",
+  "Episodic",
+  "Ero Guro",
+  "Espionage",
+  "Fairy",
+  "Fairy Tale",
+  "Family Life",
+  "Fashion",
+  "Female Harem",
+  "Female Protagonist",
+  "Femboy",
+  "Fencing",
+  "Firefighters",
+  "Fishing",
+  "Fitness",
+  "Flash",
+  "Food",
+  "Football",
+  "Foreign",
+  "Found Family",
+  "Fugitive",
+  "Full CGI",
+  "Full Color",
+  "Gambling",
+  "Gangs",
+  "Gender Bending",
+  "Ghost",
+  "Go",
+  "Goblin",
+  "Gods",
+  "Golf",
+  "Gore",
+  "Guns",
+  "Gyaru",
+  "Handball",
+  "Henshin",
+  "Heterosexual",
+  "Hikikomori",
+  "Historical",
+  "Homeless",
+  "Ice Skating",
+  "Idol",
+  "Isekai",
+  "Iyashikei",
+  "Josei",
+  "Judo",
+  "Kaiju",
+  "Karuta",
+  "Kemonomimi",
+  "Kids",
+  "Kuudere",
+  "Lacrosse",
+  "Language Barrier",
+  "LGBTQ+ Themes",
+  "Lost Civilization",
+  "Love Triangle",
+  "Mafia",
+  "Magic",
+  "Mahjong",
+  "Maids",
+  "Makeup",
+  "Male Harem",
+  "Male Protagonist",
+  "Marriage",
+  "Martial Arts",
+  "Medicine",
+  "Memory Manipulation",
+  "Mermaid",
+  "Meta",
+  "Military",
+  "Mixed Gender Harem",
+  "Monster Boy",
+  "Monster Girl",
+  "Mopeds",
+  "Motorcycles",
+  "Musical",
+  "Mythology",
+  "Necromancy",
+  "Nekomimi",
+  "Ninja",
+  "No Dialogue",
+  "Noir",
+  "Non-fiction",
+  "Nudity",
+  "Nun",
+  "Office Lady",
+  "Oiran",
+  "Ojou-sama",
+  "Orphan",
+  "Otaku Culture",
+  "Outdoor",
+  "Pandemic",
+  "Parkour",
+  "Parody",
+  "Philosophy",
+  "Photography",
+  "Pirates",
+  "Poker",
+  "Police",
+  "Politics",
+  "Post-Apocalyptic",
+  "POV",
+  "Primarily Adult Cast",
+  "Primarily Child Cast",
+  "Primarily Female Cast",
+  "Primarily Male Cast",
+  "Primarily Teen Cast",
+  "Prison",
+  "Puppetry",
+  "Rakugo",
+  "Real Robot",
+  "Rehabilitation",
+  "Reincarnation",
+  "Religion",
+  "Revenge",
+  "Robots",
+  "Rotoscoping",
+  "Rugby",
+  "Rural",
+  "Samurai",
+  "Satire",
+  "School",
+  "School Club",
+  "Scuba Diving",
+  "Seinen",
+  "Shapeshifting",
+  "Ships",
+  "Shogi",
+  "Shoujo",
+  "Shounen",
+  "Shrine Maiden",
+  "Skateboarding",
+  "Skeleton",
+  "Slapstick",
+  "Slavery",
+  "Software Development",
+  "Space",
+  "Space Opera",
+  "Spearplay",
+  "Steampunk",
+  "Stop Motion",
+  "Succubus",
+  "Suicide",
+  "Sumo",
+  "Super Power",
+  "Super Robot",
+  "Superhero",
+  "Surfing",
+  "Surreal Comedy",
+  "Survival",
+  "Swimming",
+  "Swordplay",
+  "Table Tennis",
+  "Tanks",
+  "Tanned Skin",
+  "Teacher",
+  "Teens' Love",
+  "Tennis",
+  "Terrorism",
+  "Time Manipulation",
+  "Time Skip",
+  "Tokusatsu",
+  "Tomboy",
+  "Torture",
+  "Tragedy",
+  "Trains",
+  "Transgender",
+  "Travel",
+  "Triads",
+  "Tsundere",
+  "Twins",
+  "Urban",
+  "Urban Fantasy",
+  "Vampire",
+  "Video Games",
+  "Vikings",
+  "Villainess",
+  "Virtual World",
+  "Volleyball",
+  "VTuber",
+  "War",
+  "Werewolf",
+  "Witch",
+  "Work",
+  "Wrestling",
+  "Writing",
+  "Wuxia",
+  "Yakuza",
+  "Yandere",
+  "Youkai",
+  "Yuri",
+  "Zombie"
+];

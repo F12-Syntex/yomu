@@ -563,11 +563,11 @@ async function searchSyntexDev3(query: string): Promise<AnimeQuery[]> {
 
 export async function search(query: string, filters?: string): Promise<AnimeQuery[]> {
 
-  const profile = await getCurrentProfile();
+  // const profile = await getCurrentProfile();
 
-  if(profile.accountInformation.nsfw === true){
-    return searchSyntexDev3(query);
-  }
+  // if(profile.accountInformation.nsfw === true){
+  //   return searchSyntexDev3(query);
+  // }
 
   //type: ANIME ${isAdult}
 

@@ -817,6 +817,8 @@ app.get('/searchContent', (req, res) => {
   const status = req.query.status;
   const sort = req.query.sort;
   const nsfw = req.query.nsfw;
+  
+  let tags = req.query.tags;
 
   let param = "";
 
@@ -838,6 +840,19 @@ app.get('/searchContent', (req, res) => {
 
   if(sort != "None"){
     param += "sort: " + sort.toUpperCase().replaceAll(" ", "_") + ", ";
+  }
+
+  if(tags != "" && tags != undefined && tags != "Anime"){
+    param += "tag_in: [";
+    tags += ","
+    let tagList = tags.split(",");
+    for(const tag of tagList){
+      const tagTrimmed = tag.trim();
+      if(tagTrimmed != "" && tagTrimmed != undefined && tagTrimmed != "Anime"){
+        param += "\"" + tagTrimmed + "\", ";
+      }
+    }
+    param += "], ";
   }
 
   if(nsfw != "Any"){
