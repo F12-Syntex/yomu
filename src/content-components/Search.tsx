@@ -1,22 +1,17 @@
-import React from 'react';
 
 import * as animeflix from '../content-source/animeflix.ts';
+import * as discord from '../content-source/discord-api.ts';
 import * as State from '../core/State.ts';
 import * as sideMenuUtils from '../utils/SideMenu.ts';
-import * as discord from '../content-source/discord-api.ts';
 
+import { MangaEntry } from '../content-source/mangakakalot.ts';
 import '../stylings/content/search.css';
 import MangaDetails from './MangaDetails.tsx';
-import { MangaEntry } from '../content-source/mangakakalot.ts';
 
 
+import { MenuItem, styled } from '@mui/material';
 import TextField from '@mui/material/TextField';
-import { Box, Chip, MenuItem, OutlinedInput, Select, SelectChangeEvent, Theme, ThemeProvider, createTheme, makeStyles, styled, useTheme, createStyles} from '@mui/material';
-import Player from './Player.tsx';
-import PlayerGeneric from './PlayerGeneric.tsx';
 import { shell } from 'electron';
-
-const hmv = false;
 
 function addMetaInfo(details: HTMLElement, titleText: string){
       // add a title to the details section
@@ -72,11 +67,27 @@ function search(event: any) {
     const search_input = document.getElementById('search-input') as HTMLInputElement;
     const search_text = search_input.value;
 
-    if (hmv) {
-      animeflix.searchHmv(search_text);
-    }
+    //get the value from all the other inputs
+    const season_select = document.getElementById('season-select') as HTMLInputElement;
+    const season_text = season_select.innerHTML;
 
-    animeflix.search(search_text).then((entries) => {
+    const format_select = document.getElementById('format-select') as HTMLInputElement;
+    const format_text = format_select.innerHTML;
+
+    const airing_status_select = document.getElementById('airing-status-select') as HTMLInputElement;
+    const airing_status_text = airing_status_select.innerHTML;
+
+    const sorted_select = document.getElementById('sorted-select') as HTMLInputElement;
+
+    //grab the key from the value of the select
+    const sorted_text = Object.keys(Sort).find(key => Sort[key] === sorted_select.innerHTML);
+
+    const nsfw_select = document.getElementById('nsfw-select') as HTMLInputElement;
+    const nsfw_text = nsfw_select.innerHTML;
+
+    const filtersURL = '&season=' + season_text + '&format=' + format_text + '&status=' + airing_status_text + '&sort=' + sorted_text + '&nsfw=' + nsfw_text;
+
+    animeflix.search(search_text, filtersURL).then((entries) => {
       searchGrid.innerHTML = '';
       loadItems(entries, "search-search-grid");
     });
@@ -317,10 +328,11 @@ const Format: string[] = [
 ];
 
 const AiringStatus: string[] = [
-  'Currently Airing',
-  'Finished Airing',
-  'Not yet aired',
+  'Finished',
+  'Releasing',
+  'Not yet released',
   'Cancelled',
+  'Hiatus',
   'Any'
 ];
 
@@ -330,18 +342,49 @@ const Adult: string[] = [
   'Any'
 ];
 
-const Sort: string[] = [
-  'Popularity',
-  'Score',
-  'Start Date',
-  'End Date',
-  'Title',
-  'Updated At',
-  'Duration',
-  'Trending',
-  'Episodes',
-  'Any'
-];
+// enum Sort {
+//   None = "None",
+//   START_DATE = "Start Date",
+//   START_DATE_DESC = "Start Date (Descending)",
+//   END_DATE = "End Date",
+//   END_DATE_DESC = "End Date (Descending)",
+//   SCORE = "Score",
+//   SCORE_DESC = "Score (Descending)",
+//   POPULARITY = "Popularity",
+//   POPULARITY_DESC = "Popularity (Descending)",
+//   TRENDING = "Trending",
+//   TRENDING_DESC = "Trending (Descending)",
+//   EPISODES = "Episodes",
+//   EPISODES_DESC = "Episodes (Descending)",
+//   DURATION = "Duration",
+//   DURATION_DESC = "Duration (Descending)",
+//   STATUS = "Status",
+//   STATUS_DESC = "Status (Descending)"
+// }
+
+const descending = "↑";
+const ascending = "↓";
+
+const Sort: { [key: string]: string } = {
+  "None": "None",
+  "START_DATE": ascending + " Start Date",
+  "START_DATE_DESC": descending + " Start Date",
+  "END_DATE": ascending + " End Date",
+  "END_DATE_DESC": descending + " End Date",
+  "SCORE": ascending + " Score",
+  "SCORE_DESC": descending + " Score",
+  "POPULARITY": ascending + " Popularity",
+  "POPULARITY_DESC": descending + " Popularity",
+  "TRENDING": ascending + " Trending",
+  "TRENDING_DESC": descending + " Trending",
+  "EPISODES": ascending + " Episodes",
+  "EPISODES_DESC": descending + " Episodes",
+  "DURATION": ascending + " Duration",
+  "DURATION_DESC": descending + " Duration",
+  "STATUS": ascending + " Status",
+  "STATUS_DESC": descending + " Status"
+};
+
 
 export default function SearchMenu() {  
 
@@ -442,7 +485,7 @@ export default function SearchMenu() {
             id="sorted-select"
             select
             label="Sort"
-            defaultValue={"Any"}
+            defaultValue={"None"}
             InputProps={{
               style: { color: 'white' },
             }}
@@ -450,12 +493,12 @@ export default function SearchMenu() {
               style: { color: 'gray' },
             }}
           >
-          {Sort.map((option) => (
-            <StyledMenuItem key={option} value={option}>
-              {option}
-            </StyledMenuItem>
-          ))}
-          </InputTextField> 
+            {Object.keys(Sort).map((option) => (
+              <StyledMenuItem key={option} value={option}>
+                {Sort[option]}
+              </StyledMenuItem>
+            ))}
+          </InputTextField>
           <NsfwTextField
             id="nsfw-select"
             select

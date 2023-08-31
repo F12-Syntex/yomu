@@ -811,10 +811,63 @@ app.get('/auth', (req, res) => {
 app.get('/searchContent', (req, res) => {
   console.log("searching for content: " + req.query.query);
   const search = req.query.query;
+
+  const season = req.query.season;
+  const format = req.query.format;
+  const status = req.query.status;
+  const sort = req.query.sort;
+  const nsfw = req.query.nsfw;
+
+  //print the query and it's variables
+  console.log("query: " + search);
+  console.log("season: " + season);
+  console.log("format: " + format);
+  console.log("status: " + status);
+  console.log("sort: " + sort);
+  console.log("nsfw: " + nsfw);
+
+  let param = "";
+
+  if(search != ""){
+    param += "search: \"" + search + "\", ";
+  }
+
+  if(season != "Any"){
+    param += "season: " + season.toUpperCase().replaceAll(" ", "_") + ", ";
+  }
+
+  if(format != "Any"){
+    param += "format: " + format.toUpperCase().replaceAll(" ", "_") + ", ";
+  }
+
+  if(status != "Any"){
+    param += "status: " + status.toUpperCase().replaceAll(" ", "_") + ", ";
+  }
+
+  if(sort != "None"){
+    param += "sort: " + sort.toUpperCase().replaceAll(" ", "_") + ", ";
+  }
+
+  if(nsfw != "Any"){
+    if(nsfw == "SFW"){
+      param += "isAdult: false, ";
+    }else if(nsfw == "NSFW"){
+      param += "isAdult: true, ";
+    }
+  }
+
+  if(param != ""){
+    param = param.substring(0, param.length - 2);
+  }
+  
+  console.log("param: " + param);
+
+  //search: "${search}", type: ANIME)
+
   const query = `
       query {
         Page {
-          media (search: "${search}", type: ANIME) {
+          media (${param}, type: ANIME) {
             id
             episodes
             title {

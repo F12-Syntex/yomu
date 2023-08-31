@@ -555,52 +555,12 @@ async function searchSyntexDev3(query: string): Promise<AnimeQuery[]> {
   return data.data.Page.media;
 }
 
-export async function search(query: string): Promise<AnimeQuery[]> {
+export async function search(query: string, filters?: string): Promise<AnimeQuery[]> {
 
   const profile = await getCurrentProfile();
 
   if(profile.accountInformation.nsfw === true){
     return searchSyntexDev3(query);
-  }
-
-  if(query.startsWith(':hentai-new')) {
-    return searchHentai2();
-    }
-
-  if(query.startsWith(':hentai')) {
-    return searchHentai1();
-  }
-
-  if(query.startsWith(':hsort:')) {
-    return searchHentai3(query.split(":")[2]);
-  }
-
-  let nsfw = query.endsWith(':nsfw');
-  let unfiltered = query.endsWith(':unfiltered');
-  let filter = query.includes(':filter: ') && query.includes(':end');
-
-  let filteredString = '';
-
-  if(nsfw) {
-    query = query.slice(0, -5);
-  }
-
-  if(unfiltered) {
-    query = query.slice(0, -11);
-  }
-
-  let isAdult = `, isAdult: ${nsfw || unfiltered}`;
-
-  if(filter) {
-    filteredString = query.split(':filter: ')[1].split(':end')[0];
-    isAdult = ``;
-  }
-
-  let suffix = "";
-
-  if(query.endsWith('-movie')) {
-    query = query.slice(0, -6);
-    suffix = ", format: MOVIE";
   }
 
   //type: ANIME ${isAdult}
@@ -639,7 +599,9 @@ export async function search(query: string): Promise<AnimeQuery[]> {
   let hostname = 'localhost';
   let port = `3023`;
   
-  let url = `http://${hostname}:${port}/searchContent?query=${query}`;
+  let url = `http://${hostname}:${port}/searchContent?query=${query}` + (filters ? `${filters}` : '');
+
+  console.log(url);
 
   const response = await fetch(url);
 
