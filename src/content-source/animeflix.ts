@@ -224,6 +224,7 @@ export type AnimeQuery = {
   id: number;
   progress: number;
   episodes: number;
+  averageScore: number;
   title: {
     romaji: string;
     english: string;

@@ -269,6 +269,18 @@
   user-select: none;
 }
 
+#profile-anime-entry-star{
+  display: flex;
+  justify-content: left;
+  align-items: left;
+
+  margin-top: 10px;
+  margin-left: 5px;
+
+  gap: 5px;
+  flex-direction: rows;
+}
+
 .grid-item-details {
   border-top: solid 1px white;
   background-color: rgba(0, 0, 0, 0.7);

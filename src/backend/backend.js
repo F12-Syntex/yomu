@@ -818,14 +818,6 @@ app.get('/searchContent', (req, res) => {
   const sort = req.query.sort;
   const nsfw = req.query.nsfw;
 
-  //print the query and it's variables
-  console.log("query: " + search);
-  console.log("season: " + season);
-  console.log("format: " + format);
-  console.log("status: " + status);
-  console.log("sort: " + sort);
-  console.log("nsfw: " + nsfw);
-
   let param = "";
 
   if(search != ""){
@@ -870,6 +862,7 @@ app.get('/searchContent', (req, res) => {
           media (${param}, type: ANIME) {
             id
             episodes
+            averageScore
             title {
               romaji
               english
@@ -882,7 +875,6 @@ app.get('/searchContent', (req, res) => {
             }
           }
         }
-        
       }
     `;
   const response = anilistQuery(query);
