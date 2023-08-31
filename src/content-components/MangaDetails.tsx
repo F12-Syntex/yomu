@@ -1,15 +1,13 @@
 import { useEffect } from 'react';
-import * as sideMenu from '../utils/SideMenu.ts';
 import * as aniflix from '../content-source/animeflix.ts';
+import * as discord from '../content-source/discord-api.ts';
 import * as mangakalot from '../content-source/mangakakalot.ts';
 import * as State from '../core/State.ts';
-import * as discord from '../content-source/discord-api.ts';
+import * as sideMenu from '../utils/SideMenu.ts';
 
+import { MangaEntry } from '../content-source/mangakakalot.ts';
 import '../stylings/content/manga-details.css';
 import Player from './Player.tsx';
-import Empty from './Empty.tsx';
-import Hot from './Hot.tsx';
-import { MangaEntry } from '../content-source/mangakakalot.ts';
 
 type MangaDetailsProps = {
   entry?: mangakalot.MangaEntry;
@@ -102,8 +100,45 @@ async function run(aniData: aniflix.Anime) {
   const genres = document.getElementById('content-details-info-genres-data')!;
   genres.innerHTML = anime.genres.toString().split(',').join(', ');
 
+  addTrailer(anime);
   addRelations(anime);
   addEpisodes(anime);
+}
+
+function addTrailer(anime : aniflix.Anime){
+  const relations = document.querySelector('.content-relations')!;
+
+  const label = document.createElement('div');
+  label.className = 'content-episodes-label';
+  label.innerHTML = 'Trailer';
+
+  if(!anime.trailer){
+    return;
+  }
+
+  relations.appendChild(label);
+
+  const relationItems = document.createElement('div');
+  relationItems.className = 'content-trailer-pane';
+
+
+  relations.appendChild(relationItems);
+
+  //add the trailer
+  const trailer = document.createElement('div');
+  trailer.className = 'content-trailer-item';
+
+  //embed the trailer
+  const trailerEmbed = document.createElement('iframe');
+  trailerEmbed.className = 'content-trailer-item-embed';
+  const trailerUrl = anime.trailer.site === "youtube" ? "https://www.youtube.com/embed/" + anime.trailer.id : "https://www.dailymotion.com/embed/video/" + anime.trailer.id;
+  trailerEmbed.src = trailerUrl;
+
+  //enable fullscreen
+  trailerEmbed.setAttribute('allowfullscreen', 'true');
+
+  trailer.appendChild(trailerEmbed);
+  relationItems.appendChild(trailer);
 }
 
 function addRelations(anime : aniflix.Anime){

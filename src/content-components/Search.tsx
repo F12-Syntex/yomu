@@ -135,9 +135,9 @@ function loadItems(ids: animeflix.AnimeQuery[], container: string) {
 
     let score = Math.floor(entry.averageScore / 20);
 
-    let width = "30";
-    let height = "30";
-    let colour = "yellow";
+    let width = "24";
+    let height = "24";
+    let colour = "gray";
 
     // Append child elements to their respective parents
     animeEntryContentElement.appendChild(titleElement);

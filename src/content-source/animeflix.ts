@@ -60,6 +60,11 @@ export type Anime = {
     timeUntilAiring: number;
     episode: number;
   };
+  trailer?: {
+    id: string;
+    site: string;
+    thumbnail: string;
+  };
 };
 
 export type AnimeFormat = {
@@ -787,6 +792,11 @@ export async function getAnimeById(variables: Record<string, any>): Promise<Anim
               timeUntilAiring
               episode
             }
+            trailer {
+              id
+              site
+              thumbnail
+            }
           }
         }
       `,
@@ -800,6 +810,7 @@ export async function getAnimeById(variables: Record<string, any>): Promise<Anim
 
   return data.data.Media;
 }
+
 
 export async function getMangaById(variables: Record<string, any>): Promise<Manga> {
   const response = await fetch('https://graphql.anilist.co', {

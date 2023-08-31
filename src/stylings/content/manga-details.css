@@ -17,6 +17,11 @@
     height: 92vh;
 }
 
+.content-trailer-item-embed{
+  height: 50vh;
+  width: 50vw;
+}
+
 .content-description{
     border-radius: 10px;
     /* background-color: pink;  */
