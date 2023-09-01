@@ -561,7 +561,7 @@ async function searchSyntexDev3(query: string): Promise<AnimeQuery[]> {
   return data.data.Page.media;
 }
 
-export async function search(query: string, filters?: string): Promise<AnimeQuery[]> {
+export async function search(query: string, filters?: string): Promise<any[]> {
 
   // const profile = await getCurrentProfile();
 
@@ -613,7 +613,7 @@ export async function search(query: string, filters?: string): Promise<AnimeQuer
 
   const data = await response.json();
 
-  return data.data.Page.media;
+  return data.data.Page;
 }
 
 

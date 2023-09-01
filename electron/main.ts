@@ -59,7 +59,7 @@ function startChildProcess(childProcess: ChildProcessWithoutNullStreams) {
 function createWindow() {
   win = new BrowserWindow({
     icon: path.join(process.env.PUBLIC, 'electron-vite.svg'),
-    width: 1500,
+    width: 1600,
     height: 1050,
     frame: true, // Remove default OS window frame
     titleBarStyle: 'hidden',

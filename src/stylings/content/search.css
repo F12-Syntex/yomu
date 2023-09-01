@@ -127,6 +127,45 @@
   margin-top: 20px;
 }
 
+.show-more-element{
+
+  height: 100%;
+  width: 100%;
+
+  border-radius: 10px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #0F0F0F;
+}
+
+.background-div{
+  background-color: transparent;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url("../../assets/search/loading.gif");
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.show-more-button{
+  font-size: 1.3em;
+
+  border-radius: 5px;
+
+  color: white;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media (min-width: 768px) {
   .search-grid {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

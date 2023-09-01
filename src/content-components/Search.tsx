@@ -14,6 +14,12 @@ import { Autocomplete, Chip, MenuItem, Paper, styled } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import React from 'react';
 
+let currentPage = 1;
+let query = "";
+
+//TODO: add elements per page filter
+//TODO: add element size option
+
 function addMetaInfo(details: HTMLElement, titleText: string){
       // add a title to the details section
 
@@ -35,8 +41,7 @@ function addMetaInfo(details: HTMLElement, titleText: string){
       details.appendChild(hbox);
 }
 
-function startLoadingAnimation() {
-
+function clearGrid(){
   const searchGrid = document.querySelector('.search-grid');
 
   if (searchGrid === null) {
@@ -44,35 +49,37 @@ function startLoadingAnimation() {
   }
 
   searchGrid.innerHTML = '';
-
-  const loading = document.createElement('div');
-  loading.setAttribute('class', 'loading');
-  searchGrid.appendChild(loading);
-
-
 }
 
-function search(event: any) {
-
-  if (event.keyCode === 13) {
-    searchAnime();
-  }
-}
-
-function searchAnime() {
+function startLoadingAnimation() {
   const searchGrid = document.querySelector('.search-grid');
 
   if (searchGrid === null) {
     return;
   }
 
+  clearGrid();
+
+  const loading = document.createElement('div');
+  loading.setAttribute('class', 'loading');
+  searchGrid.appendChild(loading);
+}
+
+function showMore(){
   startLoadingAnimation();
+}
 
-  discord.setSearching();
 
-  const search_input = document.getElementById('search-input') as HTMLInputElement;
-  const search_text = search_input.value;
 
+function search(event: any) {
+
+  if (event.keyCode === 13) {
+    currentPage = 1;
+    searchAnime();
+  }
+}
+
+function getUrlParameter() {
   //get the value from all the other inputs
   const season_select = document.getElementById('season-select') as HTMLInputElement;
   const season_text = season_select.innerHTML;
@@ -91,19 +98,45 @@ function searchAnime() {
   const nsfw_select = document.getElementById('nsfw-select') as HTMLInputElement;
   const nsfw_text = nsfw_select.innerHTML;
 
+  const items_select = document.getElementById('items-select') as HTMLInputElement;
+  const items_text = items_select.innerHTML;
+
   console.log(value);
 
-  const filtersURL = '&season=' + season_text + '&format=' + format_text + '&status=' + airing_status_text + '&sort=' + sorted_text + '&nsfw=' + nsfw_text + '&tags=' + value;
+  const filtersURL = '&season=' + season_text + '&format=' + format_text + '&status=' + airing_status_text + '&sort=' + sorted_text + '&nsfw=' + nsfw_text + '&tags=' + value + '&items_select=' + items_text + '&page=' + currentPage;
+  return filtersURL;
+}
+
+function searchAnime() {
+  const searchGrid = document.querySelector('.search-grid');
+
+  if (searchGrid === null) {
+    return;
+  }
+
+  startLoadingAnimation();
+
+  discord.setSearching();
+
+  const search_input = document.getElementById('search-input') as HTMLInputElement;
+  const search_text = search_input.value;
+  query = search_text;
+
+  //get the value from all the other inputs
+  const filtersURL = getUrlParameter();
 
   animeflix.search(search_text, filtersURL).then((entries) => {
     searchGrid.innerHTML = '';
     loadItems(entries, "search-search-grid");
   });
+  
 }
 
-function loadItems(ids: animeflix.AnimeQuery[], container: string) {
+function loadItems(result: any, container: string) {
 
-  ids.forEach((data) => {
+  const ids = result.media;
+
+  ids.forEach((data: any) => {
 
     const entry = data;
 
@@ -231,6 +264,74 @@ function loadItems(ids: animeflix.AnimeQuery[], container: string) {
 
   });
 
+  if(result.pageInfo.hasNextPage){
+    //add the show more button with the class 'show-more-element' which is simply an icon
+
+    const backgroundDiv = document.createElement('div');
+    backgroundDiv.setAttribute('class', 'background-div profile-anime-entry');
+
+    const showMoreElement = document.createElement('div');
+    showMoreElement.classList.add('show-more-element');
+
+    const showMoreIcon = document.createElement('div');
+    
+    showMoreIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20%" height="20%" fill="white" class="bi bi-plus-lg" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+  </svg>`;
+
+    showMoreIcon.classList.add('show-more-button');
+
+    showMoreIcon.style.opacity = '0.7';
+
+    showMoreElement.appendChild(showMoreIcon);
+
+    backgroundDiv.append(showMoreElement);
+
+    const containerElement = document.getElementById(container);
+    containerElement?.appendChild(backgroundDiv);
+
+    
+    // Define the named function expression
+    const clickHandler = () => {
+
+        showMoreElement.removeEventListener('click', clickHandler);
+        showMoreElement.innerHTML = '';
+        showMoreElement.style.opacity = '0';
+
+        backgroundDiv.style.cursor = 'default';
+
+
+        console.log(showMoreElement.style.backgroundImage);
+
+        //const currentEntries = result.media;
+        currentPage++;
+        const filters = getUrlParameter();
+
+        //startLoadingAnimation();
+        animeflix.search(query, filters).then((entries: any) => {
+          //add the currententries to the new entries to entries.media
+          //entries.media = currentEntries.concat(entries.media);
+
+          //clearGrid();
+          loadItems(entries, container);
+          backgroundDiv.remove();
+
+
+        });
+    };
+    
+
+    showMoreElement.addEventListener('click', clickHandler);
+
+    showMoreElement.addEventListener('mouseover', () => {
+      showMoreIcon.style.opacity = '1';
+    });
+
+    showMoreElement.addEventListener('mouseout', () => {
+      showMoreIcon.style.opacity = '0.7';
+    });
+
+  }
 }
 
 // export async function loadEntries(searchGrid: Element, entries: animeflix.AnimeQuery[]) {
@@ -426,6 +527,14 @@ const Sort: { [key: string]: string } = {
   "STATUS_DESC": descending + " Status"
 };
 
+const ElementsPerPage: string[] = [
+  "10",
+  "20",
+  "30",
+  "40",
+  "50",
+];
+
 
 const fixedOptions: string[] = ["Anime"];
 let value: string[] | undefined, setValue: (arg0: string[]) => void;
@@ -546,6 +655,24 @@ export default function SearchMenu() {
               </StyledMenuItem>
             ))}
           </InputTextField>
+          <InputTextField
+            id="items-select"
+            select
+            label="Items per page"
+            defaultValue={"10"}
+            InputProps={{
+              style: { color: 'white' },
+            }}
+            InputLabelProps={{
+              style: { color: 'gray' },
+            }}
+          >
+          {ElementsPerPage.map((option) => (
+            <StyledMenuItem key={option} value={option}>
+              {option}
+            </StyledMenuItem>
+          ))}
+          </InputTextField> 
           <NsfwTextField
             id="nsfw-select"
             select

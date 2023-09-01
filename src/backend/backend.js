@@ -817,10 +817,15 @@ app.get('/searchContent', (req, res) => {
   const status = req.query.status;
   const sort = req.query.sort;
   const nsfw = req.query.nsfw;
+  const items_select = req.query.items_select;
+
+  const page = req.query.page;
   
   let tags = req.query.tags;
 
   let param = "";
+
+  let cpage = 1
 
   if(search != ""){
     param += "search: \"" + search + "\", ";
@@ -840,6 +845,10 @@ app.get('/searchContent', (req, res) => {
 
   if(sort != "None"){
     param += "sort: " + sort.toUpperCase().replaceAll(" ", "_") + ", ";
+  }
+
+  if(page != "" && page != undefined){
+    cpage = page;
   }
 
   if(tags != "" && tags != undefined && tags != "Anime"){
@@ -873,7 +882,14 @@ app.get('/searchContent', (req, res) => {
 
   const query = `
       query {
-        Page {
+        Page (page: ${cpage}, perPage: ${items_select}) {
+          pageInfo {
+            total
+            currentPage
+            lastPage
+            hasNextPage
+            perPage
+          } 
           media (${param}, type: ANIME) {
             id
             episodes
