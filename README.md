@@ -21,7 +21,10 @@
 </div>
 
 <h2> Screen shots </h2>
-![image](https://github.com/F12-Syntex/yomu/assets/30322632/2b2460b9-b37b-418a-9033-268fe0a9ad7a)
+![image](https://github.com/F12-Syntex/yomu/assets/30322632/1457adb8-8eec-4e2f-8153-380db6699c6d)
+![image](https://github.com/F12-Syntex/yomu/assets/30322632/53c71d7d-58d8-40d3-b013-e54ba5044ac4)
+
+
 <h2>🎉 Abstract</h2>
 
 <p>This is a frontend application which enables the streaming of anime embedded directly in the browser!</p>
