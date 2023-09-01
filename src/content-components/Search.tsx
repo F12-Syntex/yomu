@@ -55,47 +55,50 @@ function startLoadingAnimation() {
 function search(event: any) {
 
   if (event.keyCode === 13) {
-    const searchGrid = document.querySelector('.search-grid');
-
-    if (searchGrid === null) {
-      return;
-    }
-
-    startLoadingAnimation();
-
-    discord.setSearching();
-
-    const search_input = document.getElementById('search-input') as HTMLInputElement;
-    const search_text = search_input.value;
-
-    //get the value from all the other inputs
-    const season_select = document.getElementById('season-select') as HTMLInputElement;
-    const season_text = season_select.innerHTML;
-
-    const format_select = document.getElementById('format-select') as HTMLInputElement;
-    const format_text = format_select.innerHTML;
-
-    const airing_status_select = document.getElementById('airing-status-select') as HTMLInputElement;
-    const airing_status_text = airing_status_select.innerHTML;
-
-    const sorted_select = document.getElementById('sorted-select') as HTMLInputElement;
-
-    //grab the key from the value of the select
-    const sorted_text = Object.keys(Sort).find(key => Sort[key] === sorted_select.innerHTML);
-
-    const nsfw_select = document.getElementById('nsfw-select') as HTMLInputElement;
-    const nsfw_text = nsfw_select.innerHTML;
-
-    console.log(value);
-
-    const filtersURL = '&season=' + season_text + '&format=' + format_text + '&status=' + airing_status_text + '&sort=' + sorted_text + '&nsfw=' + nsfw_text + '&tags=' + value;
-
-    animeflix.search(search_text, filtersURL).then((entries) => {
-      searchGrid.innerHTML = '';
-      loadItems(entries, "search-search-grid");
-    });
-
+    searchAnime();
   }
+}
+
+function searchAnime() {
+  const searchGrid = document.querySelector('.search-grid');
+
+  if (searchGrid === null) {
+    return;
+  }
+
+  startLoadingAnimation();
+
+  discord.setSearching();
+
+  const search_input = document.getElementById('search-input') as HTMLInputElement;
+  const search_text = search_input.value;
+
+  //get the value from all the other inputs
+  const season_select = document.getElementById('season-select') as HTMLInputElement;
+  const season_text = season_select.innerHTML;
+
+  const format_select = document.getElementById('format-select') as HTMLInputElement;
+  const format_text = format_select.innerHTML;
+
+  const airing_status_select = document.getElementById('airing-status-select') as HTMLInputElement;
+  const airing_status_text = airing_status_select.innerHTML;
+
+  const sorted_select = document.getElementById('sorted-select') as HTMLInputElement;
+
+  //grab the key from the value of the select
+  const sorted_text = Object.keys(Sort).find(key => Sort[key] === sorted_select.innerHTML);
+
+  const nsfw_select = document.getElementById('nsfw-select') as HTMLInputElement;
+  const nsfw_text = nsfw_select.innerHTML;
+
+  console.log(value);
+
+  const filtersURL = '&season=' + season_text + '&format=' + format_text + '&status=' + airing_status_text + '&sort=' + sorted_text + '&nsfw=' + nsfw_text + '&tags=' + value;
+
+  animeflix.search(search_text, filtersURL).then((entries) => {
+    searchGrid.innerHTML = '';
+    loadItems(entries, "search-search-grid");
+  });
 }
 
 function loadItems(ids: animeflix.AnimeQuery[], container: string) {
@@ -527,6 +530,7 @@ export default function SearchMenu() {
           <InputTextField
             id="sorted-select"
             select
+            onBlur={searchAnime}
             label="Sort"
             defaultValue={"None"}
             InputProps={{
