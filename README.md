@@ -21,8 +21,10 @@
 </div>
 
 <h2> Screen shots </h2>
-<img src="https://github.com/F12-Syntex/yomu/assets/30322632/1457adb8-8eec-4e2f-8153-380db6699c6d" width="500" height="600">
-<img src="https://github.com/F12-Syntex/yomu/assets/30322632/53c71d7d-58d8-40d3-b013-e54ba5044ac4" width="500" height="600">
+<div align="center">
+    <img src="https://github.com/F12-Syntex/yomu/assets/30322632/1457adb8-8eec-4e2f-8153-380db6699c6d">
+   <img src="https://github.com/F12-Syntex/yomu/assets/30322632/53c71d7d-58d8-40d3-b013-e54ba5044ac4">
+</div>
 
 
 <h2>🎉 Abstract</h2>
