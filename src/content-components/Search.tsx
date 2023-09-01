@@ -126,7 +126,8 @@ function searchAnime() {
   const filtersURL = getUrlParameter();
 
   animeflix.search(search_text, filtersURL).then((entries) => {
-    searchGrid.innerHTML = '';
+    
+    clearGrid();
     loadItems(entries, "search-search-grid");
   });
   
