@@ -12,7 +12,6 @@ import ClearIcon from '@mui/icons-material/Clear';
 
 import { Autocomplete, Chip, MenuItem, Paper, styled } from '@mui/material';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 import React from 'react';
 
 let currentPage = 1;
@@ -405,19 +404,6 @@ function loadItems(result: any, container: string) {
 
 // }
 
-const SearchButton = styled(Button)({
-  textTransform: 'none',
-  color : 'white',
-  backgroundColor: '#510000',
-  width: '100%',
-  height: '100%',
-  borderRadius: '15px',
-  '&:hover': {
-    backgroundColor: 'red',
-  },
-});
-
-
 const InputTextField = styled(TextField)({
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
@@ -753,9 +739,6 @@ export default function SearchMenu() {
               <Paper style={{color: "white", backgroundColor: "#0F0000", fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", fontSize: 18}}>{children}</Paper> // Change background color here
             )}
           />
-          <SearchButton onClick={searchAnime}>
-            Search
-          </SearchButton>
         </div>
         <div className="search-grid" id='search-search-grid'></div>
       </div>
