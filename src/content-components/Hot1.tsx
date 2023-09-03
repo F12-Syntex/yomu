@@ -31,9 +31,9 @@ async function generateSections(){
     new Section("Trending Anime", "watching", "TRENDING_DESC", "TV"),
     new Section("Highest Rated", "score", "SCORE_DESC", "TV"),
     new Section("New movies", "movies", "END_DATE_DESC, status: FINISHED", "MOVIE"),
-    new Section("OVAS", "ovas", "SCORE_DESC", "OVA"),
-    new Section("ONA", "ona", "SCORE_DESC status: FINISHED", "ONA"),
-    new Section("SPECIAL", "special", "SCORE_DESC status: FINISHED", "SPECIAL"),
+    // new Section("OVAS", "ovas", "SCORE_DESC", "OVA"),
+    // new Section("ONA", "ona", "SCORE_DESC status: FINISHED", "ONA"),
+    // new Section("SPECIAL", "special", "SCORE_DESC status: FINISHED", "SPECIAL"),
   ];
 
   const section: Element | null = document.querySelector('.profile-video-pane-currently-watching-container');
