@@ -159,24 +159,14 @@ function searchCachedAnime(query: string, filtersURL: string){
     items_select.innerHTML = items_text;
   }
 
-  //set the tags by splitting the string by the &tags= and then splitting the string by the & and then setting the value to the array
-  //then updating the react state with the new value
-  if(filtersURL.includes('&tags=')){
-    const tags_text = filtersURL.substring(filtersURL.indexOf('&tags=') + 6, filtersURL.indexOf('&items_select='));
-    const tags = tags_text.split(',').filter(tag => tag.trim() !== ''); // Split the string and remove any empty tags
-    //set the value of the tags
-    setValue(tags);
-  }
-
   search_input.value = query;
   search_input.focus();
 
-
   console.log("CALLED SEARCH CACHED ANIME");
-  // animeflix.search(query, filtersURL).then((entries) => {
-  //   clearGrid();
-  //   loadItems(entries, "search-search-grid");
-  // });
+  animeflix.search(query, filtersURL).then((entries) => {
+    clearGrid();
+    loadItems(entries, "search-search-grid");
+  });
 }
 
 function searchAnime() {
@@ -209,7 +199,7 @@ function searchAnime() {
 
     const params = { query: search_text, filters: filtersURL };
 
-    const element = <SearchMenu cached={true} query={params.query} filters={params.filters}/>
+    const element = <SearchMenu cached={true} query={params.query} filters={params.filters} state={{value}}/>
     Actions.list.add(element);
 
   });
@@ -624,10 +614,13 @@ const fixedOptions: string[] = ["Anime"];
 let value: string[] | undefined, setValue: (arg0: string[]) => void;
 
 
-export default function SearchMenu(props?:{ cached: boolean, query?: string, filters?: string }) {
+export default function SearchMenu(props?:{ cached: boolean, query?: string, filters?: string, state?: {value : string[] | undefined} }) {
 
-  [value, setValue] = React.useState([...fixedOptions]);
-
+  if(props?.state?.value && props?.state?.value.length > 1){
+    [value, setValue] = React.useState([...(props?.state?.value || [])]); 
+  }else{
+    [value, setValue] = React.useState([...fixedOptions]);
+  }
   console.log("search menu");
 
   discord.setSearching();
