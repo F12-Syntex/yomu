@@ -2,6 +2,7 @@
 import * as animeflix from '../content-source/animeflix.ts';
 import * as discord from '../content-source/discord-api.ts';
 import * as State from '../core/State.ts';
+import * as Actions from '../core/Actions.ts';
 import * as sideMenuUtils from '../utils/SideMenu.ts';
 
 import { MangaEntry } from '../content-source/mangakakalot.ts';
@@ -12,7 +13,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 
 import { Autocomplete, Chip, MenuItem, Paper, styled } from '@mui/material';
 import TextField from '@mui/material/TextField';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 let currentPage = 1;
 let query = "";
@@ -107,6 +108,77 @@ function getUrlParameter() {
   return filtersURL;
 }
 
+function searchCachedAnime(query: string, filtersURL: string){
+
+  startLoadingAnimation();
+  console.log("searching for cached anime: " + query + " " + filtersURL);
+  //set the search input to the query and set focus to the search input
+  const search_input = document.getElementById('search-input') as HTMLInputElement;
+  if(query === undefined){
+    query = "";
+  }
+
+  //get all the other inputs
+  const season_select = document.getElementById('season-select') as HTMLInputElement;
+  const format_select = document.getElementById('format-select') as HTMLInputElement;
+  const airing_status_select = document.getElementById('airing-status-select') as HTMLInputElement;
+  const sorted_select = document.getElementById('sorted-select') as HTMLInputElement;
+  const nsfw_select = document.getElementById('nsfw-select') as HTMLInputElement;
+  const items_select = document.getElementById('items-select') as HTMLInputElement;
+
+  //set the values of the other inputs if they exist in the filtersURL
+  if(filtersURL.includes('&season=')){
+    const season_text = filtersURL.substring(filtersURL.indexOf('&season=') + 8, filtersURL.indexOf('&format='));
+    season_select.innerHTML = season_text;
+  }
+
+  if(filtersURL.includes('&format=')){
+    const format_text = filtersURL.substring(filtersURL.indexOf('&format=') + 8, filtersURL.indexOf('&status='));
+    format_select.innerHTML = format_text;
+  }
+
+  if(filtersURL.includes('&status=')){
+    const airing_status_text = filtersURL.substring(filtersURL.indexOf('&status=') + 8, filtersURL.indexOf('&sort='));
+    airing_status_select.innerHTML = airing_status_text;
+  }
+
+  if(filtersURL.includes('&sort=')){
+    const sorted_text = filtersURL.substring(filtersURL.indexOf('&sort=') + 6, filtersURL.indexOf('&nsfw='));
+
+    //grab the key from the value of the select
+    sorted_select.innerHTML = Sort[sorted_text];
+  }
+
+  if(filtersURL.includes('&nsfw=')){
+    const nsfw_text = filtersURL.substring(filtersURL.indexOf('&nsfw=') + 6, filtersURL.indexOf('&tags='));
+    nsfw_select.innerHTML = nsfw_text;
+  }
+
+  if(filtersURL.includes('&items_select=')){
+    const items_text = filtersURL.substring(filtersURL.indexOf('&items_select=') + 14, filtersURL.indexOf('&page='));
+    items_select.innerHTML = items_text;
+  }
+
+  //set the tags by splitting the string by the &tags= and then splitting the string by the & and then setting the value to the array
+  //then updating the react state with the new value
+  if(filtersURL.includes('&tags=')){
+    const tags_text = filtersURL.substring(filtersURL.indexOf('&tags=') + 6, filtersURL.indexOf('&items_select='));
+    const tags = tags_text.split(',').filter(tag => tag.trim() !== ''); // Split the string and remove any empty tags
+    //set the value of the tags
+    setValue(tags);
+  }
+
+  search_input.value = query;
+  search_input.focus();
+
+
+  console.log("CALLED SEARCH CACHED ANIME");
+  // animeflix.search(query, filtersURL).then((entries) => {
+  //   clearGrid();
+  //   loadItems(entries, "search-search-grid");
+  // });
+}
+
 function searchAnime() {
   const searchGrid = document.querySelector('.search-grid');
 
@@ -125,10 +197,21 @@ function searchAnime() {
   //get the value from all the other inputs
   const filtersURL = getUrlParameter();
 
+  // const params = { query: search_text, filters: filtersURL };
+  // const element = <SearchMenu cached={true} query={params.query} filters={params.filters}/>
+
+  // State.updateState(element);
+
   animeflix.search(search_text, filtersURL).then((entries) => {
-    
     clearGrid();
     loadItems(entries, "search-search-grid");
+    //add the filtersUrl to to the webpage search history
+
+    const params = { query: search_text, filters: filtersURL };
+
+    const element = <SearchMenu cached={true} query={params.query} filters={params.filters}/>
+    Actions.list.add(element);
+
   });
   
 }
@@ -541,9 +624,11 @@ const fixedOptions: string[] = ["Anime"];
 let value: string[] | undefined, setValue: (arg0: string[]) => void;
 
 
-export default function SearchMenu() {  
+export default function SearchMenu(props?:{ cached: boolean, query?: string, filters?: string }) {
 
   [value, setValue] = React.useState([...fixedOptions]);
+
+  console.log("search menu");
 
   discord.setSearching();
 
@@ -562,6 +647,12 @@ export default function SearchMenu() {
           item.classList.add('visible');
         }
       });
+    }
+  });
+
+  useEffect(() => {
+    if(props && props != undefined && props.cached){ 
+      searchCachedAnime(props.query!, props.filters!);
     }
   });
   
@@ -640,7 +731,7 @@ export default function SearchMenu() {
           <InputTextField
             id="sorted-select"
             select
-            onBlur={searchAnime}
+            // onBlur={searchAnime}
             label="Sort"
             defaultValue={"None"}
             InputProps={{
