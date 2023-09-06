@@ -476,6 +476,12 @@ const NsfwTextField = styled(TextField)({
   },
 });
 
+const StyledChip = styled(Chip)(() => ({
+  color: 'white',
+  borderRadius: '5px',
+  backgroundColor: "rgba(255, 0, 0, 0.3)",
+}));
+
 // Use the styled function to create a custom styled MenuItem component
 const StyledMenuItem = styled(MenuItem)(() => ({
   backgroundColor: '#0F0000',
@@ -866,14 +872,10 @@ export default function SearchMenu(props?:{ cached: boolean, query?: string, fil
             ]}}
             renderTags={(tagValue, getTagProps) =>
               tagValue.map((option, index) => (
-                <Chip
-                  label={option}
+              <StyledChip
+                  label = {option}
                   {...getTagProps({ index })}
                   disabled={fixedOptions.indexOf(option) !== -1}
-                  style={{
-                    color: "white",
-                    backgroundColor: "red", 
-                  }}
                   deleteIcon={<ClearIcon style={{ fill: "white" }} />} // Change icon color here
                 />
               ))

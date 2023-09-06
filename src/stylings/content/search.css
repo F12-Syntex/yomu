@@ -119,6 +119,10 @@
   position: relative;
 }
 
+.selection-list:hover{
+  background-color: orange;
+}
+
 .search-grid {
   display: grid;
   background: transparent;
