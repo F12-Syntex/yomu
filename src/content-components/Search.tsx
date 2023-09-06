@@ -587,8 +587,8 @@ const ElementsPerPage: string[] = [
 ];
 
 
-const fixedOptions: string[] = /*["Anime"]*/ [];
-let value: string[] | undefined, setValue: (arg0: string[]) => void;
+let fixedOptions: string[] = /*["Anime"]*/ [];
+let value: string[] | undefined, setValue: (arg: string[]) => void;
 
 export default function SearchMenu(props?:{ cached: boolean, query?: string, filters?: string, state?: {value : string[] | undefined} }) {
 
