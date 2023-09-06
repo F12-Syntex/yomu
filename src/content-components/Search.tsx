@@ -11,10 +11,12 @@ import MangaDetails from './MangaDetails.tsx';
 
 import ClearIcon from '@mui/icons-material/Clear';
 
-import { Autocomplete, Chip, FilledInput, FormLabel, InputAdornment, InputLabel, MenuItem, Paper, colors, styled } from '@mui/material';
+import { Autocomplete, Chip, FilledInput, FormLabel, InputAdornment, InputLabel, ListSubheader, MenuItem, Paper, colors, styled } from '@mui/material';
 
 import TextField from '@mui/material/TextField';
 import React, { useEffect } from 'react';
+import { red } from '@mui/material/colors';
+import Categories from '../core/Categories.ts';
 
 let currentPage = 1;
 let query = "";
@@ -473,7 +475,7 @@ const NsfwTextField = styled(TextField)({
 });
 
 // Use the styled function to create a custom styled MenuItem component
-const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
+const StyledMenuItem = styled(MenuItem)(() => ({
   backgroundColor: '#0F0000',
   color: 'white',
   padding: '8px 16px',
@@ -484,7 +486,7 @@ const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
   },
   '&.Mui-selected': {
     backgroundColor: '#3F0D12',
-    color: theme.palette.common.white,
+    color: 'red',
     '&:hover': {
       backgroundColor: '#6F1016',
     },
@@ -577,7 +579,7 @@ const ElementsPerPage: string[] = [
 ];
 
 
-const fixedOptions: string[] = ["Anime"];
+const fixedOptions: string[] = /*["Anime"]*/ [];
 let value: string[] | undefined, setValue: (arg0: string[]) => void;
 
 export default function SearchMenu(props?:{ cached: boolean, query?: string, filters?: string, state?: {value : string[] | undefined} }) {
@@ -652,7 +654,7 @@ export default function SearchMenu(props?:{ cached: boolean, query?: string, fil
     defTagWeight = props.filters.substring(props.filters.indexOf('&minimumTagRank=') + 16, props.filters.length);
   }
 
-
+  const TagsWithCategories : {[key: string]: string} = Categories.getCategories();
 
   return (
     <>
@@ -683,7 +685,9 @@ export default function SearchMenu(props?:{ cached: boolean, query?: string, fil
                 // Get the entered value from the event
                 const input = event.key;
                 if (!/^\d$/.test(input)) {
-                  if(input !== 'Backspace'){
+
+                  //allow backspace or ctr a or ctr v or arrow keys to be pressed
+                  if(input !== 'Backspace' && input !== 'ArrowLeft' && input !== 'ArrowRight'){
                   // Prevent the default behavior of the event, effectively blocking any other key from being registered
                   event.preventDefault();
                   }
@@ -831,11 +835,32 @@ export default function SearchMenu(props?:{ cached: boolean, query?: string, fil
                 ...newValue.filter((option) => fixedOptions.indexOf(option) === -1),
               ]);
             }}
-            options={Tags}
+            options={Object.keys(TagsWithCategories)}
             getOptionLabel={(option) => option}
             clearIcon={<ClearIcon style={{ fill: "white" }} />} // Add clear icon here
             disableClearable={true}
             disableCloseOnSelect={true}
+            groupBy={(option) => TagsWithCategories[option]}
+            renderGroup = {params => {
+
+            const tagKey = Object.keys(TagsWithCategories)[params.key as unknown as number]; // cast params.key as number
+            const tagValue = TagsWithCategories[tagKey];
+            
+            return [
+              <ListSubheader
+                component="div"
+                style={{
+                  backgroundColor: '#330000',
+                  color: 'white',
+                  fontWeight: 'bold',
+                  height: '100%',
+                }}
+                {...params}
+              >
+              {tagValue}
+            </ListSubheader>,
+              params.children,
+            ]}}
             renderTags={(tagValue, getTagProps) =>
               tagValue.map((option, index) => (
                 <Chip
@@ -872,294 +897,3 @@ export default function SearchMenu(props?:{ cached: boolean, query?: string, fil
     </>
   );
 }
-
-const Tags = [
-  "Anime",
-  "4-koma",
-  "Achromatic",
-  "Achronological Order",
-  "Acting",
-  "Adoption",
-  "Advertisement",
-  "Afterlife",
-  "Age Gap",
-  "Age Regression",
-  "Agender",
-  "Agriculture",
-  "Airsoft",
-  "Alchemy",
-  "Aliens",
-  "Alternate Universe",
-  "American Football",
-  "Amnesia",
-  "Anachronism",
-  "Angels",
-  "Animals",
-  "Anthology",
-  "Anthropomorphism",
-  "Anti-Hero",
-  "Archery",
-  "Artificial Intelligence",
-  "Asexual",
-  "Assassins",
-  "Astronomy",
-  "Athletics",
-  "Augmented Reality",
-  "Autobiographical",
-  "Aviation",
-  "Badminton",
-  "Band",
-  "Bar",
-  "Baseball",
-  "Basketball",
-  "Battle Royale",
-  "Biographical",
-  "Bisexual",
-  "Body Horror",
-  "Body Swapping",
-  "Boxing",
-  "Boys' Love",
-  "Bullying",
-  "Butler",
-  "Calligraphy",
-  "Cannibalism",
-  "Card Battle",
-  "Cars",
-  "Centaur",
-  "CGI",
-  "Cheerleading",
-  "Chibi",
-  "Chimera",
-  "Chuunibyou",
-  "Circus",
-  "Classic Literature",
-  "Clone",
-  "College",
-  "Coming of Age",
-  "Conspiracy",
-  "Cosmic Horror",
-  "Cosplay",
-  "Crime",
-  "Crossdressing",
-  "Crossover",
-  "Cult",
-  "Cultivation",
-  "Cute Boys Doing Cute Things",
-  "Cute Girls Doing Cute Things",
-  "Cyberpunk",
-  "Cyborg",
-  "Cycling",
-  "Dancing",
-  "Death Game",
-  "Delinquents",
-  "Demons",
-  "Denpa",
-  "Desert",
-  "Detective",
-  "Dinosaurs",
-  "Disability",
-  "Dissociative Identities",
-  "Dragons",
-  "Drawing",
-  "Drugs",
-  "Dullahan",
-  "Dungeon",
-  "Dystopian",
-  "E-Sports",
-  "Economics",
-  "Educational",
-  "Elf",
-  "Ensemble Cast",
-  "Environmental",
-  "Episodic",
-  "Ero Guro",
-  "Espionage",
-  "Fairy",
-  "Fairy Tale",
-  "Family Life",
-  "Fashion",
-  "Female Harem",
-  "Female Protagonist",
-  "Femboy",
-  "Fencing",
-  "Firefighters",
-  "Fishing",
-  "Fitness",
-  "Flash",
-  "Food",
-  "Football",
-  "Foreign",
-  "Found Family",
-  "Fugitive",
-  "Full CGI",
-  "Full Color",
-  "Gambling",
-  "Gangs",
-  "Gender Bending",
-  "Ghost",
-  "Go",
-  "Goblin",
-  "Gods",
-  "Golf",
-  "Gore",
-  "Guns",
-  "Gyaru",
-  "Handball",
-  "Henshin",
-  "Heterosexual",
-  "Hikikomori",
-  "Historical",
-  "Homeless",
-  "Ice Skating",
-  "Idol",
-  "Isekai",
-  "Iyashikei",
-  "Josei",
-  "Judo",
-  "Kaiju",
-  "Karuta",
-  "Kemonomimi",
-  "Kids",
-  "Kuudere",
-  "Lacrosse",
-  "Language Barrier",
-  "LGBTQ+ Themes",
-  "Lost Civilization",
-  "Love Triangle",
-  "Mafia",
-  "Magic",
-  "Mahjong",
-  "Maids",
-  "Makeup",
-  "Male Harem",
-  "Male Protagonist",
-  "Marriage",
-  "Martial Arts",
-  "Medicine",
-  "Memory Manipulation",
-  "Mermaid",
-  "Meta",
-  "Military",
-  "Mixed Gender Harem",
-  "Monster Boy",
-  "Monster Girl",
-  "Mopeds",
-  "Motorcycles",
-  "Musical",
-  "Mythology",
-  "Necromancy",
-  "Nekomimi",
-  "Ninja",
-  "No Dialogue",
-  "Noir",
-  "Non-fiction",
-  "Nudity",
-  "Nun",
-  "Office Lady",
-  "Oiran",
-  "Ojou-sama",
-  "Orphan",
-  "Otaku Culture",
-  "Outdoor",
-  "Pandemic",
-  "Parkour",
-  "Parody",
-  "Philosophy",
-  "Photography",
-  "Pirates",
-  "Poker",
-  "Police",
-  "Politics",
-  "Post-Apocalyptic",
-  "POV",
-  "Primarily Adult Cast",
-  "Primarily Child Cast",
-  "Primarily Female Cast",
-  "Primarily Male Cast",
-  "Primarily Teen Cast",
-  "Prison",
-  "Puppetry",
-  "Rakugo",
-  "Real Robot",
-  "Rehabilitation",
-  "Reincarnation",
-  "Religion",
-  "Revenge",
-  "Robots",
-  "Rotoscoping",
-  "Rugby",
-  "Rural",
-  "Samurai",
-  "Satire",
-  "School",
-  "School Club",
-  "Scuba Diving",
-  "Seinen",
-  "Shapeshifting",
-  "Ships",
-  "Shogi",
-  "Shoujo",
-  "Shounen",
-  "Shrine Maiden",
-  "Skateboarding",
-  "Skeleton",
-  "Slapstick",
-  "Slavery",
-  "Software Development",
-  "Space",
-  "Space Opera",
-  "Spearplay",
-  "Steampunk",
-  "Stop Motion",
-  "Succubus",
-  "Suicide",
-  "Sumo",
-  "Super Power",
-  "Super Robot",
-  "Superhero",
-  "Surfing",
-  "Surreal Comedy",
-  "Survival",
-  "Swimming",
-  "Swordplay",
-  "Table Tennis",
-  "Tanks",
-  "Tanned Skin",
-  "Teacher",
-  "Teens' Love",
-  "Tennis",
-  "Terrorism",
-  "Time Manipulation",
-  "Time Skip",
-  "Tokusatsu",
-  "Tomboy",
-  "Torture",
-  "Tragedy",
-  "Trains",
-  "Transgender",
-  "Travel",
-  "Triads",
-  "Tsundere",
-  "Twins",
-  "Urban",
-  "Urban Fantasy",
-  "Vampire",
-  "Video Games",
-  "Vikings",
-  "Villainess",
-  "Virtual World",
-  "Volleyball",
-  "VTuber",
-  "War",
-  "Werewolf",
-  "Witch",
-  "Work",
-  "Wrestling",
-  "Writing",
-  "Wuxia",
-  "Yakuza",
-  "Yandere",
-  "Youkai",
-  "Yuri",
-  "Zombie"
-];
