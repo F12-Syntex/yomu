@@ -660,6 +660,7 @@ export default function SearchMenu(props?:{ cached: boolean, query?: string, fil
         <div className='search-results'>
           {/* <input type="text" id="search-input" name="search" placeholder="Search..." onKeyDown={search}></input> */}
             <InputTextField
+              className='search-generic-input'
               id="search-input"
               label="Search"
               name="email"
@@ -674,7 +675,8 @@ export default function SearchMenu(props?:{ cached: boolean, query?: string, fil
             
             <InputTextField
               id="search-input-tagweight"
-              label="Minimum Tag Weight"
+              className='search-generic-small'
+              label="Minimum Tag %"
               name="email"
               defaultValue={defTagWeight}
               onKeyDown={(event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -703,6 +705,7 @@ export default function SearchMenu(props?:{ cached: boolean, query?: string, fil
               }}
             />
           <InputTextField
+            className='search-generic-input'
             id="season-select"
             select
             label="Season"
@@ -721,6 +724,7 @@ export default function SearchMenu(props?:{ cached: boolean, query?: string, fil
           ))}
           </InputTextField> 
           <InputTextField
+            className='search-generic-input'
             id="format-select"
             select
             label="Format"
@@ -739,6 +743,7 @@ export default function SearchMenu(props?:{ cached: boolean, query?: string, fil
           ))}
           </InputTextField> 
           <InputTextField
+            className='search-generic-input'
             id="airing-status-select"
             select
             label="Airing Status"
@@ -757,6 +762,7 @@ export default function SearchMenu(props?:{ cached: boolean, query?: string, fil
           ))}
           </InputTextField> 
           <InputTextField
+            className='search-generic-input'
             id="sorted-select"
             select
             // onBlur={searchAnime}
@@ -776,6 +782,7 @@ export default function SearchMenu(props?:{ cached: boolean, query?: string, fil
             ))}
           </InputTextField>
           <InputTextField
+            className='search-generic-input'
             id="items-select"
             select
             label="Items per page"
@@ -794,6 +801,7 @@ export default function SearchMenu(props?:{ cached: boolean, query?: string, fil
           ))}
           </InputTextField> 
           <NsfwTextField
+            className='search-generic-input'
             id="nsfw-select"
             select
             label="Adult Content"
