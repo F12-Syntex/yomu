@@ -11,11 +11,10 @@ import MangaDetails from './MangaDetails.tsx';
 
 import ClearIcon from '@mui/icons-material/Clear';
 
-import { Autocomplete, Chip, FilledInput, FormLabel, InputAdornment, InputLabel, ListSubheader, MenuItem, Paper, colors, styled } from '@mui/material';
+import { Autocomplete, Chip, FormLabel, InputAdornment, MenuItem, Paper, Typography, styled } from '@mui/material';
 
 import TextField from '@mui/material/TextField';
 import React, { useEffect } from 'react';
-import { red } from '@mui/material/colors';
 import Categories from '../core/Categories.ts';
 
 let currentPage = 1;
@@ -447,6 +446,9 @@ const StyledInputAdornment = styled(InputAdornment)(() => ({
 }));
 
 const InputTextField = styled(TextField)({
+  input: {
+    color: 'white',
+  },
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
       borderColor: 'gray',
@@ -654,7 +656,7 @@ export default function SearchMenu(props?:{ cached: boolean, query?: string, fil
     defTagWeight = props.filters.substring(props.filters.indexOf('&minimumTagRank=') + 16, props.filters.length);
   }
 
-  const TagsWithCategories : {[key: string]: string} = Categories.getCategories();
+  let TagsWithCategories : {[key: string]: string} = Categories.getCategories();
 
   return (
     <>
@@ -842,23 +844,24 @@ export default function SearchMenu(props?:{ cached: boolean, query?: string, fil
             disableCloseOnSelect={true}
             groupBy={(option) => TagsWithCategories[option]}
             renderGroup = {params => {
-
-            const tagKey = Object.keys(TagsWithCategories)[params.key as unknown as number]; // cast params.key as number
-            const tagValue = TagsWithCategories[tagKey];
-            
             return [
-              <ListSubheader
+              <Typography 
                 component="div"
                 style={{
                   backgroundColor: '#330000',
                   color: 'white',
                   fontWeight: 'bold',
                   height: '100%',
+                  fontSize: 18,
+                  padding: 8,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
                 {...params}
               >
-              {tagValue}
-            </ListSubheader>,
+              {params.group}
+            </Typography >,
               params.children,
             ]}}
             renderTags={(tagValue, getTagProps) =>
@@ -880,7 +883,7 @@ export default function SearchMenu(props?:{ cached: boolean, query?: string, fil
               <InputTextField
                 {...params}
                 label="Tags"
-                placeholder="Favorites"
+                placeholder="Select Tags"
                 InputLabelProps={{
                   style: { color: "white"}, // Change text color here
                 }}
