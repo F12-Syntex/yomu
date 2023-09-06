@@ -118,47 +118,6 @@ function searchCachedAnime(query: string, filtersURL: string){
     query = "";
   }
 
-  //get all the other inputs
-  const season_select = document.getElementById('season-select') as HTMLInputElement;
-  const format_select = document.getElementById('format-select') as HTMLInputElement;
-  const airing_status_select = document.getElementById('airing-status-select') as HTMLInputElement;
-  const sorted_select = document.getElementById('sorted-select') as HTMLInputElement;
-  const nsfw_select = document.getElementById('nsfw-select') as HTMLInputElement;
-  const items_select = document.getElementById('items-select') as HTMLInputElement;
-
-  //set the values of the other inputs if they exist in the filtersURL
-  if(filtersURL.includes('&season=')){
-    const season_text = filtersURL.substring(filtersURL.indexOf('&season=') + 8, filtersURL.indexOf('&format='));
-    season_select.innerHTML = season_text;
-  }
-
-  if(filtersURL.includes('&format=')){
-    const format_text = filtersURL.substring(filtersURL.indexOf('&format=') + 8, filtersURL.indexOf('&status='));
-    format_select.innerHTML = format_text;
-  }
-
-  if(filtersURL.includes('&status=')){
-    const airing_status_text = filtersURL.substring(filtersURL.indexOf('&status=') + 8, filtersURL.indexOf('&sort='));
-    airing_status_select.innerHTML = airing_status_text;
-  }
-
-  if(filtersURL.includes('&sort=')){
-    const sorted_text = filtersURL.substring(filtersURL.indexOf('&sort=') + 6, filtersURL.indexOf('&nsfw='));
-
-    //grab the key from the value of the select
-    sorted_select.innerHTML = Sort[sorted_text];
-  }
-
-  if(filtersURL.includes('&nsfw=')){
-    const nsfw_text = filtersURL.substring(filtersURL.indexOf('&nsfw=') + 6, filtersURL.indexOf('&tags='));
-    nsfw_select.innerHTML = nsfw_text;
-  }
-
-  if(filtersURL.includes('&items_select=')){
-    const items_text = filtersURL.substring(filtersURL.indexOf('&items_select=') + 14, filtersURL.indexOf('&page='));
-    items_select.innerHTML = items_text;
-  }
-
   search_input.value = query;
   search_input.focus();
 
@@ -649,6 +608,38 @@ export default function SearchMenu(props?:{ cached: boolean, query?: string, fil
     }
   });
   
+  var defSeason = "Any";
+  var defFormat = "Any";
+  var defAiringStatus = "Any";
+  var defSorted = "None";
+  var defNsfw = "SFW";
+  var defItems = "10";
+
+  if(props?.filters && props.filters.includes('&season=')){
+    defSeason = props.filters.substring(props.filters.indexOf('&season=') + 8, props.filters.indexOf('&format='));
+  }
+
+  if(props?.filters && props.filters.includes('&format=')){
+    defFormat = props.filters.substring(props.filters.indexOf('&format=') + 8, props.filters.indexOf('&status='));
+  }
+
+  if(props?.filters && props.filters.includes('&status=')){
+    defAiringStatus = props.filters.substring(props.filters.indexOf('&status=') + 8, props.filters.indexOf('&sort='));
+  }
+
+  if(props?.filters && props.filters.includes('&sort=')){
+    const sorted_text = props.filters.substring(props.filters.indexOf('&sort=') + 6, props.filters.indexOf('&nsfw='));
+    defSorted = sorted_text;
+  }
+
+  if(props?.filters && props.filters.includes('&nsfw=')){
+    defNsfw = props.filters.substring(props.filters.indexOf('&nsfw=') + 6, props.filters.indexOf('&tags='));
+  }
+
+  if (props?.filters && props.filters.includes('&items_select=')) {
+    defItems = props.filters.substring(props.filters.indexOf('&items_select=') + 14, props.filters.indexOf('&page='));
+  }
+
   return (
     <>
       <div className='content-search'>
@@ -671,7 +662,7 @@ export default function SearchMenu(props?:{ cached: boolean, query?: string, fil
             id="season-select"
             select
             label="Season"
-            defaultValue={"Any"}
+            defaultValue={defSeason}
             InputProps={{
               style: { color: 'white' },
             }}
@@ -689,7 +680,7 @@ export default function SearchMenu(props?:{ cached: boolean, query?: string, fil
             id="format-select"
             select
             label="Format"
-            defaultValue={"Any"}
+            defaultValue={defFormat}
             InputProps={{
               style: { color: 'white' },
             }}
@@ -707,7 +698,7 @@ export default function SearchMenu(props?:{ cached: boolean, query?: string, fil
             id="airing-status-select"
             select
             label="Airing Status"
-            defaultValue={"Any"}
+            defaultValue={defAiringStatus}
             InputProps={{
               style: { color: 'white' },
             }}
@@ -726,7 +717,7 @@ export default function SearchMenu(props?:{ cached: boolean, query?: string, fil
             select
             // onBlur={searchAnime}
             label="Sort"
-            defaultValue={"None"}
+            defaultValue={defSorted}
             InputProps={{
               style: { color: 'white' },
             }}
@@ -744,7 +735,7 @@ export default function SearchMenu(props?:{ cached: boolean, query?: string, fil
             id="items-select"
             select
             label="Items per page"
-            defaultValue={"10"}
+            defaultValue={defItems}
             InputProps={{
               style: { color: 'white' },
             }}
@@ -762,7 +753,7 @@ export default function SearchMenu(props?:{ cached: boolean, query?: string, fil
             id="nsfw-select"
             select
             label="Adult Content"
-            defaultValue={"SFW"}
+            defaultValue={defNsfw}
             color='warning'
             InputProps={{
               style: { color: 'red' },
