@@ -818,6 +818,7 @@ app.get('/searchContent', (req, res) => {
   const sort = req.query.sort;
   const nsfw = req.query.nsfw;
   const items_select = req.query.items_select;
+  const minimumTagRank = req.query.minimumTagRank;
 
   const page = req.query.page;
   
@@ -861,6 +862,9 @@ app.get('/searchContent', (req, res) => {
         param += "\"" + tagTrimmed + "\", ";
       }
     }
+    if(param != ""){
+      param = param.substring(0, param.length - 2);
+    }
     param += "], ";
   }
 
@@ -870,6 +874,10 @@ app.get('/searchContent', (req, res) => {
     }else if(nsfw == "NSFW"){
       param += "isAdult: true, ";
     }
+  }
+
+  if(minimumTagRank != "" && minimumTagRank != undefined){
+    param += "minimumTagRank: " + minimumTagRank + ", ";
   }
 
   if(param != ""){

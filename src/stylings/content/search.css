@@ -166,6 +166,10 @@
   align-items: center;
 }
 
+.endorment{
+  color:white;
+}
+
 @media (min-width: 768px) {
   .search-grid {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

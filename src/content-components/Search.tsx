@@ -1,8 +1,8 @@
 
 import * as animeflix from '../content-source/animeflix.ts';
 import * as discord from '../content-source/discord-api.ts';
-import * as State from '../core/State.ts';
 import * as Actions from '../core/Actions.ts';
+import * as State from '../core/State.ts';
 import * as sideMenuUtils from '../utils/SideMenu.ts';
 
 import { MangaEntry } from '../content-source/mangakakalot.ts';
@@ -11,7 +11,8 @@ import MangaDetails from './MangaDetails.tsx';
 
 import ClearIcon from '@mui/icons-material/Clear';
 
-import { Autocomplete, Chip, MenuItem, Paper, styled } from '@mui/material';
+import { Autocomplete, Chip, FilledInput, FormLabel, InputAdornment, InputLabel, MenuItem, Paper, colors, styled } from '@mui/material';
+
 import TextField from '@mui/material/TextField';
 import React, { useEffect } from 'react';
 
@@ -102,9 +103,12 @@ function getUrlParameter() {
   const items_select = document.getElementById('items-select') as HTMLInputElement;
   const items_text = items_select.innerHTML;
 
+  const tagweight_select = document.getElementById('search-input-tagweight') as HTMLInputElement;
+  const tagweight_text = tagweight_select.value;
+
   console.log(value);
 
-  const filtersURL = '&season=' + season_text + '&format=' + format_text + '&status=' + airing_status_text + '&sort=' + sorted_text + '&nsfw=' + nsfw_text + '&tags=' + value + '&items_select=' + items_text + '&page=' + currentPage;
+  const filtersURL = '&season=' + season_text + '&format=' + format_text + '&status=' + airing_status_text + '&sort=' + sorted_text + '&nsfw=' + nsfw_text + '&tags=' + value + '&items_select=' + items_text + '&page=' + currentPage + '&minimumTagRank=' + tagweight_text;
   return filtersURL;
 }
 
@@ -436,6 +440,10 @@ function loadItems(result: any, container: string) {
 
 // }
 
+const StyledInputAdornment = styled(InputAdornment)(() => ({
+  height: '100%',
+}));
+
 const InputTextField = styled(TextField)({
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
@@ -572,7 +580,6 @@ const ElementsPerPage: string[] = [
 const fixedOptions: string[] = ["Anime"];
 let value: string[] | undefined, setValue: (arg0: string[]) => void;
 
-
 export default function SearchMenu(props?:{ cached: boolean, query?: string, filters?: string, state?: {value : string[] | undefined} }) {
 
   if(props?.state?.value && props?.state?.value.length > 1){
@@ -614,6 +621,7 @@ export default function SearchMenu(props?:{ cached: boolean, query?: string, fil
   var defSorted = "None";
   var defNsfw = "SFW";
   var defItems = "10";
+  var defTagWeight = "18";
 
   if(props?.filters && props.filters.includes('&season=')){
     defSeason = props.filters.substring(props.filters.indexOf('&season=') + 8, props.filters.indexOf('&format='));
@@ -640,19 +648,55 @@ export default function SearchMenu(props?:{ cached: boolean, query?: string, fil
     defItems = props.filters.substring(props.filters.indexOf('&items_select=') + 14, props.filters.indexOf('&page='));
   }
 
+  if (props?.filters && props.filters.includes('&minimumTagRank=')) {
+    defTagWeight = props.filters.substring(props.filters.indexOf('&minimumTagRank=') + 16, props.filters.length);
+  }
+
+
+
   return (
     <>
       <div className='content-search'>
         <div className='search-results'>
           {/* <input type="text" id="search-input" name="search" placeholder="Search..." onKeyDown={search}></input> */}
             <InputTextField
-              required
               id="search-input"
               label="Search"
               name="email"
               onKeyDown={search}
               InputProps={{
                 style: { color: 'white' },
+              }}
+              InputLabelProps={{
+                style: { color: 'gray' },
+              }}
+            />
+            
+            <InputTextField
+              id="search-input-tagweight"
+              label="Minimum Tag Weight"
+              name="email"
+              defaultValue={defTagWeight}
+              onKeyDown={(event: React.KeyboardEvent<HTMLDivElement>) => {
+                // Get the entered value from the event
+                const input = event.key;
+                if (!/^\d$/.test(input)) {
+                  if(input !== 'Backspace'){
+                  // Prevent the default behavior of the event, effectively blocking any other key from being registered
+                  event.preventDefault();
+                  }
+                }
+              }}
+              InputProps={{
+                style: { color: 'white' },
+                startAdornment: 
+                  <StyledInputAdornment position="start">
+                    <FormLabel style={{ color: 'white' }}>0.</FormLabel>
+                  </StyledInputAdornment>,
+                endAdornment: 
+                <StyledInputAdornment position="start">
+                  <FormLabel style={{ color: 'white' }}>%</FormLabel>
+                </StyledInputAdornment>,
               }}
               InputLabelProps={{
                 style: { color: 'gray' },
