@@ -855,7 +855,7 @@ export default function SearchMenu(props?:{ cached: boolean, query?: string, fil
                 component="div"
                 style={{
                   backgroundColor: '#330000',
-                  color: 'white',
+                  color: 'white', 
                   fontWeight: 'bold',
                   height: '100%',
                   fontSize: 18,

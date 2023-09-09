@@ -28,12 +28,14 @@ export default function mediaPane() {
   }
 
   function sfw(){
-    // const page = document.getElementById('media-page')!;
-    // page.innerHTML = '';
-    // const message = document.createElement('div');
-    // message.className = 'media-content-message';
-    // message.innerHTML = 'This page is not available for your account yet.';
-    // page.appendChild(message);
+    //add the generic player to the page
+    // const searchGrid = document.getElementsByClassName('media-search-grid')[0] as HTMLDivElement;
+    // ReactDOM.render(
+    //   <PlayerGeneric url={"https://9anime.se/"} />,
+    //   searchGrid.appendChild(document.createElement('div'))
+    // );
+    // // State.updateState(<PlayerGeneric url={"https://9anime.se/"} />);
+    // // window.open('https://9anime.se/', '_blank');
     nsfw = false;
   }
 
