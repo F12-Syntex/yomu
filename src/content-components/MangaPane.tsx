@@ -67,6 +67,8 @@ export default function MangaPane({ url }: MangaPaneProps) {
           });
         }
 
+        console.log(url.url);
+
         if(url.url.startsWith('https://mangafire.to/read/')){
           //the user is reading a manga
           const name = url.url.split('/')[4].split('.')[0].replace(/-/g, ' ');
@@ -96,9 +98,19 @@ export default function MangaPane({ url }: MangaPaneProps) {
 
       const titleUpdated = (event: PageTitleUpdatedEvent) => {
         console.log('loadstart: ' + event.title)
-        if(event.title.includes('Chapter')){
-          const chapter = event.title.split('Chapter ')[1].split(' ')[0];
+        if(event.title.includes('Chapter') || event.title.includes('chapter')){
+
+
+          let chapter = "";
+
+          if(event.title.includes('Chapter')){
+            chapter = event.title.split('Chapter ')[1].split(' ')[0];
+          }else if(event.title.includes('chapter')){
+            chapter = event.title.split('chapter ')[1].split(' ')[0];
+          }
+
           console.log(`reading chapter: "${chapter}"`);
+
           if(lastManga === null || lastMangaClicked === null) return;
 
           //update the discord status
