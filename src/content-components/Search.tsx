@@ -44,6 +44,10 @@ function addMetaInfo(details: HTMLElement, titleText: string){
       details.appendChild(hbox);
 }
 
+/**
+ * clears the elements rendered on the search grid.
+ * @returns 
+ */
 function clearGrid(){
   const searchGrid = document.querySelector('.search-grid');
 
