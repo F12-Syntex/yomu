@@ -2,6 +2,7 @@ import AniList from '../content-components/AniList.tsx';
 import Hot1 from '../content-components/Hot1.tsx';
 import MangaPane from '../content-components/MangaPane.tsx';
 import Media from '../content-components/Media.tsx';
+import Media2 from '../content-components/Media2.tsx';
 import Search from '../content-components/Search.tsx';
 import Settings from '../content-components/Settings.tsx';
 import * as State from '../core/State.ts';
@@ -51,7 +52,7 @@ function SideMenu() {
     if(button.classList.contains('active-button')) return;
 
     console.log(button);
-    State.updateState(<Search/>);
+    State.updateState(<Search cached={false}/>);
 
     // const animeId : number = 1535; // Enen no Shouboutai
     // const alt : string = 'Enen no Shouboutai';
@@ -111,7 +112,7 @@ function SideMenu() {
     if(button.classList.contains('active-button')) return;
 
     console.log(button);
-    State.updateState(<Media/>);
+    State.updateState(<Media2/>);
   }
   
   return (
