@@ -21,13 +21,37 @@ import * as State from '../core/State.ts';
 
   parentElement.innerHTML = '';
 
+  let users = new Set();
+
   for(let i = 0; i < keys.length; i++){
     const key = keys[i];
     const profile = profiles[key];
 
+    console.log(profile.userInformation.id, users);
+
+    if(users.has(profile.userInformation.id)){
+      //delete the profile
+      const url = 'http://localhost:3023/removeProfile?profile=' + keys[i];
+
+      await fetch(url)
+      .then(response => {
+        if (response.ok) {
+          console.log('API call success');
+        } else {
+          console.error('API call failed');
+        }
+      })
+      .catch(error => {
+        console.error('An error occurred:', error);
+      });
+      continue;
+    }
+
     if(profile.display === "false"){
       continue;
     }
+
+    users.add(profile.userInformation.id);
 
     const profileElement = document.createElement('div');
     profileElement.classList.add('userchange-profile');

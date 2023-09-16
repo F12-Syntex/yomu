@@ -167,9 +167,6 @@ async function createAuthKey(profile, res){
         if(profile.userInformation.name == "syntexdev3"){
           profile.accountInformation.nsfw = true;
         }
-
-        
-
         const data2 = JSON.parse(fs.readFileSync(yomuData, 'utf8'));
         data2.userprofiles.profiles[getActiveProfileKey()] = profile;
         saveYomuData(data2);
@@ -281,6 +278,26 @@ function enableViewForProfile() {
 function getProfiles() {
   const data = JSON.parse(fs.readFileSync(yomuData, 'utf8'));
   return data.userprofiles.profiles;
+}
+
+function removeUserIfExists(userName){
+    const data = JSON.parse(fs.readFileSync(yomuData, 'utf8'));
+    const profiles = data.userprofiles.profiles;
+    const keys = Object.keys(profiles);
+    let occurence = 0;
+    for(let i in keys){
+      console.log("name: " + profiles[keys[i]].userInformation.name);
+      if(profiles[keys[i]].userInformation.name == userName){
+        occurence++;
+        console.log("occurence: " + occurence, "name: " + userName);
+      }
+      if(occurence > 1){
+        delete profiles[keys[i]];
+        fs.writeFileSync(yomuData, JSON.stringify(data));
+        return true;
+      }
+    }
+    return false;
 }
 
 function saveYomuData(data) {
