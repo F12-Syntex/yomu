@@ -187,6 +187,8 @@ async function playRandom(urls : string[]) {
 
   const result_1: any[] = [];
 
+  const MAX_ENTRIES = 30;
+
   
   for (const url of urls) {
     
@@ -227,10 +229,14 @@ async function playRandom(urls : string[]) {
 
   const newArray: any[] = [];
 
-  while (newArray.length < 10) {
+  let errors = 10;
+
+  while (newArray.length < MAX_ENTRIES && errors > 0) {
     const randomElement = result_1[Math.floor(Math.random() * result_1.length)];
     if (!newArray.includes(randomElement)) {
       newArray.push(randomElement);
+    }else{
+      errors--;
     }
   }
 
@@ -248,7 +254,6 @@ async function getEntriesNsfw(query : string) {
     console.log(mode, template);
 
     if(template === 'random0'){
-      console.log('random0');
       const urls = [
         `https://spankbang.com/s/hmv+hentai/${randomNumber(1, 15)}/?o=all`,
         `https://spankbang.com/s/hmv+hentai/${randomNumber(1, 15)}/?o=all`,
@@ -261,6 +266,49 @@ async function getEntriesNsfw(query : string) {
     }
 
     if(template === 'random1'){
+
+      const urls = [
+        `https://spankbang.com/s/hmv/${randomNumber(1, 5)}/?o=all`,
+        `https://spankbang.com/9867w/playlist/2dpmv/${randomNumber(1, 5)}/?o=all`,
+        `https://spankbang.com/8sz61/playlist/animehmv/${randomNumber(1, 5)}/?o=all`,
+      ]
+      const data = await playRandom(urls);
+      return data;
+    }
+
+    if(template === 'random2'){
+
+      const urls = [
+        `https://spankbang.com/9an0u/playlist/hmv/${randomNumber(1, 5)}/?o=all`,
+        `https://spankbang.com/6ip5y/playlist/hmv${randomNumber(1, 5)}/?o=all`,
+        `https://spankbang.com/87gbf/playlist/hmv`
+      ]
+      const data = await playRandom(urls);
+      return data;
+    }
+
+    if(template === 'watchlater'){
+
+      const urls = [
+        `https://spankbang.com/598ih/playlist/watch+later`,
+        `https://spankbang.com/7k88d/playlist/watch+later`
+      ]
+      const data = await playRandom(urls);
+      return data;
+    }
+
+    if(template === 'faphero'){
+
+      const urls = [
+        `https://spankbang.com/8pqxa/playlist/fapherorev`,
+        `https://spankbang.com/7aj2m/playlist/fap+hero+3d+and+2d`,
+        `https://spankbang.com/47nog/playlist/faphero`
+      ]
+      const data = await playRandom(urls);
+      return data;
+    }
+
+    if(template === 'rinxsen'){
       const urls = [
         `https://spankbang.com/6g3u9/playlist/rin+x+sem`,
       ]
@@ -346,8 +394,12 @@ function getOptions(){
       "SHOW_RESULTS_ON_NEW_WINDOW",
     ],
     "template": [
+      "none",
       "random0",
-      "random1"
+      "random1",
+      "watchlater",
+      "faphero",
+      "rinxsen",
     ]
   };
   
@@ -440,7 +492,7 @@ export default function SearchMenu() {
             className='search-generic-input'
             id="media2-template"
             select
-            onChange={searchAnime}
+            onBlur={searchAnime}
             label="Template"
             defaultValue={defTemplate}
             InputProps={{
