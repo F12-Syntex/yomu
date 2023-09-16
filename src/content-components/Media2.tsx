@@ -34,8 +34,6 @@ async function verifyAccount(){
   }
 }
 
-async function sfw(){}
-
 /**
  * clears the elements rendered on the search grid.
  * @returns 
@@ -346,7 +344,7 @@ async function getEntriesNsfw(query : string) {
 
 async function getEntries(query : string) {
   //get random anime videos from the query
-  return [];
+  return [query];
 }
 
 const InputTextField = styled(TextField)({

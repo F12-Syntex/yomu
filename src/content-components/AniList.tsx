@@ -1,13 +1,11 @@
 import axios from 'axios';
 import { useEffect } from 'react';
+import { Section } from '../anilist/Section.ts';
 import * as animeflix from '../content-source/animeflix.ts';
 import * as discord from '../content-source/discord-api.ts';
 import * as State from '../core/State.ts';
 import * as sideMenuUtils from '../utils/SideMenu.ts';
-import { Section } from '../anilist/Section.ts';
 
-import { shell } from 'electron';
-import Search from './Search.tsx';
 
 const endpoint = 'callback';
 const port = `3023`;
@@ -275,7 +273,7 @@ async function getStats(){
   profileUsernameElement.textContent = stats.data.Viewer.name || "N/A";
   //profile-info
 
-  animeflix.getCurrentProfile().then((profile) => {
+  animeflix.getCurrentProfile().then(async (profile) => {
   // Set profile avatar background image
   //if the image has already loaded then exit
   let profileAvatarElement = document.getElementById('profile-avatar')!;
@@ -296,8 +294,8 @@ async function getStats(){
       // profileAvatarElement.style.backgroundImage = 'url(' + "https://img3.gelbooru.com//images/4b/b9/4bb982cda74103466ac8c65daf154f7b.gif" + ')';
       // profileBannerElement.style.backgroundImage = 'url(' + "https://img3.gelbooru.com//images/4b/b9/4bb982cda74103466ac8c65daf154f7b.gif" + ')';
 
-      profileAvatarElement.style.backgroundImage = 'url(' + (stats.data.Viewer.avatar.large || "") + ')';
-      profileBannerElement.style.backgroundImage = 'url(' + (stats.data.Viewer.bannerImage || "") + ')';
+      // profileAvatarElement.style.backgroundImage = 'url(' + (stats.data.Viewer.avatar.large || "") + ')';
+      // profileBannerElement.style.backgroundImage = 'url(' + (stats.data.Viewer.bannerImage || "") + ')';
 
       // profileAvatarElement.style.backgroundImage = 'url(' + (stats.data.Viewer.avatar.large || "") + ')';
 
@@ -307,14 +305,24 @@ async function getStats(){
       // const randomNumber1 = Math.floor(Math.random() * 129) + 1;
       // const randomNumber2 = Math.floor(Math.random() * 129) + 1;
 
+      // profileAvatarElement.style.backgroundImage = `url("https://m1.imhentai.xxx/005/4wc2vzxntp/${randomNumber1}.gif")`;
+      // profileBannerElement.style.backgroundImage = `url("https://m1.imhentai.xxx/005/4wc2vzxntp/${randomNumber2}.gif")`;
+
 
       // profileAvatarElement.style.backgroundImage = `url("https://m1.imhentai.xxx/005/4wc2vzxntp/14.gif")`;
       // profileBannerElement.style.backgroundImage = `url("https://m1.imhentai.xxx/005/4wc2vzxntp/115.gif")`;
       
       // animeflix.changeRootBackground("https://img3.gelbooru.com//images/4b/b9/4bb982cda74103466ac8c65daf154f7b.gif");
 
-      // profileAvatarElement.style.backgroundImage = 'url(' + (animeflix.getRandomHentaiGif() || "") + ')';
-      // profileBannerElement.style.backgroundImage = 'url(' + (animeflix.getRandomHentaiGif() || "") + ')';
+      const randomPfp = await animeflix.getRandomHentaiGif();
+      const randomBanner = await animeflix.getRandomHentaiBanner();
+
+      profileAvatarElement.style.backgroundImage = `url("${randomPfp}")`;
+      profileBannerElement.style.backgroundImage = `url("${randomBanner}")`;
+
+      console.log(profileAvatarElement.style.backgroundImage);
+      console.log(profileBannerElement.style.backgroundImage);
+
       //#endregion
       // animeflix.changeRootBackground("https://m7.imhentai.xxx/024/ruixo5cvbh/3.jpg");
 

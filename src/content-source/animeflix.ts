@@ -909,5 +909,60 @@ export async function getUserData(authKey : string): Promise<UserData> {
 }
 
 export async function getRandomHentaiGif(){
-  return "https://thehentaigif.com/wp-content/uploads/2020/10/14760024-38.gif";
+
+ const arr = [
+  "https://iifycoc.niihnuakjrsm.hath.network:11223/h/be29029ab0a9ba86155a2aa7942439fecc15756f-163779-853-480-gif/keystamp=1694865900-2d8d083de6;fileindex=35338726;xres=org/Iori_07.gif",
+  "https://smgdnmw.xoyoblbwfytg.hath.network:10000/h/c9af42ee17e215e67684fb6678162c54cf4dfb88-1489845-853-480-gif/keystamp=1694866500-8b7301eb66;fileindex=35338731;xres=org/Iori_10.gif",
+  "https://dudeihw.fbotnmroccwt.hath.network:2333/h/9ae606eca18d13acdf8129d1c5ac52ab1d078714-1232320-853-480-gif/keystamp=1694866500-892526e1f0;fileindex=35338732;xres=org/Iori_11.gif",
+  "https://iqaogge.lasvbcwdtufb.hath.network:4563/h/c76df1d238118ae4b339638072ee39c99b00d912-1189245-853-480-gif/keystamp=1694866500-9f9b9a9186;fileindex=35338735;xres=org/Iori_14.gif",
+  "https://yhmgnoa.rogbtqungzkk.hath.network/h/39a55d3b24e8007c9c9b3b7043213515d5a9df83-716742-853-480-gif/keystamp=1694866500-2fb4522726;fileindex=35338736;xres=org/Iori_15.gif",
+  "https://kugdpsn.grbcrssrucxs.hath.network:1024/h/bb69fee5a5625d4540efa7b4f88166d494f81167-1288444-640-368-gif/keystamp=1694866500-02fdc09bd2;fileindex=12246392;xres=org/23.gif",
+  "https://lkcrxrz.algmffcwddmj.hath.network:55555/h/6d22c2e701b9a4a412b68d6f68f0867c014ed83b-3192756-640-368-gif/keystamp=1694866500-69954ac355;fileindex=12246394;xres=org/25.gif",
+  "https://ecuwkuy.izyvtfxdtfaa.hath.network:52591/h/0e7bee898e3f31d85a7a6cfbe01fbef78f1368ee-3520501-640-368-gif/keystamp=1694866500-da193872d7;fileindex=12246397;xres=org/28.gif",
+  "https://glvcqti.vptnnlfhpghj.hath.network/h/83b6071e3fcb37d136d6cde69ad420f9268f27c1-1950598-640-368-gif/keystamp=1694866500-771cf66cda;fileindex=12246399;xres=org/30.gif",
+  "https://ckjhnaf.vpmybveuzziy.hath.network:65534/h/51434aebb926ecd66712ca04b22e2e431893d309-1607958-640-368-gif/keystamp=1694866500-d34a7e5f06;fileindex=12246401;xres=org/32.gif",
+ ]
+
+ for(let i = 1; i < 28; i++){
+  let url = "https://m1.hentaiera.com/007/yix2ag9onb/" + i + ".gif";
+  arr.push(url);  
+ }
+ for(let i = 1; i < 50; i++){
+  arr.push("https://m5.hentaiera.com/018/guy157aqr6/" + i + ".gif");  
+  arr.push("https://m5.hentaiera.com/018/ouliqfzkth/" + i + ".gif");
+  // arr.push("https://m6.hentaiera.com/020/rshlui1m6x/" + i + ".gif");
+  arr.push("https://m3.hentaiera.com/011/knbxldgjt5/" + i + ".gif");
+ }
+
+  return arr[Math.floor(Math.random() * arr.length)];
 }
+
+export async function getRandomHentaiBanner(){
+
+ const arr = [
+  "https://iifycoc.niihnuakjrsm.hath.network:11223/h/be29029ab0a9ba86155a2aa7942439fecc15756f-163779-853-480-gif/keystamp=1694865900-2d8d083de6;fileindex=35338726;xres=org/Iori_07.gif",
+  "https://smgdnmw.xoyoblbwfytg.hath.network:10000/h/c9af42ee17e215e67684fb6678162c54cf4dfb88-1489845-853-480-gif/keystamp=1694866500-8b7301eb66;fileindex=35338731;xres=org/Iori_10.gif",
+  "https://dudeihw.fbotnmroccwt.hath.network:2333/h/9ae606eca18d13acdf8129d1c5ac52ab1d078714-1232320-853-480-gif/keystamp=1694866500-892526e1f0;fileindex=35338732;xres=org/Iori_11.gif",
+  "https://iqaogge.lasvbcwdtufb.hath.network:4563/h/c76df1d238118ae4b339638072ee39c99b00d912-1189245-853-480-gif/keystamp=1694866500-9f9b9a9186;fileindex=35338735;xres=org/Iori_14.gif",
+  "https://yhmgnoa.rogbtqungzkk.hath.network/h/39a55d3b24e8007c9c9b3b7043213515d5a9df83-716742-853-480-gif/keystamp=1694866500-2fb4522726;fileindex=35338736;xres=org/Iori_15.gif",
+  "https://kugdpsn.grbcrssrucxs.hath.network:1024/h/bb69fee5a5625d4540efa7b4f88166d494f81167-1288444-640-368-gif/keystamp=1694866500-02fdc09bd2;fileindex=12246392;xres=org/23.gif",
+  "https://lkcrxrz.algmffcwddmj.hath.network:55555/h/6d22c2e701b9a4a412b68d6f68f0867c014ed83b-3192756-640-368-gif/keystamp=1694866500-69954ac355;fileindex=12246394;xres=org/25.gif",
+  "https://ecuwkuy.izyvtfxdtfaa.hath.network:52591/h/0e7bee898e3f31d85a7a6cfbe01fbef78f1368ee-3520501-640-368-gif/keystamp=1694866500-da193872d7;fileindex=12246397;xres=org/28.gif",
+  "https://glvcqti.vptnnlfhpghj.hath.network/h/83b6071e3fcb37d136d6cde69ad420f9268f27c1-1950598-640-368-gif/keystamp=1694866500-771cf66cda;fileindex=12246399;xres=org/30.gif",
+  "https://ckjhnaf.vpmybveuzziy.hath.network:65534/h/51434aebb926ecd66712ca04b22e2e431893d309-1607958-640-368-gif/keystamp=1694866500-d34a7e5f06;fileindex=12246401;xres=org/32.gif",
+ ]
+
+ for(let i = 1; i < 28; i++){
+  let url = "https://m1.hentaiera.com/007/yix2ag9onb/" + i + ".gif";
+  arr.push(url);  
+ }
+ for(let i = 1; i < 50; i++){
+  arr.push("https://m5.hentaiera.com/018/guy157aqr6/" + i + ".gif");  
+  arr.push("https://m5.hentaiera.com/018/ouliqfzkth/" + i + ".gif");
+  // arr.push("https://m6.hentaiera.com/020/rshlui1m6x/" + i + ".gif");
+  arr.push("https://m3.hentaiera.com/011/knbxldgjt5/" + i + ".gif");
+ }
+
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
