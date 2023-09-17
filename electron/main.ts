@@ -40,6 +40,7 @@ const child_process2 = spawn('node', [path.join('src', 'backend', 'discord.js')]
 startChildProcess(child_process1);
 startChildProcess(child_process2);
 
+
 function startChildProcess(childProcess: ChildProcessWithoutNullStreams) {
   // Listen for output from the child process
   childProcess.stdout.on('data', (data: any) => {

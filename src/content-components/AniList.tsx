@@ -5,6 +5,7 @@ import * as animeflix from '../content-source/animeflix.ts';
 import * as discord from '../content-source/discord-api.ts';
 import * as State from '../core/State.ts';
 import * as sideMenuUtils from '../utils/SideMenu.ts';
+import * as Actions from '../core/Actions.ts';
 
 
 const endpoint = 'callback';
@@ -279,8 +280,45 @@ async function getStats(){
   let profileAvatarElement = document.getElementById('profile-avatar')!;
 
   console.log(profileAvatarElement.style.backgroundImage);
+
   if(profileAvatarElement.style.backgroundImage === "" || profileAvatarElement.style.backgroundImage === "url()" || profileAvatarElement.style.backgroundImage === "url('')" || profileAvatarElement.style.backgroundImage === undefined || profileAvatarElement.style.backgroundImage === null){
     if(profile.accountInformation.nsfw === true){
+
+      profileAvatarElement.addEventListener('mousedown', async function() {
+        const randomPfp = await animeflix.getRandomHentaiGif();
+        const randomBanner = await animeflix.getRandomHentaiBanner();
+  
+        profileAvatarElement.style.backgroundImage = `url("${randomPfp}")`;
+        profileBannerElement.style.backgroundImage = `url("${randomBanner}")`;
+
+        const root = document.querySelector(':root');
+
+        if(root == null){
+          console.log("root is null");
+          return;
+        }
+        
+        const pseudoElement = document.createElement('div');
+        pseudoElement.style.content = '""';
+        pseudoElement.style.position = 'absolute';
+        pseudoElement.style.top = '0';
+        pseudoElement.style.left = '0';
+        pseudoElement.style.width = '100%';
+        pseudoElement.style.height = '100%';
+        pseudoElement.style.zIndex = '-1';
+        pseudoElement.style.filter = 'blur(0px) brightness(5%)';
+        pseudoElement.style.backgroundImage = `url("${randomPfp}")`;
+        pseudoElement.style.backgroundSize = 'cover';
+        pseudoElement.style.backgroundPosition = 'center';
+        pseudoElement.style.backgroundRepeat = 'no-repeat';
+        pseudoElement.style.imageRendering = '-webkit-optimize-contrast';
+        root.appendChild(pseudoElement)
+
+      });
+    
+      profileAvatarElement.style.cursor = 'pointer';
+
+
       //alert("NSFW");
       // profileAvatarElement.style.backgroundImage = 'url(' + "https://thehentaigif.com/wp-content/uploads/2020/10/23435761-73.gif" + ')';
       // profileAvatarElement.style.backgroundImage = 'url(' + "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSD47GnkRAr06SRQE5kTXhquSQLb5rWfr9bQn-kAEHgaG-6m8ebOu449eZei3ifydEAO8s&usqp=CAU" + ')';
