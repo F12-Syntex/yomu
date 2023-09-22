@@ -5,6 +5,7 @@ import * as sideMenu from '../utils/SideMenu.ts';
 import { DidNavigateEvent, PageTitleUpdatedEvent } from 'electron';
 import * as aniflix from '../content-source/animeflix.ts';
 import * as actions from '../core/Actions.ts';
+import * as SearchUtils from '../utils/SearchUtils.ts';
 
 let lastMangaClicked: aniflix.AnilistMedia | null;
 let lastManga: aniflix.Manga | null;
@@ -60,7 +61,10 @@ export default function MangaPane({ url }: MangaPaneProps) {
 
           //get information about the manga
           aniflix.searchManga(name).then((mangas: aniflix.AnilistMedia[]) => {
-            lastMangaClicked = mangas[0];
+            lastMangaClicked = SearchUtils.findMostProbableManga(name, mangas) ?? mangas[0];
+            console.log(">>> " + name + " " + lastMangaClicked.title.english);
+
+            
 
             //update the discord status
             discord.BrowsingManga(lastMangaClicked);
@@ -77,7 +81,8 @@ export default function MangaPane({ url }: MangaPaneProps) {
           if(lastMangaClicked === undefined || lastMangaClicked === null){ 
             //get information about the manga
             const mangas = await aniflix.searchManga(name);
-            lastMangaClicked = mangas[0];
+            lastMangaClicked = SearchUtils.findMostProbableManga(name, mangas) ?? mangas[0];
+            console.log(">>> " + lastMangaClicked.title.english);
           }
 
           if(lastManga === undefined || lastManga === null){
