@@ -24,6 +24,10 @@ import MangaDetails from './MangaDetails.tsx';
 import '../stylings/content/anilist.css';
 import Player from './Player.tsx';
 
+/**
+ * new hot section
+ * @returns 
+ */
 async function generateSections(){
 
   const sections : Section[] = [
