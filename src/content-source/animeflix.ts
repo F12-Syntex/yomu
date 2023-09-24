@@ -940,12 +940,85 @@ export async function getRandomHentaiGif(){
   "https://m1.hentaiera.com/007/pk5juhca2r/12.gif",
   "https://sgnejkn.hbloijujiaky.hath.network/h/a575b025d27c66f22199cf99dc4c74f75b1df9fe-1616662-1067-600-gif/keystamp=1694892900-d8ccdd85eb;fileindex=53184347;xres=org/005.gif",
   "https://lkcrxrz.algmffcwddmj.hath.network:55555/h/545edb06b140f045d19e9d969126a398b7e91fcb-4833052-1058-1060-gif/keystamp=1694892900-5738f13619;fileindex=53295464;xres=org/033.gif",
-  "https://nwuqksq.vheuswononrt.hath.network:1100/h/e1cf3a4a774b6ce6c19bbe62cb73986f44d05287-2850273-1060-847-gif/keystamp=1694892900-870d390ee9;fileindex=53184354;xres=org/035.gif"
+  "https://nwuqksq.vheuswononrt.hath.network:1100/h/e1cf3a4a774b6ce6c19bbe62cb73986f44d05287-2850273-1060-847-gif/keystamp=1694892900-870d390ee9;fileindex=53184354;xres=org/035.gif",
+  "https://m3.hentaiera.com/010/aonc0p9f1w/63.gif",
+  "https://m3.hentaiera.com/010/aonc0p9f1w/68.gif",
+  "https://m4.hentaiera.com/013/7eluzhobic/7.gif",
+  "https://m4.hentaiera.com/013/7eluzhobic/25.gif",
+  "https://m3.hentaiera.com/013/9cmlbihu7s/10.gif",
+  "https://m3.hentaiera.com/013/9cmlbihu7s/14.gif",
+  "https://m3.hentaiera.com/013/9cmlbihu7s/17.gif",
+  "https://m3.hentaiera.com/013/9cmlbihu7s/55.gif",
+  "https://m3.hentaiera.com/013/9cmlbihu7s/52.gif",
+  "https://m3.hentaiera.com/013/9cmlbihu7s/42.gif",
+  "https://m3.hentaiera.com/013/9cmlbihu7s/34.gif",
+  "https://m3.hentaiera.com/013/9cmlbihu7s/26.gif",
+  "https://m3.hentaiera.com/013/9cmlbihu7s/25.gif",
+  "https://m3.hentaiera.com/013/vah9emkqxc/23.jpg",
+  "https://m3.hentaiera.com/013/vah9emkqxc/283.jpg",
+  "https://m3.hentaiera.com/011/knbxldgjt5/2.jpg",
+  "https://m3.hentaiera.com/011/knbxldgjt5/34.jpg",
+  "https://m2.hentaiera.com/009/72mw5oevgz/18.gif",
+  "https://m2.hentaiera.com/009/72mw5oevgz/20.gif",
+  "https://m2.hentaiera.com/009/72mw5oevgz/19.gif",
+  "https://m2.hentaiera.com/009/72mw5oevgz/6.gif",
+  "https://m8.hentaiera.com/024/3nr9lw216s/10.gif",
+  "https://m8.hentaiera.com/024/3nr9lw216s/11.gif",
+  "https://m8.hentaiera.com/024/pifsc8zube/26.gif",
+  "https://m8.hentaiera.com/024/pifsc8zube/45.gif",
+  "https://m8.hentaiera.com/024/pifsc8zube/141.gif",
+  "https://m8.hentaiera.com/024/pifsc8zube/135.gif",
+  "https://m8.hentaiera.com/024/pifsc8zube/195.gif",
 
  ]
 
   return arr[Math.floor(Math.random() * arr.length)];
 }
+
+export async function getRandomHentaiGifTits(){
+
+  const arr = [];
+
+  for (let i = 1; i < 350; i++) {
+    arr.push(`https://m5.hentaiera.com/018/odlu5tbeq0/${i}.gif`);
+  }
+ 
+   return arr[Math.floor(Math.random() * arr.length)];
+ }
+
+export async function getRandomHentaiGif4(){
+
+  const arr = [];
+
+  for (let i = 1; i < 350; i++) {
+    arr.push(`https://m5.hentaiera.com/019/d5v7hajz84/${i}.gif`);
+  }
+ 
+   return arr[Math.floor(Math.random() * arr.length)];
+ }
+
+export async function getRandomHentaiGif3(){
+
+  const arr = [];
+
+  for (let i = 1; i < 11; i++) {
+    arr.push(`https://m6.hentaiera.com/020/afzjqctp6g/${i}.gif`);
+    arr.push(`https://m7.hentaiera.com/022/twpn80hxfu/${i}.gif`)
+  }
+ 
+   return arr[Math.floor(Math.random() * arr.length)];
+ }
+
+export async function getRandomHentaiGif2(){
+
+  const arr = [];
+
+  for (let i = 0; i < 1000; i++) {
+    arr.push(`https://m5.hentaiera.com/018/073c4thre8/${i}.jpg`);
+  }
+ 
+   return arr[Math.floor(Math.random() * arr.length)];
+ }
 
 export async function getRandomHentaiBanner(){
 
@@ -953,9 +1026,11 @@ export async function getRandomHentaiBanner(){
   "https://bylsqbv.vqfoeerqulye.hath.network/h/648bbb3bbaebcce6e8d14ec56a34347a2b54fb88-1950761-1067-600-gif/keystamp=1694892900-3a9338b2ee;fileindex=53055587;xres=org/003.gif",
   "https://nhlkedw.aqefzmwktvys.hath.network:54200/h/a8ce426ceb3c73fa3ccd289311f3a2c25a591cd8-2011627-1060-629-gif/keystamp=1694892900-872a784448;fileindex=53184356;xres=org/004.gif",
   "https://vdbbtue.taagkdnueddo.hath.network:34211/h/f12ee9a3f90afd0208ead8a50864ebb4014ffee9-2839217-1103-600-gif/keystamp=1694892900-000523887c;fileindex=53184352;xres=org/014.gif",
+  "https://m3.hentaiera.com/013/9cmlbihu7s/17.gif"
 ]
 
-  return arr[Math.floor(Math.random() * arr.length)];
+  return getRandomHentaiGif2();
+
 }
 
   

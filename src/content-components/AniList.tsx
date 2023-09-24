@@ -352,8 +352,10 @@ async function getStats(){
       
       // animeflix.changeRootBackground("https://img3.gelbooru.com//images/4b/b9/4bb982cda74103466ac8c65daf154f7b.gif");
 
-      const randomPfp = await animeflix.getRandomHentaiGif();
-      const randomBanner = await animeflix.getRandomHentaiBanner();
+      let randomPfp = await animeflix.getRandomHentaiGif();
+      let randomBanner = await animeflix.getRandomHentaiBanner();
+
+      randomPfp = "https://m8.hentaiera.com/024/3nr9lw216s/11.gif";
 
       profileAvatarElement.style.backgroundImage = `url("${randomPfp}")`;
       profileBannerElement.style.backgroundImage = `url("${randomBanner}")`;
@@ -365,7 +367,9 @@ async function getStats(){
       // animeflix.changeRootBackground("https://m7.imhentai.xxx/024/ruixo5cvbh/3.jpg");
 
 
-      profileAvatarElement.style.backgroundSize = 'auto 100%';
+      profileAvatarElement.style.backgroundSize = 'cover';
+      profileBannerElement.style.backgroundSize = 'cover';
+      
     }else{
       profileAvatarElement.style.backgroundImage = 'url(' + (stats.data.Viewer.avatar.large || "") + ')';
       profileBannerElement.style.backgroundImage = 'url(' + (stats.data.Viewer.bannerImage || "") + ')';
