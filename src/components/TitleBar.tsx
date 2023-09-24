@@ -90,7 +90,7 @@ export async function handleChange() {
     });
 
     async function updateCss(element: HTMLElement){
-      const randomPfp = await aniflix.getRandomHentaiGif4();
+      const randomPfp = await aniflix.getRandomHentaiGif5();
 
       if(element.classList.contains('yomu-background')){
 
@@ -112,35 +112,36 @@ export async function handleChange() {
         pseudoElement.style.imageRendering = '-webkit-optimize-contrast';
         pseudoElement.classList.add('yomu-background');
 
-        //remove the prev child with the class yomu-background
-        const prevChild = element.querySelector('.yomu-background');
-        if(prevChild !== null){
-          element.removeChild(prevChild);
-        }
+        //remove all childrem with the class yomu-background
+        const children = element.querySelectorAll('.yomu-background');
+        children.forEach(child => {
+          element.removeChild(child);
+        });
 
         element.appendChild(pseudoElement)
 
-        // //render a ract component to yomu-background
+        //render a ract component to yomu-background
         // ReactDOM.render(
         //   <PlayerGeneric url={`https://spankbang.com/8sqnl/embed/`} />,
         //   element.appendChild(document.createElement('div'))
         // );
 
 
-        //https://hentaiprn.xyz/videos/HMV/Netokano%20-%20HMV.mp4
-        //https://hentaiprn.xyz/videos/HMV/I%20Love%20Milfs%20Remaster.m4v
-        // const iframeElement = document.createElement('iframe');
-        // iframeElement.setAttribute('src', 'https://hentaiprn.xyz/videos/HMV/I%20Love%20Milfs%20Remaster.m4v');
-        // iframeElement.setAttribute('autoplay', ''); // Add autoplay attribute
-        // iframeElement.style.position = 'absolute';
-        // iframeElement.style.top = '-10px';
-        // iframeElement.style.left = '-10px';
-        // iframeElement.style.width = '100%';
-        // iframeElement.style.height = '100%';
-        // iframeElement.style.zIndex = '-1';
-        // iframeElement.style.border = 'none';
-        // iframeElement.style.filter = 'blur(0px) brightness(20%)';
-        // element.appendChild(iframeElement);
+        // https://hentaiprn.xyz/videos/HMV/Netokano%20-%20HMV.mp4
+        // https://hentaiprn.xyz/videos/HMV/I%20Love%20Milfs%20Remaster.m4v
+        const iframeElement = document.createElement('iframe');
+        iframeElement.setAttribute('src', 'https://hentaiprn.xyz/videos/HMV/I%20Love%20Milfs%20Remaster.m4v');
+        iframeElement.setAttribute('autoplay', ''); // Add autoplay attribute
+        iframeElement.style.position = 'absolute';
+        iframeElement.style.top = '-10px';
+        iframeElement.style.left = '-10px';
+        iframeElement.style.width = '100%';
+        iframeElement.style.height = '100%';
+        iframeElement.style.zIndex = '-1';
+        iframeElement.style.border = 'none';
+        iframeElement.style.filter = 'blur(0px) brightness(20%)';
+        iframeElement.classList.add('yomu-background');
+        element.appendChild(iframeElement);
 
 
       }else{

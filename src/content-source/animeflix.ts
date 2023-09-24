@@ -986,6 +986,28 @@ export async function getRandomHentaiGifTits(){
    return arr[Math.floor(Math.random() * arr.length)];
  }
 
+ export async function getRandomHentaiPanels(){
+
+  const arr = [];
+
+  for (let i = 1; i < 600; i++) {
+    arr.push(`https://m8.hentaiera.com/024/k70cejxyhm/${i}.jpg`);
+  }
+ 
+   return arr[Math.floor(Math.random() * arr.length)];
+ }
+
+ export async function getRandomHentaiGif5(){
+
+  const arr = [];
+
+  for (let i = 1; i < 155; i++) {
+    arr.push(`https://m8.hentaiera.com/024/m6sztojfcr/${i}.gif`);
+  }
+ 
+   return arr[Math.floor(Math.random() * arr.length)];
+ }
+
 export async function getRandomHentaiGif4(){
 
   const arr = [];
