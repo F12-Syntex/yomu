@@ -136,7 +136,7 @@ async function loadUserData() {
 
   if(!loaded){
     shell.openExternal(authoriseUrl);
-    State.updateState(<Search/>);
+    State.updateState(<Search cached={false}/>);
     return;
   }
 

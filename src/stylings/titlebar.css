@@ -105,6 +105,12 @@ button:active {
   transition: all 0.2s ease-in-out; /* Add a transition for smooth animation */
 }
 
+#change {
+  background-image: url("../assets/titlebar/code-inactive.svg");
+  width: 30px;
+  transition: all 0.2s ease-in-out; /* Add a transition for smooth animation */
+}
+
 #back:hover{
   background-color: rgba(255, 255, 255, 0);
   background-image: url("../assets/titlebar/arrow-left-active.svg");
@@ -117,6 +123,15 @@ button:active {
 #front:hover {
   background-color: rgba(255, 255, 255, 0);
   background-image: url("../assets/titlebar/arrow-right-active.svg");
+  cursor: pointer;
+  background-size: 20px auto;
+  transform: scale(1.1);
+  transition: all 0.2s ease-in-out; /* Add a transition for smooth animation */
+}
+
+#change:hover {
+  background-color: rgba(255, 255, 255, 0);
+  background-image: url("../assets/titlebar/code-active.svg");
   cursor: pointer;
   background-size: 20px auto;
   transform: scale(1.1);

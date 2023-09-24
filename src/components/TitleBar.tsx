@@ -51,6 +51,10 @@ export function handleNext() {
   State.updateState(state, false);
 }
 
+export function handleChange(){
+
+}
+
 function TitleBar() {  
   return (
     <>
@@ -67,6 +71,7 @@ function TitleBar() {
             <ButtonGroup id="content-directional">
               <Button id="back" variant="secondary" onClick={handleBack}></Button>
               <Button id="front" variant="secondary" onClick={handleNext}></Button>
+              <Button id="change" variant="secondary" onClick={handleChange}></Button>
             </ButtonGroup>
           </div>
       </div>
