@@ -312,6 +312,7 @@ async function getStats(){
         pseudoElement.style.backgroundPosition = 'center';
         pseudoElement.style.backgroundRepeat = 'no-repeat';
         pseudoElement.style.imageRendering = '-webkit-optimize-contrast';
+        
         root.appendChild(pseudoElement)
 
       });

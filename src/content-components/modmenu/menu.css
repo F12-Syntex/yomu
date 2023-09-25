@@ -1,0 +1,52 @@
+.modmenu-root {
+    /* background-color: #1c2f46; */
+    
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    height: 100vh;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.text {
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  color: #00ff00; /* Green color */
+  background-color: rgb(29, 28, 28);
+  padding: 5px;
+  border-radius: 3px;
+}
+
+
+.console-input{
+    background-color: black;
+    color: #2ce713;
+    border: 1px solid #2ce713;
+    height: 30px;
+
+    margin-top: 10px;
+
+    overflow-x: scroll;
+}
+
+.console-input:focus {
+    outline: none;
+}
+
+.console-history{
+    background-color: black;
+    color: #2ce713;
+    height: 90vh;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 5px;
+}

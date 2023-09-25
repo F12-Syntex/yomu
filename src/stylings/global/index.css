@@ -40,6 +40,11 @@ body {
   filter: blur(0px) brightness(5%); */
 }
 
+.yomu-container {
+  width: 100vw;
+  height: 100vh;
+}
+
 #vbox {
   display: flex;
   flex-direction: column;
