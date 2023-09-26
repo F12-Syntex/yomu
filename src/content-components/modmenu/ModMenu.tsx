@@ -104,6 +104,8 @@ export default function ModMenu(props: { text: string }) {
         return;
       }
 
+
+
       const urls = [
         "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_Epsil0n-Playing-With-Airi-Part-3.mp4",
         "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_hmvhero69-HMV014-Idiom-Girl-Part-3.mp4",
@@ -149,6 +151,51 @@ export default function ModMenu(props: { text: string }) {
         "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_Goblin-Lord-Rip-Mother.mp4",
       ];
 
+      if(cmd.split(' ')[1] === 'n'){
+
+        //pick 10 random urls
+        const randomUrls : string[] = [];
+
+        for(let i = 0; i < 1; i++){
+          const randomIndex = Math.floor(Math.random() * urls.length);
+          const url = urls[randomIndex];
+          randomUrls.push(url);
+        }
+
+        //for every url, create a new window and play the video
+        for(let i = 0; i < randomUrls.length; i++){
+          const url = randomUrls[i];
+          const win = window.open('_blank');
+          win?.focus();
+
+          // Create a video element
+          const videoElement = document.createElement('video');
+          videoElement.src = url;
+          videoElement.controls = true;
+
+          // Modify the style of the video element
+          videoElement.style.width = '100%';
+          videoElement.style.height = 'auto';
+          videoElement.style.position = 'absolute';
+          videoElement.style.top = '-10px';
+          videoElement.style.left = '-10px';
+          videoElement.style.width = '100%';
+          videoElement.style.height = '100%';
+          videoElement.style.zIndex = '-1';
+          videoElement.style.border = 'none';
+          videoElement.style.filter = `brightness(0%) saturate(200%)`;
+
+          // Append the video element to the document body of the newly opened window
+          win?.document.body.appendChild(videoElement);
+          alert(win?.document.body.innerHTML);
+
+          //show the video
+          videoElement.play();
+        }
+
+        return;
+      }
+
       const playback_speed : number = parseInt(cmd.split(' ')[1] ?? 1);
       const template = cmd.split(' ')[2] ?? 'default';
       const brightness = cmd.split(' ')[3] ?? 20;
@@ -179,7 +226,7 @@ export default function ModMenu(props: { text: string }) {
       }
 
       if (template === 'neon') {
-        videoElement.style.filter = `brightness(${brightness}%) saturate(200%) contrast(150%) drop-shadow(0 0 10px #00ff00)`;
+        videoElement.style.filter = `brightness(${brightness}%) saturate(200%) contrast(150%)`;
       }
 
       if (template === 'neon_light') {
