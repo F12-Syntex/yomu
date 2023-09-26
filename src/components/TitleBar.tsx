@@ -54,7 +54,7 @@ export function handleNext() {
   State.updateState(state, false);
 }
 
-function updateForChild(className : string, appendChildren : boolean = true){
+function updateForChild(className : string, appendChildren : boolean = true, id : string = "1"){
   // Select elements with specific classes
   const elements = document.querySelectorAll(className);
 
@@ -80,7 +80,8 @@ function updateForChild(className : string, appendChildren : boolean = true){
   });
 
   async function updateCss(element: HTMLElement){
-    const randomPfp = await aniflix.getRandomHentaiGif5();
+  
+    const randomPfp = await aniflix.getRandomImage(id);
 
     if(element.classList.contains('yomu-background')){
 
@@ -143,27 +144,27 @@ function updateForChild(className : string, appendChildren : boolean = true){
   }
 }
 
-export async function handleChange() {
+export async function nsfwIcons(id : string) {
 
   //only allow nsfw accounts
 
-  const account = await aniflix.getCurrentProfile();
-  if(!account.accountInformation.nsfw){
-    handleSFW();
-    return;
-  } 
+  // const account = await aniflix.getCurrentProfile();
+  // if(!account.accountInformation.nsfw){
+  //   handleSFW();
+  //   return;
+  // } 
 
-  updateForChild('.yomu-background', false);
-  updateForChild('.sidemenu-button', true);
-  updateForChild('.profile-banner', false);
-  updateForChild('.profile-anime-entry-header', false);
-  updateForChild('.profile-banner-img', false);
+  updateForChild('.yomu-background', false, id);
+  updateForChild('.sidemenu-button', true, id);
+  updateForChild('.profile-banner', false, id);
+  updateForChild('.profile-anime-entry-header', false, id);
+  updateForChild('.profile-banner-img', false, id);
 
 }
 
-function handleSFW() {
-    alert("Unimplemented");
-}
+// function handleSFW() {
+//     alert("Unimplemented");
+// }
 
 function TitleBar() {  
   return (
@@ -182,7 +183,7 @@ function TitleBar() {
           <ButtonGroup id="content-directional">
             <Button id="back" variant="secondary" onClick={handleBack}></Button>
             <Button id="front" variant="secondary" onClick={handleNext}></Button>
-            <Button id="change" variant="secondary" onClick={handleChange}></Button>
+            <Button id="change" variant="secondary"></Button>
             {/* <div className='extra'></div> */}
           </ButtonGroup>
         </div>

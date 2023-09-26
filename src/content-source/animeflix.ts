@@ -975,6 +975,37 @@ export async function getRandomHentaiGif(){
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
+export async function getRandomImage(id : string){
+  switch(id){
+    case "getRandomHentaiGifTits":
+      return getRandomHentaiGifTits();
+    case "getRandomHentaiGif":
+      return getRandomHentaiGif();
+    case "getRandomHentaiGif2":
+      return getRandomHentaiGif2();
+    case "getRandomHentaiGif3":
+      return getRandomHentaiGif3();
+    case "getRandomHentaiGif4":
+      return getRandomHentaiGif4();
+    case "getRandomHentaiGif5":
+      return getRandomHentaiGif5();
+  }
+
+  return getRandomHentaiGifTits();
+}
+
+export function getRandomImageOptions(){
+  return [
+    "getRandomHentaiGifTits",
+    "getRandomHentaiGif",
+    "getRandomHentaiGif2",
+    "getRandomHentaiGif3",
+    "getRandomHentaiGif4",
+    "getRandomHentaiGif4",
+    "getRandomHentaiGif5",
+  ];
+}
+
 export async function getRandomHentaiGifTits(){
 
   const arr = [];

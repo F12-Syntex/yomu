@@ -6,9 +6,12 @@
     align-items: flex-start;
 
     height: 100vh;
+    width: 300px;
 
     overflow-y: scroll;
-    overflow-x: hidden;
+    overflow-x: scroll;
+
+    margin-right: 10px;
 }
 
 .text {
@@ -20,12 +23,23 @@
   border-radius: 3px;
 }
 
+.error-text{
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    color: #c2030c; /* Green color */
+    background-color: rgb(29, 28, 28);
+    padding: 5px;
+    border-radius: 3px;
+}
+
 
 .console-input{
     background-color: black;
     color: #2ce713;
     border: 1px solid #2ce713;
+
     height: 30px;
+    width: 280px;
 
     margin-top: 10px;
 
@@ -39,7 +53,6 @@
 .console-history{
     background-color: black;
     color: #2ce713;
-    height: 90vh;
 
     overflow-y: scroll;
     overflow-x: hidden;
@@ -49,4 +62,39 @@
     align-items: flex-start;
 
     gap: 5px;
+
+    height: 90vh;
+    width: 100%;
 }
+
+
+#glitchEffect {
+  filter: brightness(200%) saturate(300%) contrast(200%) drop-shadow(0 0 10px #00ff00) noise() blur(1px) hue-rotate(10deg) grayscale(50%);
+  animation: glitch 0.5s infinite;
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  25% {
+    transform: translate(-10px, 10px);
+  }
+  50% {
+    transform: translate(10px, -10px);
+  }
+  75% {
+    transform: translate(-10px, 10px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+@keyframes hardcoreEffect {
+  0% { filter: brightness(50%) saturate(300%) contrast(200%); }
+  50% { filter: brightness(60%) saturate(500%) contrast(300%); }
+  100% { filter: brightness(50%) saturate(300%) contrast(200%); }
+}
+
+
