@@ -13,6 +13,9 @@ function Reconnect(){
   alert('Not implemented yet');
 }
 
+/**
+ * Disconnects the user from discord
+ */
 function Disconnect(){
   alert('Not implemented yet');
 }
