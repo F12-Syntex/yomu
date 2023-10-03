@@ -106,7 +106,7 @@ export default function ModMenu(props: { text: string }) {
 
 
 
-      const urls = [
+      let urls = [
         "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_Epsil0n-Playing-With-Airi-Part-3.mp4",
         "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_hmvhero69-HMV014-Idiom-Girl-Part-3.mp4",
         "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IUIO-HMV.8-B-DAY.mp4",
@@ -150,6 +150,10 @@ export default function ModMenu(props: { text: string }) {
         "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_Nanimari-Hentai-Explosion.mp4",
         "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_Goblin-Lord-Rip-Mother.mp4",
       ];
+
+      urls = [
+        "https://hmvmania.com/wp-content/uploads/2021/07/hmv_Neluor_004%20Hentai%20Airi.mp4"
+      ]
 
       if(cmd.split(' ')[1] === 'n'){
 

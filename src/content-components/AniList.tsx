@@ -5,7 +5,6 @@ import * as animeflix from '../content-source/animeflix.ts';
 import * as discord from '../content-source/discord-api.ts';
 import * as State from '../core/State.ts';
 import * as sideMenuUtils from '../utils/SideMenu.ts';
-import * as Actions from '../core/Actions.ts';
 
 
 const endpoint = 'callback';
@@ -24,18 +23,20 @@ import { MangaEntry } from '../content-source/mangakakalot.ts';
 import MangaDetails from './MangaDetails.tsx';
 
 import '../stylings/content/anilist.css';
+import MangaPane from './MangaPane.tsx';
 import Player from './Player.tsx';
 import UserChange from './UserChange.tsx';
 
 async function generateSections(){
 
   const sections : Section[] = [
-    new Section("Currently watching", "watching", "http://localhost:" + port + "/fetchList?status=CURRENT", "TV"),
-    new Section("Rewatching", "rewatching", "http://localhost:" + port + "/fetchList?status=REPEATING", "TV"),
-    new Section("Planning", "planning", "http://localhost:" + port + "/fetchList?status=PLANNING", "TV"),
-    new Section("Completed", "completed", "http://localhost:" + port + "/fetchList?status=COMPLETED", "TV"),
-    new Section("Paused", "paused", "http://localhost:" + port + "/fetchList?status=PAUSED", "TV"),
-    new Section("Dropped", "dropped", "http://localhost:" + port + "/fetchList?status=DROPPED", "TV"),
+    new Section("Currently watching", "watching", "http://localhost:" + port + "/fetchList?status=CURRENT&media=ANIME", "TV"),
+    new Section("Currently reading", "reading", "http://localhost:" + port + "/fetchList?status=CURRENT&media=MANGA", "MANGA"),
+    new Section("Rewatching", "rewatching", "http://localhost:" + port + "/fetchList?status=REPEATING&media=ANIME", "TV"),
+    new Section("Planning", "planning", "http://localhost:" + port + "/fetchList?status=PLANNING&media=ANIME", "TV"),
+    new Section("Completed", "completed", "http://localhost:" + port + "/fetchList?status=COMPLETED&media=ANIME", "TV"),
+    new Section("Paused", "paused", "http://localhost:" + port + "/fetchList?status=PAUSED&media=ANIME", "TV"),
+    new Section("Dropped", "dropped", "http://localhost:" + port + "/fetchList?status=DROPPED&media=ANIME", "TV"),
   ];
 
   const section: Element | null = document.querySelector('.profile-video-pane-currently-watching-container');
@@ -83,10 +84,13 @@ async function generateSections(){
     sectionElement.appendChild(profileCurrentlyWatchingContainerHeaderExpand);
 
     section.appendChild(sectionElement);
-  }
+  } 
 
   for (const entry of sections) {
     const response = await axios.get(entry.getUrl());
+
+    console.log("retrieving response from " + entry.getUrl() + " for " + entry.getId());
+    console.log(response.data);
     const arr: any[] = response.data.data.MediaListCollection.lists[0]?.entries;
 
     const sectionElement = document.getElementById(`profile-section-${entry.getId()}`);
@@ -384,12 +388,28 @@ function loadItems(ids: any[], container: string) {
 
   ids.forEach((data) => {
 
+    // console.log(data.progress + " : " + data.media.format);
+
     const entry = data.media;
 
-
-    //gets the next episode to watch, and if the episode is more than the total episodes, it will set it to the total episodes
-    const episode = data.progress + 1 > entry.episodes ? entry.episodes : data.progress + 1;
-
+    let progress = "";
+    let continueFromString = data.media.format;
+  
+    if(data.media.format === "MANGA"){
+      if(entry.chapters){
+        progress = data.progress + 1 > entry.chapters ? entry.chapters : data.progress + 1;
+      }else{
+        progress = data.progress + 1;
+      }
+      continueFromString = "CONTINUE FROM CHAPTER ";
+    }else{
+      if(entry.episodes){
+        progress = data.progress + 1 > entry.episodes ? entry.episodes : data.progress + 1;
+      }else{
+        progress = data.progress + 1;
+      }
+      continueFromString = "CONTINUE FROM EPISODE ";
+    }
 
     // Create child element with class 'profile-anime-entry'
     const animeEntryElement = document.createElement('div');
@@ -418,7 +438,7 @@ function loadItems(ids: any[], container: string) {
     // Create h1 element with id 'profile-anime-entry-details'
     const detailsElement = document.createElement('h1');
     detailsElement.setAttribute('id', 'profile-anime-entry-details');
-    detailsElement.textContent = 'CONTINUE FROM EPISODE ' + episode;
+    detailsElement.textContent = continueFromString + progress;
 
     // Append child elements to their respective parents
     animeEntryContentElement.appendChild(titleElement);
@@ -452,23 +472,39 @@ function loadItems(ids: any[], container: string) {
       // discord.setWatchingAnime(entry.title.romaji, parseInt(episode), entry.episodes, entry.coverImage.extraLarge);
       // animeflix.updateEpisodeForUser(entry, episode);
 
-      const state = <Player entry={entry} episodeNumber={episode}/>;
-      State.updateState(state);
+      if(data.media.format === "MANGA"){
+        const url = "https://mangafire.to/filter?keyword=" + encodeURIComponent(entry.title.romaji) + "&minchap=" + progress;
+
+        const state = <MangaPane url={url}/>;
+        State.updateState(state);
+      }else{
+        const state = <Player entry={entry} episodeNumber={progress}/>;
+        State.updateState(state);
+      }
+
     });
+
 
     animeEntryElement.addEventListener('click', () => {
 
-      const queryEntry: MangaEntry = {
-        manga: {
-          id:  entry.id,
-          alt: entry.title.romaji,
-          img: entry.coverImage.extraLarge,
-        },
-      };
+      if(data.media.format === "MANGA"){
+        const url = "https://mangafire.to/filter?keyword=" + encodeURIComponent(entry.title.romaji) + "&minchap=" + progress;
+        const state = <MangaPane url={url}/>;
+        State.updateState(state);
+      }else{
+        const queryEntry: MangaEntry = {
+          manga: {
+            id:  entry.id,
+            alt: entry.title.romaji,
+            img: entry.coverImage.extraLarge,
+          },
+        };
+  
+        const state = <MangaDetails entry={queryEntry}/>;
+  
+        State.updateState(state);
+      }
 
-      const state = <MangaDetails entry={queryEntry}/>;
-
-      State.updateState(state);
     });
 
   });

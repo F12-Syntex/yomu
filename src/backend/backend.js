@@ -542,41 +542,84 @@ app.get('/getStatistics', (req, res) => {
 app.get('/fetchList', (req, res) => {
 
   const status = req.query.status;
+  const media = req.query.media;
 
-  const query = `
-  query {
-    MediaListCollection(userId: ${userId}, type: ANIME, status: ${status}) {
-      lists {
-        entries {
-          progress,
-          media {
-            id
-            title {
-              romaji
-              english
-              native
+  console.log("status: " + status);
+  console.log("media: " + media);
+
+  let query = "";
+
+  if(media == "ANIME"){
+    query = `
+    query {
+      MediaListCollection(userId: ${userId}, type: ${media}, status: ${status}) {
+        lists {
+          entries {
+            progress,
+            media {
+              id
+              title {
+                romaji
+                english
+                native
+              }
+              description
+              coverImage {
+                extraLarge
+                color
+              }
+              bannerImage
+              status
+              season
+              episodes
+              duration
+              averageScore
+              genres
+              synonyms
+              format
+              source
             }
-            description
-            coverImage {
-              extraLarge
-              color
-            }
-            bannerImage
-            status
-            season
-            episodes
-            duration
-            averageScore
-            genres
-            synonyms
-            format
-            source
           }
         }
       }
     }
+    `;
+  }else if(media == "MANGA"){
+    query = `
+    query {
+      MediaListCollection(userId: ${userId}, type: ${media}, status: ${status}) {
+        lists {
+          entries {
+            progress,
+            media {
+              id
+              title {
+                romaji
+                english
+                native
+              }
+              description
+              coverImage {
+                extraLarge
+                color
+              }
+              bannerImage
+              status
+              chapters
+              volumes
+              averageScore
+              genres
+              synonyms
+              format
+              source
+            }
+          }
+        }
+      }
+    }
+    `;
   }
-  `;
+  
 
   const response = anilistQuery(query);
   response.then(data => {

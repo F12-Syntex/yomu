@@ -32,7 +32,7 @@ export default function settings() {
 
       {/* switch accounts */}
 
-      <div className='settings-option'>
+      {/* <div className='settings-option'>
         <div className='settings-option-text'>
           <h3>Switch anilist accounts</h3>
           <h3>Discord prescence</h3>
@@ -44,7 +44,7 @@ export default function settings() {
             <button className='settings-button' onClick={Disconnect}>Disconnect</button>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
   
