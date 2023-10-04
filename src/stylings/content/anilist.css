@@ -71,7 +71,7 @@
     cursor: pointer;
 /* 
     background-image: url('https://images4.alphacoders.com/127/1279439.png'); */
-    background-size: auto 100%;
+    background-size: cover;
     background-repeat: no-repeat;
 
     display: flex;
