@@ -4,8 +4,6 @@ import * as aniflix from '../content-source/animeflix.ts';
 import * as actions from '../core/Actions.ts';
 import * as State from '../core/State.ts';
 import '../stylings/titlebar.css';
-import ReactDOM from 'react-dom';
-import PlayerGeneric from '../content-components/PlayerGeneric.tsx';
 
 function handleMinimize() {
   const ipc = require('electron').ipcRenderer;

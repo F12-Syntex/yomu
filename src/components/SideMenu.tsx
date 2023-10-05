@@ -134,6 +134,10 @@ function SideMenu() {
             <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-media-selector'></div>
             <div className='sidemenu-button-img sidemenu-media-img-inactive' id='sidemenu-media-img'></div>
           </div> */}
+          <div className='sidemenu-button' id='sidemenu-settings' onClick={settings}>
+            <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-settings-selector'></div>
+            <div className='sidemenu-button-img sidemenu-settings-img-inactive' id='sidemenu-settings-img'></div>
+          </div>
           <div className='sidemenu-button' id='sidemenu-mangaSearch' onClick={mangaSearch}>
             <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-mangaSearch-selector'></div>
             <div className='sidemenu-button-img sidemenu-mangaSearch-img-inactive' id='sidemenu-mangaSearch-img'></div>

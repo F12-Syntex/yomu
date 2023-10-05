@@ -58,7 +58,6 @@ function setActivity(activity) {
     current_activity = activityObject;
     console.log(current_activity);
 
-
     ipc.setActivity(current_activity);
 }
 
