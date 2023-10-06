@@ -396,12 +396,7 @@ function loadItems(ids: any[], container: string) {
     let continueFromString = data.media.format;
   
     if(data.media.format === "MANGA"){
-      if(entry.chapters){
-        progress = data.progress + 1 > entry.chapters ? entry.chapters : data.progress + 1;
-      }else{
-        progress = data.progress + 1;
-      }
-      continueFromString = "CONTINUE FROM CHAPTER ";
+      continueFromString = "CONTINUE FROM CHAPTER " + data.progress;
     }else{
       if(entry.episodes){
         progress = data.progress + 1 > entry.episodes ? entry.episodes : data.progress + 1;
