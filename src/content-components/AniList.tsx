@@ -423,7 +423,7 @@ function loadItems(ids: any[], container: string) {
     titleElement.setAttribute('id', 'profile-anime-entry-title');
     titleElement.textContent = entry.title.romaji;
 
-    const maxLength : number = 60;
+    const maxLength : number = 50;
 
     if(titleElement.textContent != undefined && titleElement.textContent?.length > maxLength){
       //titleElement.style.fontSize = '1rem';
