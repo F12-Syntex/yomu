@@ -384,6 +384,11 @@ async function getStats(){
 
 }
 
+/**
+ * add items to the container
+ * @param ids 
+ * @param container 
+ */
 function loadItems(ids: any[], container: string) {
 
   ids.forEach((data) => {
