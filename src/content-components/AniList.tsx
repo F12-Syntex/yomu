@@ -473,7 +473,7 @@ function loadItems(ids: any[], container: string) {
       // animeflix.updateEpisodeForUser(entry, episode);
 
       if(data.media.format === "MANGA"){
-        const url = "https://mangafire.to/filter?keyword=" + encodeURIComponent(entry.title.romaji) + "&minchap=" + progress;
+        const url = "https://mangafire.to/filter?keyword=" + encodeURIComponent(entry.title.english) + "&minchap=" + progress;
 
         const state = <MangaPane url={url}/>;
         State.updateState(state);

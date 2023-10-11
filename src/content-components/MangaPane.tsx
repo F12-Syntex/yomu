@@ -17,7 +17,7 @@ interface MangaPaneProps {
 export default function MangaPane({ url }: MangaPaneProps) {
 
   if(url === undefined) {
-    url = 'https://mangafire.to/home';
+    url = 'https://mangafire.to/filter?keyword=&type%5B%5D=manhwa&type%5B%5D=manhua&genre%5B%5D=1&status%5B%5D=completed&language%5B%5D=en&minchap=50&sort=trending';
   }
 
   // const [iframeUrl, setIframeUrl] = useState("");
