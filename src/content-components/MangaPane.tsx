@@ -95,7 +95,7 @@ export default function MangaPane({ url }: MangaPaneProps) {
           //update the discord status
           let chapters = lastManga.chapters;
 
-          discord.setWatchingManga(lastManga.title.romaji, parseFloat(chapter), chapters, lastManga.coverImage.extraLarge);
+          discord.setWatchingManga(lastManga.title.native, parseFloat(chapter), chapters, lastManga.coverImage.extraLarge);
         }
 
 
@@ -120,7 +120,7 @@ export default function MangaPane({ url }: MangaPaneProps) {
 
           //update the discord status
           let chapters = lastManga.chapters;
-          discord.setWatchingMangaCached(lastManga.title.romaji, parseFloat(chapter), chapters, lastManga.coverImage.extraLarge);
+          discord.setWatchingMangaCached(lastManga.title.native, parseFloat(chapter), chapters, lastManga.coverImage.extraLarge);
           aniflix.updateChapterForUser(lastManga, chapter);
         }
       }

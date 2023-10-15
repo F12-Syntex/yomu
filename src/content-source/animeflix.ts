@@ -665,7 +665,7 @@ export async function searchManga(query: string): Promise<AnilistMedia[]> {
       query: `
         query ($search: String) {
           Page (page: 1, perPage: 50) {
-            media (search: $search, type: MANGA, isAdult: ${nsfw}, ) {
+            media (search: $search, type: MANGA, isAdult: ${nsfw}, sort: TITLE_ENGLISH_DESC) {
               id
               title {
                 romaji

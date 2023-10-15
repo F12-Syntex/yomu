@@ -16,7 +16,7 @@ import * as aniflix from "../content-source/animeflix";
         
             const distance = Math.min(romajiDistance, nativeDistance);
         
-            if (distance <= minDistance) {
+            if (distance < minDistance) {
                 minDistance = distance;
                 mostSimilarManga = manga;
                 console.log(JSON.stringify(mostSimilarManga.title) + " : " + distance);
