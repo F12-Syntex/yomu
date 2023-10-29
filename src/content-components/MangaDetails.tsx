@@ -435,7 +435,7 @@ async function getMangaDetails(id: number) {
   return anime;
 }
 
-
+//manga details
 export default function MangaDetails(props: MangaDetailsProps) {
 
   console.log("running manga details");
