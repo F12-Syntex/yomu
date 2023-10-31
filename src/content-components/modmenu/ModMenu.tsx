@@ -282,6 +282,7 @@ export default function ModMenu(props: { text: string }) {
       return;
     }
 
+    //rchange icons
     if(cmd.startsWith('ris')) {
       const account = await aniflix.getCurrentProfile();
       if(!account.accountInformation.nsfw){
