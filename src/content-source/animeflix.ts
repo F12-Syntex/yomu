@@ -908,6 +908,10 @@ export async function getUserData(authKey : string): Promise<UserData> {
   }
 }
 
+export async function getRandomPGif(){
+  
+}
+
 export async function getRandomHentaiGif(){
  let arr : string[] = [
   "https://m4.hentaiera.com/013/4be3aztrfv/11.gif",

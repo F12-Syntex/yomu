@@ -360,8 +360,6 @@ async function getStats(){
       let randomPfp = await animeflix.getRandomHentaiGif();
       let randomBanner = await animeflix.getRandomHentaiBanner();
 
-      randomPfp = "https://m8.hentaiera.com/024/3nr9lw216s/11.gif";
-
       profileAvatarElement.style.backgroundImage = `url("${randomPfp}")`;
       profileBannerElement.style.backgroundImage = `url("${randomBanner}")`;
 

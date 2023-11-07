@@ -152,7 +152,7 @@ export default function ModMenu(props: { text: string }) {
       ];
 
       urls = [
-        "https://hmvmania.com/wp-content/uploads/2021/07/hmv_Neluor_004%20Hentai%20Airi.mp4"
+        "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_crav_on-Fat-Ass-Bitches.mp4"
       ]
 
       if(cmd.split(' ')[1] === 'n'){

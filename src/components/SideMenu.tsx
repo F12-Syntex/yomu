@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import AniList from '../content-components/AniList.tsx';
 import Hot1 from '../content-components/Hot1.tsx';
 import MangaPane from '../content-components/MangaPane.tsx';
@@ -130,10 +131,10 @@ function SideMenu() {
             <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-hot-selector'></div>
             <div className='sidemenu-button-img sidemenu-hot-img-inactive' id='sidemenu-hot-img'></div>
           </div>
-          {/* <div className='sidemenu-button' id='sidemenu-media' onClick={media}>
+          <div className='sidemenu-button' id='sidemenu-media' onClick={media}>
             <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-media-selector'></div>
             <div className='sidemenu-button-img sidemenu-media-img-inactive' id='sidemenu-media-img'></div>
-          </div>  */}
+          </div> 
           <div className='sidemenu-button' id='sidemenu-settings' onClick={settings}>
             <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-settings-selector'></div>
             <div className='sidemenu-button-img sidemenu-settings-img-inactive' id='sidemenu-settings-img'></div>
