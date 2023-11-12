@@ -10,7 +10,7 @@ import { render } from 'react-dom';
 
   ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
-      <div className='yomu-container'>
+      <div className='yomu-container' id="main">
         <div className='yomu-background' id='yomu-bg'>
           <div className="grid">
             <div className='titlebar'>
@@ -21,6 +21,7 @@ import { render } from 'react-dom';
               <SideMenu/>
             </div>
             <div className='content' id='content-source'></div>
+            <div className='bg2' id='bg2'></div>
           </div>
         </div>
       </div>
@@ -29,6 +30,7 @@ import { render } from 'react-dom';
 
   if(console){
     document.addEventListener('keydown', (event) => {
+      console.log(event.key);
       if(event.key === 'Tab') {
 
         event.preventDefault();
@@ -45,8 +47,27 @@ import { render } from 'react-dom';
 
 
         document.querySelector('.content')?.appendChild(newConsoleElement);
+
+        //render at the right side of the screen
         render(<ModMenu text='console'/>, newConsoleElement);
       } 
+      if(event.key === 'Escape') {
+        //makes the background focused, and all other panes are hidden
+      const root = document.getElementById('bg2');
+      if(root !== null) {
+          //make the z-index of the background 1 if it's not 1 else make it -1
+          if(root.style.zIndex === '1') {
+            root.style.zIndex = '-1';
+            root.style.width = '100vw';
+            root.style.height = '100vh';
+          }else{
+            root.style.zIndex = '1';
+            root.style.width = '30vw';
+            root.style.height = '30vw';
+          }
+        } 
+        return;
+      }
     });
   }
 

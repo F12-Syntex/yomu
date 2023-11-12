@@ -40,6 +40,15 @@ body {
   filter: blur(0px) brightness(5%); */
 }
 
+.bg2{
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1; /* Make sure the pseudo-element is behind all other elements */
+}
+
 .yomu-container {
   width: 100vw;
   height: 100vh;

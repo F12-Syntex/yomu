@@ -4,6 +4,8 @@ import { nsfwIcons } from '../../components/TitleBar.tsx';
 
 import * as aniflix from '../../content-source/animeflix.ts';
 import aniList from '../AniList.tsx';
+import PlayerGeneric from '../PlayerGeneric.tsx';
+import ReactDOM from 'react-dom';
 
 export default function ModMenu(props: { text: string }) {
   const [consoleInput, setConsoleInput] = useState('');
@@ -309,6 +311,33 @@ export default function ModMenu(props: { text: string }) {
       return;
     }
 
+    if (cmd.startsWith('navigate')) {
+      const url = cmd.split(' ')[1];
+      //add the playergeneric react element into the background, then play it
+      const root = document.getElementById('bg2');
+    
+      //get the react element as a react component
+      const player = <PlayerGeneric url={url}/>;
+    
+      //add the react element to the background
+      ReactDOM.render(player, root);
+    
+      return;
+    }
+    
+    if (cmd.startsWith('bg')) {
+      const darknessEffect = cmd.split(' ')[1];
+      const root = document.getElementById('bg2');
+    
+      if (root) {
+        root.style.filter = `blur(0px) brightness(${darknessEffect}%)`;
+      }
+    
+      return;
+    }
+    
+    
+
     if(cmd.includes('help')) {
       logWithColour('Commands:', 'white');
       logWithColour('cbg <image url> - changes the background image', 'white', 'cbg https://i.imgur.com/0Jz1M1i.jpg');
@@ -324,6 +353,8 @@ export default function ModMenu(props: { text: string }) {
       logWithColour('ris {id} - appends random nsfw icons', 'orange', 'ris');      
       logWithColour('hmv <speed>- display hmv', 'orange', 'hmv');
       logWithColour('hmv list - display hmv list', 'orange', 'hmv list');
+      logWithColour('navigate <url>', 'orange', 'navigate');
+      logWithColour('bg <opacity>', 'orange', 'navigate');
       return;
     }
 
@@ -387,7 +418,8 @@ export default function ModMenu(props: { text: string }) {
         if(!account.accountInformation.nsfw){
           return;
         } 
-        handleCommand('hmv list');
+        // handleCommand('hmv list');
+        handleCommand('help');
       });
   }, []);
 
