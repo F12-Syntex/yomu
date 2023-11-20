@@ -1,8 +1,6 @@
-import { useEffect } from 'react';
 import AniList from '../content-components/AniList.tsx';
 import Hot1 from '../content-components/Hot1.tsx';
 import MangaPane from '../content-components/MangaPane.tsx';
-import Media from '../content-components/Media.tsx';
 import Media2 from '../content-components/Media2.tsx';
 import Search from '../content-components/Search.tsx';
 import Settings from '../content-components/Settings.tsx';
@@ -115,6 +113,9 @@ function SideMenu() {
     console.log(button);
     State.updateState(<Media2/>);
   }
+
+  function backgroundChanger() : void {
+  }
   
   return (
     <>
@@ -143,10 +144,13 @@ function SideMenu() {
             <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-mangaSearch-selector'></div>
             <div className='sidemenu-button-img sidemenu-mangaSearch-img-inactive' id='sidemenu-mangaSearch-img'></div>
           </div>
+          <div className='sidemenu-button' id='sidemenu-background-change' onClick={mangaSearch}>
+            <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-background-change-selector'></div>
+            <div className='sidemenu-button-img sidemenu-background-change-img-inactive' id='sidemenu-background-change-img'></div>
+          </div>
       </div>  
     </>
   );
 }
-
 
 export default SideMenu;

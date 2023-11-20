@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import './menu.css';
 import { nsfwIcons } from '../../components/TitleBar.tsx';
+import './menu.css';
 
-import * as aniflix from '../../content-source/animeflix.ts';
-import aniList from '../AniList.tsx';
-import PlayerGeneric from '../PlayerGeneric.tsx';
 import ReactDOM from 'react-dom';
+import * as aniflix from '../../content-source/animeflix.ts';
+import PlayerGeneric from '../PlayerGeneric.tsx';
 
 export default function ModMenu(props: { text: string }) {
   const [consoleInput, setConsoleInput] = useState('');
@@ -50,6 +49,53 @@ export default function ModMenu(props: { text: string }) {
 
   function logSuccess(input: string, commandToRun?: string){
     logWithColour(input, 'white', commandToRun);
+  }
+
+  let intervalId : any; // Declare a variable to store the interval ID
+
+  async function changeImage() {
+    const root = document.getElementById('bg2');
+
+    const randomImg = await aniflix.getRandomHentaiGif();
+
+    //add a new image element to the root
+    const img = document.createElement('img');
+    img.src = randomImg;
+    img.style.position = 'absolute';
+    img.style.top = '0px';
+    img.style.left = '0px';
+    img.style.width = 'auto';
+    img.style.height = '100vh';
+    img.style.zIndex = '1';
+    img.style.border = 'none';
+
+    //get all of roots current children ecluding the last child
+    const children = root?.children;
+
+    //append the new image to the root
+
+    root?.appendChild(img);
+
+    if(children !== undefined) {
+      for(let i = 0; i < children.length - 2; i++) {
+        const child = children[i];
+        root?.removeChild(child);
+      }
+    }
+
+  }
+  
+  function startImageChange() {
+
+    //if an interval exist stop it then do nothing
+    if(intervalId !== undefined) {
+      clearInterval(intervalId);
+      intervalId = undefined;
+      return;
+    }
+
+    //start the interval
+    intervalId = setInterval(changeImage, 1000);
   }
 
   async function handleCommand(cmd : string){
@@ -108,7 +154,7 @@ export default function ModMenu(props: { text: string }) {
 
 
 
-      let urls = [
+      let urls1 = [
         "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_Epsil0n-Playing-With-Airi-Part-3.mp4",
         "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_hmvhero69-HMV014-Idiom-Girl-Part-3.mp4",
         "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IUIO-HMV.8-B-DAY.mp4",
@@ -153,9 +199,7 @@ export default function ModMenu(props: { text: string }) {
         "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_Goblin-Lord-Rip-Mother.mp4",
       ];
 
-      urls = [
-        "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_crav_on-Fat-Ass-Bitches.mp4"
-      ]
+      const urls = aniflix.getHmvList();
 
       if(cmd.split(' ')[1] === 'n'){
 
@@ -335,6 +379,11 @@ export default function ModMenu(props: { text: string }) {
     
       return;
     }
+
+    if(cmd.startsWith('rimg')) {
+      startImageChange();
+      return;
+    }
     
     
 
@@ -355,6 +404,7 @@ export default function ModMenu(props: { text: string }) {
       logWithColour('hmv list - display hmv list', 'orange', 'hmv list');
       logWithColour('navigate <url>', 'orange', 'navigate');
       logWithColour('bg <opacity>', 'orange', 'navigate');
+      logWithColour('rimg', 'orange', 'rimg');
       return;
     }
 

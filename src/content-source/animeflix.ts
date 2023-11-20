@@ -1077,6 +1077,17 @@ export async function getRandomHentaiGif2(){
    return arr[Math.floor(Math.random() * arr.length)];
  }
 
+ export async function getRandomPhImage(){
+
+  const arr = [];
+
+  for (let i = 0; i < 1000; i++) {
+    arr.push(`https://m5.hentaiera.com/018/073c4thre8/${i}.jpg`);
+  }
+ 
+   return arr[Math.floor(Math.random() * arr.length)];
+ }
+
 export async function getRandomHentaiBanner(){
 
  const arr = [
@@ -1090,4 +1101,37 @@ export async function getRandomHentaiBanner(){
 
 }
 
+
+export function getHmvList(): string[] {
+  return [
+
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_crav_on-Big-Fuck.mp4",
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_gh3ttolobsta-Make-It-Rain.mp4",
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IravOrRyd-Off-Down.mp4",
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_DarkFlameMaster-KT-SEA-OF-PHONK-STYLE.mp4",
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IPHERUS-Phonky-Hero-round-10.mp4",
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IPHERUS-Phonky-Hero-round-9.mp4",
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IPHERUS-Phonky-Hero-round-3.mp4",
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_Butajiri-HMV-G37.mp4",
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IravOrRyd-Geisha-Atomic-Overdrive.mp4",
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IravOrRyd-Augura-1033.mp4",
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_720p_original-racing-black-beast.mp4",
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IravOrRyd-Adrenaline.mp4",
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_ToxiQue-Fap-Hero-Sauvage-Round-3.mp4",
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_MilfHentai-DAIMON-NAOKO.mp4",
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IPHERUS-Phonky-Hero-round-15.mp4",
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_720p_Deus-Yato-Inkou-Kyoushi-No-Saimin-Seikatsu-Sex-Slave.mp4",
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_720p_Albinohawk-Secret-Life.mp4",
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IPHERUS-Phonky-Hero-round-8.mp4",
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_boyxteen99-DONT-WANT-UR-LOVE.mp4",
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_Itisstrike-Blowin-Chizuru.mp4",
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_TheDraigc-Rented-Wife.mp4",
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_dirt-Fun-with-Dark-Elves.mp4",
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_BMK-Lets-get-some-smoky-7.mp4",
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_Somatic-Super-Slut-Alert.mp4",
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_Ding-Ding-All-the-Rich-Girls-Said.mp4",
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_Hibootys-Sugar-daddy-part-2.mp4"
+
+  ];
+}
   

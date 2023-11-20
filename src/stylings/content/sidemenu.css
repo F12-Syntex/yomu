@@ -174,3 +174,20 @@
 #sidemenu-mangaSearch:hover > #sidemenu-mangaSearch-img{
   background-image: url("../../assets/sidemenu/mangaSearch-active.svg");
 }
+
+/* BACKGROUND BUTTON */
+.sidemenu-background-change-img-active {
+  background-image: url("../../assets/sidemenu/background-change-active.svg");
+}
+.sidemenu-background-change-img-inactive {
+  background-image: url("../../assets/sidemenu/background-change-inactive.svg");
+}
+#sidemenu-background-change:hover > #sidemenu-background-change-selector:not(.sidemenu-button-selector-active) {
+  background-color: rgb(121, 120, 120);
+}
+#sidemenu-background-change:hover > #sidemenu-background-change-img{
+  background-image: url("../../assets/sidemenu/background-change-active.svg");
+}
+
+
+/*background_changer-active*/

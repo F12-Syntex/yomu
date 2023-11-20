@@ -801,6 +801,19 @@ async function getEntriesNsfw(query : string) {
       return data;
     }
 
+    if(template === 'hmv2'){
+
+      const urls = [
+        `https://spankbang.com/8xbp0/video/reina+hamazaki+hmv`,
+        `https://spankbang.com/7amht/playlist/hmv`,
+        `https://spankbang.com/9u5lv/playlist/hmv`,
+        "https://spankbang.com/90433/video/hmv+kingdom+of+lust",
+        "https://spankbang.com/8y46y/video/daddy+issues+hmv"
+      ]
+      const data = await playRandom(urls);
+      return data;
+    }
+
     const response = await fetch('https://spankbang.com/s/' + query.replace(' ', '%20') + '/');
     const data = await response.text();
     const parser = new DOMParser();
@@ -888,7 +901,8 @@ function getOptions(){
       "faphero",
       "rinxsen",
       "liked_ph",
-      "DigitalFiend_ph"
+      "DigitalFiend_ph",
+      "hmv2"
     ]
   };
   
