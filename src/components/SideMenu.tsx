@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import AniList from '../content-components/AniList.tsx';
+import BackgroundChanger from '../content-components/BackgroundChanger.tsx';
 import Hot1 from '../content-components/Hot1.tsx';
 import MangaPane from '../content-components/MangaPane.tsx';
 import Media2 from '../content-components/Media2.tsx';
@@ -115,8 +117,13 @@ function SideMenu() {
   }
 
   function backgroundChanger() : void {
+    const button = document.getElementById('sidemenu-background-change') as HTMLInputElement;
+    if(button.classList.contains('active-button')) return;
+
+    console.log(button);
+    State.updateState(<BackgroundChanger/>);
   }
-  
+
   return (
     <>
       <div id='sidemenu-container' className='sidemenu-container'>
@@ -144,7 +151,7 @@ function SideMenu() {
             <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-mangaSearch-selector'></div>
             <div className='sidemenu-button-img sidemenu-mangaSearch-img-inactive' id='sidemenu-mangaSearch-img'></div>
           </div>
-          <div className='sidemenu-button' id='sidemenu-background-change' onClick={mangaSearch}>
+          <div className='sidemenu-button' id='sidemenu-background-change' onClick={backgroundChanger}>
             <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-background-change-selector'></div>
             <div className='sidemenu-button-img sidemenu-background-change-img-inactive' id='sidemenu-background-change-img'></div>
           </div>

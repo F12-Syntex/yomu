@@ -1,6 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import * as actions from '../core/Actions.ts';
+import * as animeflix from '../content-source/animeflix.ts';
 
 let root: any = undefined;
 
@@ -38,6 +39,12 @@ export function updateState(newElement: { type: any; props: any; } | null, addEl
   root = createRoot(rootElement);
   root.render(element);
   
+  animeflix.getCurrentProfile().then(async (profile) => {
+    if(profile.accountInformation.nsfw === true){
+      const mediaButton = document.getElementById('sidemenu-media') as HTMLInputElement;
+      mediaButton.remove(); 
+    }
+  });
   
 
   if(errorMessage !== '') {
