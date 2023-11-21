@@ -98,6 +98,36 @@ async function loadGridMode(entries : any[] | undefined, ph : boolean, size : nu
 
   if (!entries || !root) return;
 
+  //get the template
+  const templateSelect = document.getElementById('media2-template') as HTMLInputElement;
+
+  //get the value
+  const template = templateSelect.innerHTML;
+
+  //check if the template is hmv2
+  if(template === 'hmv2'){
+    const urls = [
+      "https://spankbang.com/5zyf4/embed/", 
+      "https://spankbang.com/4w7ln/embed/", 
+      "https://spankbang.com/500aa/embed/", 
+      "https://spankbang.com/8ux70/embed/", 
+      ];
+
+      
+      //https://spankbang.com/8xvv4/video/hmv+elf+domination
+
+        // Render React elements with URLs
+        for (let i = 0; i < urls.length; i++) {
+          ReactDOM.render(
+            <PlayerGeneric url={urls[i]} />,
+            divs[i]
+          );
+        }
+        return;
+  }
+
+
+
   // Assign URLs based on entries or fetch data
   let urls = [];
   if (ph) {
@@ -374,6 +404,20 @@ async function getEntriesNsfw(query : string) {
     const template = templateSelect.innerHTML;
 
     console.log(mode, template);
+
+
+    if(template === 'liked_ph2'){
+      
+      const urls = [
+        "https://www.pornhub.com/view_video.php?viewkey=6534e2cdd2750", 
+        "https://www.pornhub.com/view_video.php?viewkey=6534e2cdd2750", 
+        "https://www.pornhub.com/view_video.php?viewkey=65267bd4d4c6a", 
+        "https://www.pornhub.com/view_video.php?viewkey=65267bd4d4c6a", 
+        ];
+
+        const data = await playRandomPH(urls);
+        return data;
+    }
 
     if(template === 'liked_ph'){
       
@@ -902,7 +946,8 @@ function getOptions(){
       "rinxsen",
       "liked_ph",
       "DigitalFiend_ph",
-      "hmv2"
+      "hmv2",
+      "liked_ph2",
     ]
   };
   

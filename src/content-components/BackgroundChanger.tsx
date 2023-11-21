@@ -38,17 +38,6 @@ export default function BackgroundChanger() {
         "SHOW_RESULTS_ON_NEW_WINDOW",
         "SHOW_RESULTS_ON_SPLIT_SCREEN_4",
         "SHOW_RESULTS_ON_SPLIT_SCREEN_6"
-      ],
-      "template": [
-        "none",
-        "random0",
-        "random1",
-        "watchlater",
-        "faphero",
-        "rinxsen",
-        "liked_ph",
-        "DigitalFiend_ph",
-        "hmv2"
       ]
     };
     return options;
