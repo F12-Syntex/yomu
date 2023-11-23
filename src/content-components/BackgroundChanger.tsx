@@ -8,9 +8,10 @@ export default function BackgroundChanger() {
   sideMenu.toggle(document.getElementById('sidemenu-background-change')!);
   discord.setChilling(`Background changer`);
 
-
-  function search(){
-
+  function search(event: any) {
+    // if (event.keyCode === 13) {
+    //   alert('You pressed enter!');
+    // }
   }
   
   const InputTextField = styled(TextField)({
@@ -33,11 +34,7 @@ export default function BackgroundChanger() {
   function getOptions(){
     let options = {
       "mode": [
-        "SHOW_RESULTS_ON_PAGE",
-        "SHOW_RESULTS_ON_PAGE_EMBED",
-        "SHOW_RESULTS_ON_NEW_WINDOW",
-        "SHOW_RESULTS_ON_SPLIT_SCREEN_4",
-        "SHOW_RESULTS_ON_SPLIT_SCREEN_6"
+        "Wallpaper cave",
       ]
     };
     return options;

@@ -39,12 +39,12 @@ export function updateState(newElement: { type: any; props: any; } | null, addEl
   root = createRoot(rootElement);
   root.render(element);
   
-  animeflix.getCurrentProfile().then(async (profile) => {
-    if(!profile.accountInformation.nsfw){
-      const mediaButton = document.getElementById('sidemenu-media') as HTMLInputElement;
-      mediaButton.remove(); 
-    }
-  });
+  // animeflix.getCurrentProfile().then(async (profile) => {
+  //   if(!profile.accountInformation.nsfw){
+  //     const mediaButton = document.getElementById('sidemenu-media') as HTMLInputElement;
+  //     mediaButton.remove(); 
+  //   }
+  // });
   
 
   if(errorMessage !== '') {
