@@ -399,6 +399,22 @@ export function getHentaiEmbedSpankBang(query: string,  episode: any): string {
     return url;
   }
 
+  export function getHentaiEmbed(query: string,  episode: any): string {
+    //https://spankbang.party/s/Boku%20dake%20no%20Hentai%20Kanojo%20Motto%E2%99%A5%20THE%20ANIMATION%20episode%205/
+    let title = query.replace(/[^\w\s]/gi, '-').replace(/\s/g, "-").toLowerCase();
+    
+    if(title.startsWith('-')) {
+      title = title.slice(1);
+    }
+    if(title.endsWith('-')) {
+      title = title.slice(0, -1);
+    }
+
+    let url: string = `https://www.google.com/search?q=` + title;
+    fetch(url).then(response => console.log(response.text));
+    return url;
+  }
+
   export async function searchHentai1(): Promise<AnimeQuery[]> {
   
     const response = await fetch('https://graphql.anilist.co', {
