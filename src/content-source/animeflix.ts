@@ -383,6 +383,12 @@ export function getHentaiEmbedSpankBang(query: string,  episode: any): string {
     return url;
   }
 
+  /**
+   * 
+   * @param query 
+   * @param episode 
+   * @returns 
+   */
   export function getHentaiEmbedHentaiHaven(query: string,  episode: any): string {
     //https://spankbang.party/s/Boku%20dake%20no%20Hentai%20Kanojo%20Motto%E2%99%A5%20THE%20ANIMATION%20episode%205/
     let title = query.replace(/[^\w\s]/gi, '-').replace(/\s/g, "-").toLowerCase();
