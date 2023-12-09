@@ -25,8 +25,6 @@
     <img src="https://github.com/F12-Syntex/yomu/assets/30322632/1457adb8-8eec-4e2f-8153-380db6699c6d">
    <img src="https://github.com/F12-Syntex/yomu/assets/30322632/53c71d7d-58d8-40d3-b013-e54ba5044ac4">
 </div>
-
-## License
 [![License](https://img.shields.io/badge/license-Read--Only-blue.svg)](LICENSE)
 
 
