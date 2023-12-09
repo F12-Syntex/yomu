@@ -24,7 +24,7 @@ export default function Player(props: { url?: string, nsfw?: boolean, entry: any
 
   if(url === undefined || url === null) {
     if(nsfw && !forceAniflix){
-      url = animeflix.getHentaiEmbedSpankBang(props.entry.title.romaji, props.episodeNumber);
+      url = animeflix.getHentaiEmbedHentaiHaven(props.entry.title.romaji, props.episodeNumber);
       amountOfTries = Infinity;
     }else{
       url = getUriEmbed(props.entry.title.romaji, props.episodeNumber);
