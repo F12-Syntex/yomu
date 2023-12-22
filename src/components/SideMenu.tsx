@@ -132,7 +132,7 @@ function SideMenu() {
             <div className='sidemenu-button-img sidemenu-anilist-img-inactive' id='sidemenu-anilist-img'></div>
           </div>
           <div className='sidemenu-button' id='sidemenu-search' onClick={search}>
-            <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-search-selector'></div>
+            <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-search-selector'></div> 
             <div className='sidemenu-button-img sidemenu-search-img-inactive' id='sidemenu-search-img'></div>
           </div>
           <div className='sidemenu-button' id='sidemenu-hot' onClick={hot}>
@@ -140,8 +140,7 @@ function SideMenu() {
             <div className='sidemenu-button-img sidemenu-hot-img-inactive' id='sidemenu-hot-img'></div>
           </div>
           {/* <div className='sidemenu-button' id='sidemenu-media' onClick={media}>
-            <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-media-selector'></div>
-            <div className='sidemenu-button-img sidemenu-media-img-inactive' id='sidemenu-media-img'></div>
+            <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-media-selector'></div> 
           </div>  */}
           <div className='sidemenu-button' id='sidemenu-settings' onClick={settings}>
             <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-settings-selector'></div>
