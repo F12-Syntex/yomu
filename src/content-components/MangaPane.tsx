@@ -105,7 +105,6 @@ export default function MangaPane({ url }: MangaPaneProps) {
         console.log('loadstart: ' + event.title)
         if(event.title.includes('Chapter') || event.title.includes('chapter')){
 
-
           let chapter = "";
 
           if(event.title.includes('Chapter')){
