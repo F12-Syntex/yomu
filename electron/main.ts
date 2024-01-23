@@ -148,6 +148,7 @@ export function openWindow(url: string) {
 }
 
 
+//
 app.on('window-all-closed', () => {
   win = null
 })
