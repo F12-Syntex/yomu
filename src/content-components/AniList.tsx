@@ -283,6 +283,7 @@ async function getStats(){
   //if the image has already loaded then exit
   let profileAvatarElement = document.getElementById('profile-avatar')!;
 
+  //print the background image
   console.log(profileAvatarElement.style.backgroundImage);
 
   if(profileAvatarElement.style.backgroundImage === "" || profileAvatarElement.style.backgroundImage === "url()" || profileAvatarElement.style.backgroundImage === "url('')" || profileAvatarElement.style.backgroundImage === undefined || profileAvatarElement.style.backgroundImage === null){
