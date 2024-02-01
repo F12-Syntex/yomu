@@ -148,17 +148,11 @@ export function openWindow(url: string) {
 }
 
 
+//
 app.on('window-all-closed', () => {
   win = null
 })
 
 app.whenReady().then(async () => {
   createWindow()
-  //openWindow("https://animeflix.live/watch/one-piece-episode-1065/");
-
-  //const client_id = "13194";
-  //const redirect_uri = "http://localhost:3023/callback";
-
-  //const uri = `https://anilist.co/api/v2/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code`;
-  //shell.openExternal(uri)
 })

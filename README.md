@@ -28,3 +28,4 @@
 
 ## License
 [![License](https://img.shields.io/badge/license-Read--Only-blue.svg)](LICENSE)
+( this code is read only, and not to be used / cloned )
