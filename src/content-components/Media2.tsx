@@ -405,6 +405,16 @@ async function getEntriesNsfw(query : string) {
 
     console.log(mode, template);
 
+    if (template === 'personalised'){
+      const urls = [
+        "https://spankbang.com/75iji/video/hmv+sex+sex", 
+        "https://spankbang.com/5kql2/video/spires?utm_source=embed&utm_medium=player&utm_term=embed&utm_campaign=embed_play", 
+        "https://spankbang.com/81evk/video/saimin+bp+hmv", 
+        ];
+
+        const data = await playRandom(urls);
+        return data;
+    }
 
     if(template === 'liked_ph2'){
       
@@ -948,6 +958,7 @@ function getOptions(){
       "DigitalFiend_ph",
       "hmv2",
       "liked_ph2",
+      "personalised"
     ]
   };
   

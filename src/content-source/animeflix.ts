@@ -383,14 +383,29 @@ export function getHentaiEmbedSpankBang(query: string,  episode: any): string {
     return url;
   }
 
-  /**
-   * 
-   * @param query 
-   * @param episode 
-   * @returns 
-   */
-  export function getHentaiEmbedHentaiHaven(query: string,  episode: any): string {
-    //https://spankbang.party/s/Boku%20dake%20no%20Hentai%20Kanojo%20Motto%E2%99%A5%20THE%20ANIMATION%20episode%205/
+  // /**
+  //  * 
+  //  * @param query 
+  //  * @param episode 
+  //  * @returns 
+  //  */
+  // export function getHentaiEmbedHentaiHaven(query: string,  episode: any): string {
+  //   //https://spankbang.party/s/Boku%20dake%20no%20Hentai%20Kanojo%20Motto%E2%99%A5%20THE%20ANIMATION%20episode%205/
+  //   let title = query.replace(/[^\w\s]/gi, '-').replace(/\s/g, "-").toLowerCase();
+    
+  //   if(title.startsWith('-')) {
+  //     title = title.slice(1);
+  //   }
+  //   if(title.endsWith('-')) {
+  //     title = title.slice(0, -1);
+  //   }
+
+  //   let url: string = `https://hentaihaven.xxx/watch/${title}/episode-${episode}/`;
+  //   fetch(url).then(response => console.log(response.text));
+  //   return url;
+  // }
+
+  export function getHentaiEmbed(query: string,  episode: any): string {
     let title = query.replace(/[^\w\s]/gi, '-').replace(/\s/g, "-").toLowerCase();
     
     if(title.startsWith('-')) {
@@ -401,23 +416,6 @@ export function getHentaiEmbedSpankBang(query: string,  episode: any): string {
     }
 
     let url: string = `https://hentaihaven.xxx/watch/${title}/episode-${episode}/`;
-    fetch(url).then(response => console.log(response.text));
-    return url;
-  }
-
-  export function getHentaiEmbed(query: string,  episode: any): string {
-    //https://spankbang.party/s/Boku%20dake%20no%20Hentai%20Kanojo%20Motto%E2%99%A5%20THE%20ANIMATION%20episode%205/
-    let title = query.replace(/[^\w\s]/gi, '-').replace(/\s/g, "-").toLowerCase();
-    
-    if(title.startsWith('-')) {
-      title = title.slice(1);
-    }
-    if(title.endsWith('-')) {
-      title = title.slice(0, -1);
-    }
-
-    let url: string = `https://www.google.com/search?q=` + title;
-    fetch(url).then(response => console.log(response.text));
     return url;
   }
 
@@ -427,6 +425,7 @@ export function getHentaiEmbedSpankBang(query: string,  episode: any): string {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+
         'Accept': 'application/json'
       },
       body: JSON.stringify({
@@ -1124,36 +1123,44 @@ export async function getRandomHentaiBanner(){
 }
 
 
+// export function getHmvList(): string[] {
+//   return [
+
+//     "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_crav_on-Big-Fuck.mp4",
+//     "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_gh3ttolobsta-Make-It-Rain.mp4",
+//     "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IravOrRyd-Off-Down.mp4",
+//     "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_DarkFlameMaster-KT-SEA-OF-PHONK-STYLE.mp4",
+//     "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IPHERUS-Phonky-Hero-round-10.mp4",
+//     "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IPHERUS-Phonky-Hero-round-9.mp4",
+//     "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IPHERUS-Phonky-Hero-round-3.mp4",
+//     "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_Butajiri-HMV-G37.mp4",
+//     "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IravOrRyd-Geisha-Atomic-Overdrive.mp4",
+//     "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IravOrRyd-Augura-1033.mp4",
+//     "https://hmvmania.com/wp-content/uploads/2021/01/hmv_720p_original-racing-black-beast.mp4",
+//     "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IravOrRyd-Adrenaline.mp4",
+//     "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_ToxiQue-Fap-Hero-Sauvage-Round-3.mp4",
+//     "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_MilfHentai-DAIMON-NAOKO.mp4",
+//     "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IPHERUS-Phonky-Hero-round-15.mp4",
+//     "https://hmvmania.com/wp-content/uploads/2021/01/hmv_720p_Deus-Yato-Inkou-Kyoushi-No-Saimin-Seikatsu-Sex-Slave.mp4",
+//     "https://hmvmania.com/wp-content/uploads/2021/01/hmv_720p_Albinohawk-Secret-Life.mp4",
+//     "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IPHERUS-Phonky-Hero-round-8.mp4",
+//     "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_boyxteen99-DONT-WANT-UR-LOVE.mp4",
+//     "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_Itisstrike-Blowin-Chizuru.mp4",
+//     "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_TheDraigc-Rented-Wife.mp4",
+//     "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_dirt-Fun-with-Dark-Elves.mp4",
+//     "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_BMK-Lets-get-some-smoky-7.mp4",
+//     "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_Somatic-Super-Slut-Alert.mp4",
+//     "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_Ding-Ding-All-the-Rich-Girls-Said.mp4",
+//     "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_Hibootys-Sugar-daddy-part-2.mp4"
+
+//   ];
+// }
+  
 export function getHmvList(): string[] {
   return [
 
-    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_crav_on-Big-Fuck.mp4",
-    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_gh3ttolobsta-Make-It-Rain.mp4",
-    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IravOrRyd-Off-Down.mp4",
-    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_DarkFlameMaster-KT-SEA-OF-PHONK-STYLE.mp4",
-    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IPHERUS-Phonky-Hero-round-10.mp4",
-    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IPHERUS-Phonky-Hero-round-9.mp4",
-    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IPHERUS-Phonky-Hero-round-3.mp4",
-    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_Butajiri-HMV-G37.mp4",
-    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IravOrRyd-Geisha-Atomic-Overdrive.mp4",
-    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IravOrRyd-Augura-1033.mp4",
-    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_720p_original-racing-black-beast.mp4",
-    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IravOrRyd-Adrenaline.mp4",
-    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_ToxiQue-Fap-Hero-Sauvage-Round-3.mp4",
-    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_MilfHentai-DAIMON-NAOKO.mp4",
-    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IPHERUS-Phonky-Hero-round-15.mp4",
-    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_720p_Deus-Yato-Inkou-Kyoushi-No-Saimin-Seikatsu-Sex-Slave.mp4",
-    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_720p_Albinohawk-Secret-Life.mp4",
-    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_IPHERUS-Phonky-Hero-round-8.mp4",
-    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_boyxteen99-DONT-WANT-UR-LOVE.mp4",
-    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_Itisstrike-Blowin-Chizuru.mp4",
-    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_TheDraigc-Rented-Wife.mp4",
-    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_dirt-Fun-with-Dark-Elves.mp4",
-    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_BMK-Lets-get-some-smoky-7.mp4",
-    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_Somatic-Super-Slut-Alert.mp4",
-    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_Ding-Ding-All-the-Rich-Girls-Said.mp4",
-    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_1080p_Hibootys-Sugar-daddy-part-2.mp4"
+    "https://hmvmania.com/wp-content/uploads/2022/03/mp4/hmv_1080p_%5Bxyz_hmv%5D%20Sexual%20Curse.mp4",
+    "https://hmvmania.com/wp-content/uploads/2021/01/hmv_720p_opai998877-OVA-sexual-cult-12.mp4"
 
   ];
 }
-  

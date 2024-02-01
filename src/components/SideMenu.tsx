@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import AniList from '../content-components/AniList.tsx';
 import BackgroundChanger from '../content-components/BackgroundChanger.tsx';
 import Hot1 from '../content-components/Hot1.tsx';
@@ -44,9 +43,9 @@ function SideMenu() {
 
     root.render(element);
   }
-  */
+   */
   
-
+ 
   
   function search() : void {
     const button = document.getElementById('sidemenu-search') as HTMLInputElement;
@@ -108,6 +107,7 @@ function SideMenu() {
     State.updateState(<Hot1/>);
   }
 
+  //media button
   function media() : void {
     const button = document.getElementById('sidemenu-media') as HTMLInputElement;
     if(button.classList.contains('active-button')) return;
@@ -116,6 +116,7 @@ function SideMenu() {
     State.updateState(<Media2/>);
   }
 
+  
   function backgroundChanger() : void {
     const button = document.getElementById('sidemenu-background-change') as HTMLInputElement;
     if(button.classList.contains('active-button')) return;
@@ -141,6 +142,7 @@ function SideMenu() {
           </div>
           {/* <div className='sidemenu-button' id='sidemenu-media' onClick={media}>
             <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-media-selector'></div> 
+            <div className='sidemenu-button-img sidemenu-media-img-inactive' id='sidemenu-media-img'></div>
           </div>  */}
           <div className='sidemenu-button' id='sidemenu-settings' onClick={settings}>
             <div className='sidemenu-button-selector sidemenu-button-selector-inactive' id='sidemenu-settings-selector'></div>
