@@ -99,6 +99,7 @@ function SideMenu() {
     State.updateState(<MangaPane/>);
   }
 
+  //hot button
   function hot() : void {
     const button = document.getElementById('sidemenu-hot') as HTMLInputElement;
     if(button.classList.contains('active-button')) return;
