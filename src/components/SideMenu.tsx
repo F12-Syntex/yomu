@@ -91,6 +91,7 @@ function SideMenu() {
 
   }
 
+  //search
   function mangaSearch() : void {
     const button = document.getElementById('sidemenu-mangaSearch') as HTMLInputElement;
     if(button.classList.contains('active-button')) return;
