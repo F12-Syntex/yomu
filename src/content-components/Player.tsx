@@ -5,6 +5,7 @@ import * as animeflix from '../content-source/animeflix.ts';
 import * as discord from '../content-source/discord-api.ts';
 import { useEffect } from 'react';
 
+// Function to get the uri for the embed of the episode
 function getUriEmbed(title: string, episode: string) : string{
   const url = `https://animeflix.live/watch/${title.replace(/[^\w\s-]/gi, "").replace(/\s+/g, "-").toLowerCase()}-episode-${episode}/`;
   return url;
