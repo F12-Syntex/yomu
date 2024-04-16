@@ -4,7 +4,6 @@ import '../stylings/content/player.css';
 import * as animeflix from '../content-source/animeflix.ts';
 import * as discord from '../content-source/discord-api.ts';
 import { useEffect } from 'react';
-import playerGEneric from './PlayerGeneric.tsx';
 import PlayerGeneric from './PlayerGeneric.tsx';
 
 // Function to get the uri for the embed of the episode
@@ -18,6 +17,8 @@ export default function Player(props: { url?: string, nsfw?: boolean, entry: any
 
   let url = props.url;
   let nsfw = props.nsfw;
+
+  console.log(props.url);
 
   const forceAniflix = false;
 

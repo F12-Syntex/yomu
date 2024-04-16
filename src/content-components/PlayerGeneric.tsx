@@ -16,7 +16,7 @@ export default function playerGEneric({ url }: MangaPaneProps) {
   return (
     <>
       <div id='mangapane-content' style={{ overflow: 'hidden' }}>
-        <webview src={url} data-home={url} id='mangapane-webview' disableblinkfeatures='OverlayScrollbars'></webview>
+        <webview src={url} data-home={url} id='mangapane-webview' disableblinkfeatures='OverlayScrollbars' allowFullScreen></webview>
       </div>
     </>
   );
