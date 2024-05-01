@@ -50,7 +50,7 @@ function SideMenu() {
   function search() : void {
     const button = document.getElementById('sidemenu-search') as HTMLInputElement;
     if(button.classList.contains('active-button')) return;
-
+ 
     console.log(button);
     State.updateState(<Search cached={false}/>);
 
