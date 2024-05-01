@@ -9,7 +9,7 @@ const ipc = new rpc.Client({ transport: 'ipc' });
 let current_activity = {
     details: 'Chilling',
     state: 'Idling in the main screen',
-    largeImageKey: 'https://avatarfiles.alphacoders.com/896/thumb-89615.png',
+    largeImageKey: 'https://avatarfiles.alphacoders.com/107/thumb-1920-107112.gif',
     largeImageText: 'Idle',
     startTimestamp: new Date().getTime(),
 };
