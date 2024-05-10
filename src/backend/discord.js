@@ -11,7 +11,7 @@ let current_activity = {
     state: 'Idling in the main screen',
     largeImageKey: 'https://avatarfiles.alphacoders.com/107/thumb-1920-107112.gif',
     largeImageText: 'Idle',
-    startTimestamp: new Date().getTime(),
+    startTimestamp: new Date().getDate(), //make it one year ago
 };
 
 function setActivity(activity) {

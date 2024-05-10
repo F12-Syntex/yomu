@@ -1,9 +1,10 @@
-import { text } from "express";
 import * as aniflix from "../content-source/animeflix";
 
-const chillingImg = "https://avatarfiles.alphacoders.com/896/thumb-89615.png";
-const searchingImg = "https://avatarfiles.alphacoders.com/896/thumb-89615.png";
-const hotAnime = "https://avatarfiles.alphacoders.com/896/thumb-89615.png";
+
+const defualtImage = "https://avatarfiles.alphacoders.com/174/174875.png";
+const chillingImg = defualtImage;
+const searchingImg = defualtImage;
+const hotAnime = defualtImage;
 
 
 export interface DiscordActivity {
