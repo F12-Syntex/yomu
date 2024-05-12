@@ -570,7 +570,7 @@ export default function aniList() {
           <div className='profile-banner' id='profile-banner'>
             <div className='profile-banner-img' id='profile-avatar'>
                 <h1 id='profile-banner-img-username' onClick={profileChange}>
-                  Syntex
+                  User
                 </h1>
             </div>
           </div>
