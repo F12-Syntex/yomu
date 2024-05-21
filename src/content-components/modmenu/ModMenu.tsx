@@ -73,7 +73,6 @@ export default function ModMenu(props: { text: string }) {
     const children = root?.children;
 
     //append the new image to the root
-
     root?.appendChild(img);
 
     if(children !== undefined) {
