@@ -8,7 +8,7 @@ import PlayerGeneric from './PlayerGeneric.tsx';
 
 // Function to get the uri for the embed of the episode
 function getUriEmbed(title: string, episode: string) : string{
-  const url = `https://animeflix.live/watch/${title.replace(/[^\w\s-]/gi, "").replace(/\s+/g, "-").toLowerCase()}-episode-${episode}/`;
+  const url = `https://animeflix.gg/watch/${title.replace(/[^\w\s-]/gi, "").replace(/\s+/g, "-").toLowerCase()}-episode-${episode}/`;
   return url;
 }
 
