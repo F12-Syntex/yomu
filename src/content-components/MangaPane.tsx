@@ -127,6 +127,7 @@ export default function MangaPane({ url }: MangaPaneProps) {
       webview.addEventListener('did-navigate', navigate)
       webview.addEventListener('page-title-updated', titleUpdated)
       
+      
   }, []);
   
   return (
@@ -137,3 +138,4 @@ export default function MangaPane({ url }: MangaPaneProps) {
     </>
   );
 }
+ 
