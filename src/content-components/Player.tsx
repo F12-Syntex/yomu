@@ -7,8 +7,9 @@ import { useEffect } from 'react';
 import PlayerGeneric from './PlayerGeneric.tsx';
 
 // Function to get the uri for the embed of the episode
+//currently searches the anime through querying the website, then scraping the data, TODO: make this faster as this is slow
 function getUriEmbed(title: string, episode: string) : string{
-  const url = `https://animeflix.gg/watch/${title.replace(/[^\w\s-]/gi, "").replace(/\s+/g, "-").toLowerCase()}-episode-${episode}/`;
+  const url = `https://www.animegers.com/player/server1/v1.php?id=${title.replace(/[^\w\s-]/gi, "").replace(/\s+/g, "-").toLowerCase()}-episode-${episode}`;
   return url;
 }
 
